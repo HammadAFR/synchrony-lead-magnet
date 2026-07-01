@@ -98,14 +98,15 @@ nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(248,2
 .hero .body-lg { max-width: 720px; margin-top: 22px; color: var(--gray-100); font-size: 1.16rem; line-height: 1.72; }
 .hero-prompt { margin: 22px 0 0; color: var(--green-100); font-family: "DM Serif Display", serif; font-size: clamp(1.35rem, 2.2vw, 2rem); line-height: 1.18; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
-.hero .hero-actions { max-width: calc(100vw - 40px); flex-wrap: nowrap; }
+.hero .hero-actions { max-width: 440px; width: 100%; flex-wrap: nowrap; }
 .hero .hero-actions .btn { white-space: nowrap; }
 .hero .hero-actions .strategy-btn { min-width: 280px; font-size: 0.8rem; }
-.hero .hero-actions .diagnostic-btn { min-width: 420px; font-size: 0.84rem; }
-.hero .hero-actions .diagnostic-btn small { font-size: 0.64rem; }
+.hero .hero-actions .diagnostic-btn { width: 100%; min-width: 0; min-height: 62px; gap: 3px; font-size: 0.84rem; letter-spacing: 0.1em; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 22px rgba(58,133,212,0.3); animation: ctaGlow 3.6s ease-in-out infinite; }
+.hero .hero-actions .diagnostic-btn small { font-size: 0.66rem; letter-spacing: 0.06em; opacity: 0.92; }
 .assessment-subhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px 10px; max-width: 720px; margin: 28px 0 0; padding-top: 20px; color: var(--gray-700); font-size: 0.98rem; line-height: 1.55; }
 .assessment-subhead strong { color: var(--green-950); font-family: "DM Serif Display", serif; font-size: clamp(1.25rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.08; }
 .assessment-subhead span { color: var(--gray-700); }
+.assessment-subhead .blueprint-name { color: var(--green-800); font-weight: 700; }
 .assessment-heading-copy .section-title { padding-bottom: 16px; border-bottom: 1px solid rgba(63,109,7,0.16); }
 
 .why-diagnostic { padding: 72px 0 78px; border-top: 4px solid var(--blue-500); border-bottom: 1px solid rgba(12,63,117,0.12); background: var(--blue-050); color: var(--blue-950); text-align: center; }
@@ -129,9 +130,14 @@ nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(248,2
   50% { box-shadow: 0 0 0 7px rgba(58,133,212,0.08), 0 0 24px 5px rgba(58,133,212,0.62); }
 }
 
-.audit-intro { padding: 110px 0 76px; }
-.intro-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 80px; align-items: end; }
-.intro-note { padding-left: 28px; border-left: 1px solid var(--line); color: var(--gray-700); }
+.audit-intro { padding: 110px 0 84px; }
+.intro-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(48px, 6vw, 88px); align-items: center; }
+.intro-note { position: relative; padding: 34px 36px; border-left: 4px solid var(--green-500); border-radius: 0 6px 6px 0; background: var(--white); box-shadow: 0 22px 60px rgba(36,64,2,0.09); color: var(--gray-700); }
+.intro-note-label { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; color: var(--green-800); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+.intro-note-label::before { content: ""; width: 24px; height: 1px; background: var(--green-500); }
+.intro-note p { margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(1.35rem, 2.1vw, 1.72rem); font-weight: 400; line-height: 1.34; color: var(--ink); letter-spacing: -0.01em; }
+.intro-note p strong { color: var(--green-800); font-weight: 400; font-style: italic; }
+.intro-note .intro-note-tail { display: block; margin-top: 14px; font-family: "DM Sans", sans-serif; font-size: 0.92rem; font-style: normal; line-height: 1.7; color: var(--gray-500); letter-spacing: 0; }
 
 .areas { padding: 0 0 110px; }
 .area-table { border: 1px solid var(--line); }
@@ -280,7 +286,7 @@ nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(248,2
 .about { padding: 110px 0; }
 .about-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 80px; align-items: start; }
 .about-card { padding: 34px; background: var(--black); color: white; }
-.about-card .logo-large { width: 100%; margin-bottom: 28px; mix-blend-mode: screen; }
+.about-card .logo-large { width: 100%; margin-bottom: 28px; }
 .about-card strong { display: block; color: var(--green-100); font-family: "DM Serif Display", serif; font-size: 2rem; font-weight: 400; }
 .about-card span { color: var(--blue-200); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
 .about-copy .section-title { color: var(--green-950); }
@@ -552,6 +558,12 @@ a:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
   50% { transform: translate(-22px, -26px); }
 }
 
+/* Primary hero CTA attention glow */
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 20px rgba(58,133,212,0.28); }
+  50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 32px rgba(58,133,212,0.46); }
+}
+
 /* Diagnostic question step transition */
 @keyframes questionIn {
   from { opacity: 0; transform: translateY(12px); }
@@ -615,8 +627,8 @@ a:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
 <body>
 <nav>
   <div class="shell nav-inner">
-    <a class="brand" href="https://synchronytalent.com/" aria-label="Visit the Synchrony Talent Partners website">
-      <img class="brand-logo" src="synchrony-logo.jpg" alt="Synchrony Talent Partners">
+    <a class="brand" href="https://synchronytalent.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Synchrony Talent Partners website">
+      <img class="brand-logo" src="synchrony-logo.png" alt="Synchrony Talent Partners">
     </a>
     <div class="nav-links">
       <a href="#why-diagnostic">Why This Diagnostic</a>
@@ -652,11 +664,14 @@ a:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
 
   <section class="audit-intro" id="areas">
     <div class="shell intro-grid">
-      <div>
+      <div class="intro-lead">
         <p class="eyebrow">What the diagnostic covers</p>
         <h2 class="section-title">Five Critical Levers.<br>One Honest <em>Diagnostic.</em></h2>
       </div>
-      <p class="intro-note">Your hiring process may be leaking revenue, momentum, and top candidates in places you cannot see. This diagnostic shows you where.</p>
+      <div class="intro-note">
+        <span class="intro-note-label">The hidden cost</span>
+        <p>Your hiring process may be <strong>leaking revenue, momentum, and top candidates</strong> in places you cannot see.<span class="intro-note-tail">This diagnostic shows you exactly where.</span></p>
+      </div>
     </div>
   </section>
 
@@ -690,7 +705,7 @@ a:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
   <section class="assessment-section" id="assessment">
     <div class="shell">
       <div class="assessment-head">
-        <div class="assessment-heading-copy"><p class="eyebrow">5-minute self-diagnostic</p><h2 class="section-title">Find the <em>revenue leaks</em> before they become expensive mistakes.</h2><p class="assessment-subhead"><strong>Answer 10 core questions for a balanced snapshot.</strong><span>For a deeper diagnostic, complete all 15 questions and receive your Revenue Leadership Hiring Clarity Blueprint.</span></p></div>
+        <div class="assessment-heading-copy"><p class="eyebrow">5-minute self-diagnostic</p><h2 class="section-title">Find the <em>revenue leaks</em> before they become expensive mistakes.</h2><p class="assessment-subhead"><strong>Answer 10 core questions for a balanced snapshot.</strong><span>For a deeper diagnostic, complete all 15 questions and receive your <b class="blueprint-name">Revenue Leadership Hiring Clarity Blueprint</b>.</span></p></div>
         <div class="assessment-description">
           <p><strong>Start the 5 minute diagnostic</strong> and get an instant read on where your sales leadership hiring process may be leaking clarity, slowing growth, or increasing the risk of another wrong-fit leader.</p>
         </div>
@@ -835,7 +850,7 @@ a:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
 <footer><div class="shell footer-inner"><span>© Synchrony Talent Partners · Executive Search and Leadership Talent Advisory. The Best Don't Apply. They're Found.</span><a href="#michael" onclick="openMichael(event)">About Michael North</a></div></footer>
 
 <div class="profile-view" id="michaelView">
-  <div class="profile-nav"><div class="shell profile-nav-inner"><a class="brand" href="https://synchronytalent.com/" aria-label="Visit the Synchrony Talent Partners website"><img class="brand-logo" data-logo alt="Synchrony Talent Partners"></a><div class="profile-links"><a href="#profile-about" onclick="scrollProfile(event, 'profile-about')">About</a><a href="#profile-testimonials" onclick="scrollProfile(event, 'profile-testimonials')">Voices</a><a href="#profile-how" onclick="scrollProfile(event, 'profile-how')">How I Work</a><a href="#profile-contact" onclick="scrollProfile(event, 'profile-contact')">Contact</a><button class="profile-back" type="button" onclick="history.back()">← Back</button></div></div></div>
+  <div class="profile-nav"><div class="shell profile-nav-inner"><a class="brand" href="https://synchronytalent.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Synchrony Talent Partners website"><img class="brand-logo" data-logo alt="Synchrony Talent Partners"></a><div class="profile-links"><a href="#profile-about" onclick="scrollProfile(event, 'profile-about')">About</a><a href="#profile-testimonials" onclick="scrollProfile(event, 'profile-testimonials')">Voices</a><a href="#profile-how" onclick="scrollProfile(event, 'profile-how')">How I Work</a><a href="#profile-contact" onclick="scrollProfile(event, 'profile-contact')">Contact</a><button class="profile-back" type="button" onclick="history.back()">← Back</button></div></div></div>
   <section class="profile-hero"><div class="shell"><div class="profile-hero-copy"><p class="eyebrow">Michael North · The Sales Talent Whisperer</p><h1 class="display">Most companies do not have a <em>talent problem.</em> They have a clarity, alignment, and evaluation problem.</h1><p>I help growth-stage companies hire sales leaders who actually fit by going deeper than the resume, asking better questions, and uncovering the truth beneath the surface before anyone makes an expensive decision.</p><div class="hero-actions"><a class="btn btn-primary" href="#profile-contact" onclick="openMichaelContact(event)">Start a Conversation</a></div></div></div></section>
   <div class="profile-stats"><div class="profile-stat"><strong>25+</strong><span>Years of Experience</span></div><div class="profile-stat"><strong>100%</strong><span>Relationship-First</span></div><div class="profile-stat"><strong>Retained</strong><span>Search Model</span></div><div class="profile-stat"><strong>Truth</strong><span>Before Transaction</span></div></div>
   <section class="profile-section profile-about" id="profile-about"><div class="shell profile-two-col"><div><p class="eyebrow">Who I am</p><p class="profile-quote">“I hear what others miss, ask what others avoid, and uncover alignment that does not show up on a resume.”</p><div class="profile-credentials"><div class="profile-credential"><strong>Founder &amp; CEO, Synchrony Talent Partners</strong><span>Boutique retained executive search specializing in sales leadership for growth-stage companies.</span></div><div class="profile-credential"><strong>25+ Years in Sales Leadership &amp; Recruiting</strong><span>Experience across operating leadership and executive search before building Synchrony.</span></div></div></div><div class="profile-copy"><p class="eyebrow">The real problem</p><h2 class="section-title">I am not here to fill seats. I am here to <em>find truth.</em></h2><p>Most hiring processes are built around speed and appearances. Companies write job descriptions describing the last person who held the role. Candidates rehearse answers. Interviewers mistake credentials for capability. Then everyone wonders why the hire did not work out.</p><p>I work differently. I use intentional listening, radical curiosity, and repeated questioning to get beneath the surface with clients, candidates, and the role itself.</p><p>That is not a sales pitch. It is a methodology, and it produces a fundamentally different result than a transactional process.</p></div></div></section>
