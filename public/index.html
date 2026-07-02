@@ -108,7 +108,7 @@ nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(248,2
 .assessment-subhead span { color: var(--gray-700); }
 .assessment-subhead .blueprint-name { color: var(--green-800); font-weight: 700; }
 .assessment-heading-copy .section-title { padding-bottom: 16px; border-bottom: 1px solid rgba(63,109,7,0.16); }
-.assessment-subtitle { margin: 16px 0 0; color: var(--gray-700); font-size: 1.06rem; line-height: 1.6; }
+.assessment-subtitle { margin: 16px 0 0; padding-bottom: 12px; color: var(--gray-700); font-size: 1.14rem; line-height: 1.6; }
 
 .why-diagnostic { padding: 72px 0 78px; border-top: 4px solid var(--blue-500); border-bottom: 1px solid rgba(12,63,117,0.12); background: var(--blue-050); color: var(--blue-950); text-align: center; }
 .why-diagnostic .shell { max-width: 860px; }
@@ -392,6 +392,7 @@ body.profile-mode .profile-view { display: block; }
 .feedback-promise { display: grid; gap: 14px; margin-top: 36px; padding-top: 25px; border-top: 1px solid rgba(248,248,246,0.14); }
 .feedback-promise span { display: flex; align-items: center; gap: 12px; color: var(--gray-300); font-size: 0.78rem; }
 .feedback-promise span::before { content: ""; width: 20px; height: 1px; flex: 0 0 auto; background: var(--blue-500); }
+.profile-feedback-copy > .feedback-incentive { margin: 24px 0 0; color: var(--green-100); font-size: 0.88rem; font-weight: 600; line-height: 1.5; }
 .profile-feedback-form { padding: clamp(28px, 5vw, 50px); border-top: 4px solid var(--blue-500); background: var(--white); box-shadow: 0 30px 90px rgba(0,0,0,0.3); }
 .profile-feedback-form h3 { margin: 0; color: var(--green-950); font-family: "DM Serif Display", serif; font-size: clamp(1.7rem, 3vw, 2.35rem); font-weight: 400; line-height: 1.15; }
 .profile-feedback-form > p { margin: 10px 0 0; color: var(--gray-500); font-size: 0.83rem; }
@@ -942,9 +943,9 @@ try {
               <div class="result-panel"><h4>Recommended Blueprint path</h4><ul id="recommendations"></ul></div>
             </div>
             <div class="result-actions">
-              <button class="btn btn-primary" id="takeBlueprintBtn" type="button">Jump to Recommended Blueprint Module</button>
+              <button class="btn btn-primary" id="takeBlueprintBtn" type="button">Advance to My Recommended Blueprint Module</button>
               <a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Book My Complimentary Strategy Session</span></a>
-              <button class="btn btn-dark" id="restartBtn" type="button">Start the Diagnostic Again</button>
+              <button class="btn btn-dark" id="restartBtn" type="button">Restart My Diagnostic</button>
             </div>
           </div>
         </div>
@@ -976,7 +977,7 @@ try {
         <p class="prompt-intro">Ask yourself the following four questions...</p>
         <div class="prompt-list"><div class="prompt">What happens to the business if this role stays open another six months?</div><div class="prompt">What kind of leader has failed here, and what specifically went wrong?</div><div class="prompt">What does year-one success look like in measurable terms, not adjectives?</div><div class="prompt">Where are you willing to flex on requirements, and where are you not?</div></div>
         <p class="module-cta-kicker">To Understand What To Do Next:</p>
-        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Complimentary Strategy Session</span><small>Get Hiring Clarity</small></a></div>
+        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Book My Complimentary Strategy Session</span></a></div>
       </div>
 
       <div class="blueprint-module" data-module-panel="2">
@@ -985,7 +986,7 @@ try {
         <div class="score-total">Rating total, not a pass/fail score: <span id="blueprintScore">0</span> / 35</div>
         <div class="scorecard-insight" id="scorecardInsight"><h4>Complete the scorecard to reveal your priorities.</h4><p>For the strongest insight, ask each stakeholder to complete this independently, then compare where ratings differ by two or more points.</p></div>
         <p class="module-cta-kicker">To Understand What To Do Next:</p>
-        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Complimentary Strategy Session</span><small>Get Hiring Clarity</small></a></div>
+        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Book My Complimentary Strategy Session</span></a></div>
       </div>
 
       <div class="blueprint-module" data-module-panel="3">
@@ -999,7 +1000,7 @@ try {
         </div>
         <div class="prompt-list"><div class="prompt">If stakeholders disagree about which column an item belongs in, resolve that disagreement before interviewing candidates.</div></div>
         <p class="module-cta-kicker">To Understand What To Do Next:</p>
-        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Complimentary Strategy Session</span><small>Get Hiring Clarity</small></a></div>
+        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Book My Complimentary Strategy Session</span></a></div>
       </div>
 
       <div class="blueprint-module" data-module-panel="4">
@@ -1013,7 +1014,7 @@ try {
         <p class="prompt-intro">Ask yourself the following four questions...</p>
         <div class="prompt-list"><div class="prompt">Who owns validation of each year-one outcome?</div><div class="prompt">What evidence would cause us to change our mind about a candidate?</div><div class="prompt">Which criteria require unanimous agreement?</div><div class="prompt">How will we capture candidate feedback and process friction?</div></div>
         <p class="module-cta-kicker">To Understand What To Do Next:</p>
-        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Complimentary Strategy Session</span><small>Get Hiring Clarity</small></a></div>
+        <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Book My Complimentary Strategy Session</span></a></div>
       </div>
 
       <div class="blueprint-feedback">
@@ -1060,7 +1061,7 @@ try {
   <section class="profile-section" id="profile-how"><div class="shell"><p class="eyebrow">How I work</p><h2 class="section-title">Four principles. <em>One standard.</em></h2><div class="profile-pillars"><div class="profile-pillar"><span>01</span><h3>Empathy</h3><p>I approach every client, candidate, and partner as a full human being with real stakes and real fears.</p></div><div class="profile-pillar"><span>02</span><h3>Intentional Listening</h3><p>I listen for what is not being said: the hesitation, pivot, and contradiction where the real story lives.</p></div><div class="profile-pillar"><span>03</span><h3>Radical Curiosity</h3><p>I do not accept the first answer as the final answer. I revisit questions until the truth surfaces.</p></div><div class="profile-pillar"><span>04</span><h3>Mass Collaboration</h3><p>I work with every stakeholder. Alignment on who you are hiring and why predicts success.</p></div></div></div></section>
   <section class="profile-section profile-serve"><div class="shell"><p class="eyebrow">Who I serve</p><h2 class="section-title">Growth-stage companies with <em>high stakes.</em></h2><div class="profile-serve-grid"><div class="profile-serve-card"><h3>Healthcare &amp; Group Benefits</h3><p>Sales leadership for companies navigating complex solutions and trust-based employer relationships.</p></div><div class="profile-serve-card"><h3>Packaging &amp; Print</h3><p>Commercial print, packaging, and fulfillment companies scaling sales leadership.</p></div><div class="profile-serve-card"><h3>Commercial Construction</h3><p>Relationship-driven sales leadership across building products and distribution.</p></div><div class="profile-serve-card"><h3>Nutraceuticals</h3><p>Revenue leaders able to navigate B2B complexity and scientific credibility.</p></div><div class="profile-serve-card"><h3>Voluntary Benefits</h3><p>Sales leadership and producers who can grow competitive regional portfolios.</p></div><div class="profile-serve-card"><h3>Growth-Stage B2B</h3><p>Companies hiring the sales leader who determines whether the revenue engine scales or stalls.</p></div></div></div></section>
   <section class="profile-section profile-cost"><div class="shell profile-two-col"><div><p class="eyebrow">The cost no one tracks</p><h2 class="section-title">The vacancy on your org chart is already <em>billing you.</em></h2><p>Most leadership teams measure the cost of making a hire. Few measure the delay before it, the misalignment during it, or the drag following a wrong decision.</p></div><div class="profile-credentials"><div class="profile-credential"><strong>$400,000+</strong><span>Potential fully loaded cost of a senior-level mis-hire.</span></div><div class="profile-credential"><strong>3–5x</strong><span>Potential salary impact when productivity leakage and departure costs are included.</span></div><div class="profile-credential"><strong>6–9 Months</strong><span>Leadership drag before a bad hire commonly becomes visible.</span></div></div></div></section>
-  <section class="profile-section profile-contact" id="profile-contact"><div class="shell"><h2 class="section-title">Ready to find out what you are <em>actually missing?</em></h2><p>A candid diagnostic conversation built entirely around your situation.</p><div class="contact-primary-cta"><a class="btn btn-blue strategy-btn contact-hero-btn" href="https://calendly.com/michael-north_discovery/" target="_blank" rel="noopener"><span>Book My Complimentary Strategy Session</span><small>Get Hiring Clarity</small></a></div><div class="contact-secondary-actions"><a class="btn btn-primary" href="mailto:mike@synchronytalentpartners.com">Email Michael</a><a class="btn phone-btn" href="tel:+16317843467" aria-label="Call Michael at 631-784-3467">Call 631-784-3467</a><a class="btn btn-dark" href="https://www.linkedin.com/in/mikenorth/" target="_blank" rel="noopener">LinkedIn</a></div></div></section>
+  <section class="profile-section profile-contact" id="profile-contact"><div class="shell"><h2 class="section-title">Ready to find out what you are <em>actually missing?</em></h2><p>A candid diagnostic conversation built entirely around your situation.</p><div class="contact-primary-cta"><a class="btn btn-blue strategy-btn contact-hero-btn" href="https://calendly.com/michael-north_discovery/" target="_blank" rel="noopener"><span>Book My Complimentary Strategy Session</span></a></div><div class="contact-secondary-actions"><a class="btn btn-primary" href="mailto:mike@synchronytalentpartners.com">Email Michael</a><a class="btn phone-btn" href="tel:+16317843467" aria-label="Call Michael at 631-784-3467">Call 631-784-3467</a><a class="btn btn-dark" href="https://www.linkedin.com/in/mikenorth/" target="_blank" rel="noopener">LinkedIn</a></div></div></section>
   <section class="profile-section profile-feedback" id="profile-feedback">
     <div class="shell profile-feedback-grid">
       <div class="profile-feedback-copy">
@@ -1068,6 +1069,7 @@ try {
         <h2 class="section-title">Tell us how<br>we can <em>improve.</em></h2>
         <p>Candor makes this resource more useful. Tell us what felt unclear, unnecessary, frustrating, or incomplete—and what would make it better.</p>
         <div class="feedback-promise"><span>Read by a real person</span><span>Used to improve the diagnostic</span><span>No sales follow-up unless you request it</span></div>
+        <p class="feedback-incentive">Receive a $10 Starbucks Gift Card for Participating</p>
       </div>
       <form class="profile-feedback-form" id="feedbackForm">
         <h3>What should we know?</h3>
