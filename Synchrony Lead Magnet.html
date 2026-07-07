@@ -77,6 +77,14 @@ a { color: inherit; }
 .diagnostic-btn { font-size: 1rem; text-align: center; }
 .diagnostic-btn span, .diagnostic-btn small { display: block; width: 100%; text-align: center; }
 .diagnostic-btn span { font-size: 1.2rem; }
+.diagnostic-btn .cta-carousel { display: block; width: 100%; overflow: hidden; }
+.diagnostic-btn .cta-track { display: flex; align-items: center; width: 300%; animation: ctaCarousel 4.5s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.diagnostic-btn .cta-slide { flex: 0 0 33.3333%; width: 33.3333%; text-align: center; font-size: 1.2rem; }
+@keyframes ctaCarousel {
+  0%, 40% { transform: translate3d(0, 0, 0); }
+  50%, 90% { transform: translate3d(-33.3333%, 0, 0); }
+  100% { transform: translate3d(-66.6667%, 0, 0); }
+}
 .strategy-btn small { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.08em; opacity: 0.82; }
 .diagnostic-btn small { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; opacity: 0.92; }
 
@@ -267,9 +275,9 @@ nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(248,2
 .module-card h4 { margin: 0 0 12px; color: var(--blue-200); font-family: "DM Serif Display", serif; font-size: 1.4rem; font-weight: 400; }
 .module-card p { margin: 0; color: var(--gray-300); font-size: 0.84rem; }
 .module-actions { display: flex; margin-top: 32px; }
-.module-cta-kicker { margin: 30px 0 -18px; color: var(--green-100); font-family: "DM Serif Display", serif; font-size: 1.35rem; line-height: 1.2; }
+.module-cta-kicker { margin: 30px 0 -18px; color: var(--white); font-family: "DM Serif Display", serif; font-size: 1.35rem; line-height: 1.2; }
 .prompt-list { display: grid; gap: 8px; margin-top: 28px; }
-.prompt-intro { margin: 30px 0 -10px; color: var(--green-100); font-weight: 500; }
+.prompt-intro { margin: 30px 0 -10px; color: var(--white); font-weight: 500; }
 .prompt { padding: 16px 20px; border-left: 2px solid var(--blue-500); background: rgba(58,133,212,0.08); color: var(--gray-300); font-size: 0.86rem; line-height: 1.65; transition: background 200ms ease, border-left-color 200ms ease; }
 .scorecard-list { display: grid; gap: 10px; max-width: 850px; }
 .scorecard-item { padding: 18px; border: 1px solid rgba(248,248,246,0.16); }
@@ -828,7 +836,7 @@ try {
         <h1 class="display">Do you know what your sales leadership vacancy <span>is billing you?</span></h1>
         <p class="hero-prompt">Discover your hidden hiring leaks before they become expensive mistakes.</p>
         <div class="hero-actions">
-          <a class="btn btn-blue diagnostic-btn" href="#assessment"><span>What's your cost of doing nothing?</span></a>
+          <a class="btn btn-blue diagnostic-btn" href="#assessment"><span class="cta-carousel"><span class="cta-track"><span class="cta-slide">What's this vacancy costing you?</span><span class="cta-slide">Built for critical leadership hires</span><span class="cta-slide">What's this vacancy costing you?</span></span></span></a>
         </div>
       </div>
     </div>
@@ -955,7 +963,7 @@ try {
   <section class="blueprint" id="blueprint" hidden>
     <div class="shell">
       <div class="blueprint-head">
-        <div><p class="eyebrow">Deep-dive resource</p><h2 class="section-title">Sales Leadership Hiring<br><em>Clarity Blueprint.</em></h2></div>
+        <div><p class="eyebrow">Deep-dive resource</p><h2 class="section-title">Sales Leadership<br><em>Hiring Clarity Blueprint.</em></h2></div>
         <p>Use only the modules your diagnostic points toward. Each one is designed as a focused leadership conversation, not a long course users must complete.</p>
       </div>
       <div class="blueprint-tabs" role="tablist">
@@ -1010,7 +1018,7 @@ try {
           <article class="module-card"><h4>Protect Independent Judgment</h4><p>Require written ratings before the debrief so the loudest stakeholder does not reshape everyone else's view.</p></article>
           <article class="module-card"><h4>Set the Decision Rule</h4><p>Decide which gaps are coachable, which require more evidence, and which automatically stop the process.</p></article>
         </div>
-        <p class="prompt-intro">Ask yourself the following four questions...</p>
+        <p class="prompt-intro"><strong>Do not start with the leader. Start with the problem.</strong><br>Ask yourself the following four questions...</p>
         <div class="prompt-list"><div class="prompt">Who owns validation of each year-one outcome?</div><div class="prompt">What evidence would cause us to change our mind about a candidate?</div><div class="prompt">Which criteria require unanimous agreement?</div><div class="prompt">How will we capture candidate feedback and process friction?</div></div>
         <p class="module-cta-kicker">Let's Review Your Results Together:</p>
         <div class="module-actions"><a class="btn btn-blue strategy-btn" href="#profile-contact" onclick="openMichaelContact(event)"><span>Book My Complimentary Strategy Session</span></a></div>
@@ -1032,9 +1040,9 @@ try {
 
 <div class="profile-view" id="michaelView">
   <div class="profile-nav"><div class="shell profile-nav-inner"><a class="brand" href="https://synchronytalent.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Synchrony Talent Partners website"><img class="brand-logo" data-logo alt="Synchrony Talent Partners"></a><div class="profile-links"><a href="#profile-about" onclick="scrollProfile(event, 'profile-about')">About</a><a href="#profile-testimonials" onclick="scrollProfile(event, 'profile-testimonials')">Voices</a><a href="#profile-how" onclick="scrollProfile(event, 'profile-how')">How I Work</a><a href="#profile-contact" onclick="scrollProfile(event, 'profile-contact')">Contact</a><button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme" title="Toggle light / dark"></button><button class="profile-back" type="button" onclick="history.back()">← Back</button></div></div></div>
-  <section class="profile-hero"><div class="shell"><div class="profile-hero-copy"><p class="eyebrow">Michael North · Founder &amp; CEO</p><h1 class="display">Most companies do not have a <em>talent problem.</em> They have a hiring strategy problem.</h1><p>I help growth-stage companies hire sales leaders who actually fit by going deeper than the resume, asking better questions, and uncovering the truth beneath the surface before anyone makes an expensive decision.</p><div class="hero-actions"><a class="btn btn-primary" href="#profile-contact" onclick="openMichaelContact(event)">Start a Conversation</a></div></div></div></section>
-  <div class="profile-stats"><div class="profile-stat"><strong>25+</strong><span>Years of Experience</span></div><div class="profile-stat"><strong>100%</strong><span>Relationship-First</span></div><div class="profile-stat"><strong>Retained</strong><span>Search Model</span></div><div class="profile-stat"><strong>Truth</strong><span>Before Transaction</span></div></div>
-  <section class="profile-section profile-about" id="profile-about"><div class="shell profile-two-col"><div><p class="eyebrow">Who I am</p><p class="profile-quote">“I hear what others miss, ask what others avoid, and uncover alignment that does not show up on a resume.”</p><div class="profile-credentials"><div class="profile-credential"><strong>Founder &amp; CEO, Synchrony Talent Partners</strong><span>Boutique retained executive search specializing in sales leadership for growth-stage companies.</span></div><div class="profile-credential"><strong>25+ Years in Sales Leadership &amp; Recruiting</strong><span>Experience across operating leadership and executive search before building Synchrony.</span></div></div></div><div class="profile-copy"><p class="eyebrow">The real problem</p><h2 class="section-title">I am not here to fill seats. I am here to <em>find truth.</em></h2><p>Most hiring processes are built around speed and appearances. Companies write job descriptions describing the last person who held the role. Candidates rehearse answers. Interviewers mistake credentials for capability. Then everyone wonders why the hire did not work out.</p><p>I work differently. I use intentional listening, radical curiosity, and repeated questioning to get beneath the surface with clients, candidates, and the role itself.</p><p>That is not a sales pitch. It is a methodology, and it produces a fundamentally different result than a transactional process.</p></div></div></section>
+  <section class="profile-hero"><div class="shell"><div class="profile-hero-copy"><p class="eyebrow">Michael North · Founder &amp; CEO</p><h1 class="display">Most companies don’t have a <em>talent problem.</em> They have a hiring clarity problem.</h1><p>Synchrony helps growth-stage companies see what traditional hiring misses, so they can choose the right sales leaders for the stage they're in now.</p><div class="hero-actions"><a class="btn btn-primary" href="#profile-contact" onclick="openMichaelContact(event)">Start a Conversation</a></div></div></div></section>
+  <div class="profile-stats"><div class="profile-stat"><strong>Truth</strong><span>Before Transaction</span></div><div class="profile-stat"><strong>Diagnose</strong><span>Before Prescribing</span></div><div class="profile-stat"><strong>People</strong><span>Before Placements</span></div><div class="profile-stat"><strong>Retained</strong><span>Executive Search</span></div></div>
+  <section class="profile-section profile-about" id="profile-about"><div class="shell profile-two-col"><div><p class="eyebrow">Who I am</p><p class="profile-quote">“I hear what others miss, ask what others avoid, and uncover alignment that does not show up on a resume.”</p><div class="profile-credentials"><div class="profile-credential"><strong>Founder &amp; CEO, Synchrony Talent Partners</strong><span>Boutique retained executive search specializing in sales leadership for growth-stage companies.</span></div><div class="profile-credential"><strong>25+ Years in Sales Leadership &amp; Recruiting</strong><span>Experience across operating leadership and executive search before building Synchrony.</span></div></div></div><div class="profile-copy"><p class="eyebrow">The real problem</p><h2 class="section-title">The wrong sales leader does more than miss the number. They expose the hidden cracks in the business.</h2><p>Hiring the wrong sales leader doesn't just cost salary. It costs momentum, revenue, trust, morale, and time you do not get back.</p><p>Most hiring processes are built around résumés, polished interviews, and surface-level confidence. That is how companies hire leaders who look right, say the right things, and still cannot solve the real problem.</p><p>Synchrony helps growth-stage companies see what traditional hiring misses by uncovering the truth.</p><p>This is not seat-filling. It is leadership risk reduction before the wrong hire becomes an expensive lesson.</p></div></div></section>
   <section class="profile-section profile-testimonials" id="profile-testimonials" aria-labelledby="profile-testimonials-title">
     <div class="shell"><p class="eyebrow">What People Say</p><h2 class="section-title" id="profile-testimonials-title">Voices from the<br>people I have <em>served.</em></h2></div>
     <div class="profile-testimonials-track-wrap" aria-label="Client and candidate testimonials, auto-scrolling">
@@ -1083,7 +1091,7 @@ try {
       </form>
     </div>
     <div class="shell feedback-closing">
-      <p>The best sales leaders don't change companies often—but when they do, preparation matters. <strong>Let's make sure your next sales leadership hire is the right one for the stage you are in.</strong></p>
+      <p>The best sales leaders don't change companies often—but when they do, preparation matters. <strong>Let's make sure your next sales leadership hire is the right one for the stage you are in now.</strong></p>
     </div>
   </section>
   <footer><div class="shell footer-inner"><span>Michael North · Synchrony Talent Partners</span><button class="profile-back" type="button" onclick="history.back()">← Back to the Diagnostic</button></div></footer>
