@@ -1003,13 +1003,13 @@ try {
       <button class="calc-dialog-close" type="button" id="costCalcClose" aria-label="Close calculator">&times;</button>
       <p class="eyebrow">Cost of vacancy</p>
       <h3 class="calc-dialog-title" id="costCalcTitle">What is the empty seat billing you?</h3>
-      <p class="calc-dialog-lead">Three inputs, one directional number. It will not be precise, and it does not need to be — the point is that zero is the wrong estimate.</p>
+      <p class="calc-dialog-lead">Three inputs. One useful estimate. It will not be exact, and it does not need to be. The only clearly wrong estimate is zero.</p>
       <div class="vacancy-grid">
         <div class="field"><label for="costCalcRevenue">Annual revenue this leader owns ($)</label><input id="costCalcRevenue" type="number" min="0" inputmode="numeric" placeholder="5,000,000"></div>
         <div class="field"><label for="costCalcMonths">Months the role is (or will be) open</label><input id="costCalcMonths" type="number" min="0" inputmode="numeric" placeholder="4"></div>
         <div class="field"><label for="costCalcHours">Leadership hours per week covering the gap</label><input id="costCalcHours" type="number" min="0" inputmode="numeric" placeholder="8"></div>
       </div>
-      <div class="vacancy-total">Directional vacancy cost: <span id="costCalcTotal">$0</span></div>
+      <div class="vacancy-total">Estimated vacancy cost: <span id="costCalcTotal">$0</span></div>
       <div class="scorecard-insight" id="costCalcInsight"><h4>Enter your numbers to see the estimate.</h4><p>Assumptions: 20% revenue drag on target while the seat is unled, executive time at $200/hour.</p></div>
     </div>
   </dialog>
@@ -1321,7 +1321,7 @@ if (costCalcDialog) {
       ccInsight.innerHTML = `<h4>Enter your numbers to see the estimate.</h4><p>Assumptions: 20% revenue drag on target while the seat is unled, executive time at $200/hour.</p>`;
       return;
     }
-    ccInsight.innerHTML = `<h4>Your directional vacancy cost</h4><p><strong>Revenue drag:</strong> ${ccFormat(revenueDrag)} &middot; <strong>Leadership drag:</strong> ${ccFormat(leadershipDrag)}</p><p>Directional, not precise. The point is that zero is the wrong estimate, and this number belongs in every conversation about search urgency.</p>`;
+    ccInsight.innerHTML = `<h4>Your estimated vacancy cost</h4><p><strong>Revenue drag:</strong> ${ccFormat(revenueDrag)} &middot; <strong>Leadership drag:</strong> ${ccFormat(leadershipDrag)}</p><p>Approximate and informative, not precise. The point is that zero is the wrong estimate, and this number belongs in every conversation about search urgency.</p>`;
   }
   [ccRevenue, ccMonths, ccHours].forEach(input => input.addEventListener("input", updateCostCalc));
   document.getElementById("costCalcClose").addEventListener("click", () => costCalcDialog.close());
