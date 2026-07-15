@@ -863,10 +863,14 @@ body.lite-mode .strategy-btn small { display: block; margin-top: 2px; color: rgb
 .contact-dialog .section-title { color: var(--ink); }
 .contact-dialog .section-title em { color: var(--green-500); }
 .contact-dialog .calc-dialog-lead { margin-left: auto; margin-right: auto; color: var(--gray-700); }
+.contact-dialog .contact-primary-cta,
+.contact-dialog .contact-secondary-actions { width: min(760px, 100%); margin-left: auto; margin-right: auto; }
 .contact-dialog .contact-primary-cta { margin-top: 28px; }
-.contact-dialog .contact-primary-cta .btn { width: min(500px, 100%); min-height: 78px; }
-.contact-dialog .contact-secondary-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 14px; }
-.contact-dialog .contact-secondary-actions .btn { min-width: 150px; }
+.contact-dialog .contact-primary-cta .btn { width: 100%; min-height: 78px; }
+.contact-dialog .contact-secondary-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.contact-dialog .contact-secondary-actions .btn { width: 100%; min-height: 54px; }
+.contact-dialog .phone-btn { border-color: var(--blue-700); background: transparent; color: var(--blue-900); }
+.contact-dialog .phone-btn:hover { color: white; transform: translateY(-2px); }
 [data-theme="dark"] .contact-dialog { background: var(--d-band-blue); color: var(--d-head); }
 [data-theme="dark"] .contact-dialog .section-title { color: var(--d-head); }
 [data-theme="dark"] .contact-dialog .calc-dialog-lead { color: var(--d-muted); }
@@ -878,6 +882,7 @@ body.lite-mode .strategy-btn small { display: block; margin-top: 2px; color: rgb
 @media (max-width: 560px) {
   body.lite-mode .nav-links { grid-template-columns: 1fr 1fr; }
   body.lite-mode .theme-toggle { justify-self: center; }
+  .contact-dialog .contact-secondary-actions { grid-template-columns: 1fr; }
 }
 
 </style>
