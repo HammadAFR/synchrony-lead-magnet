@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Revenue Leadership Diagnostic from Synchrony Talent Partners. Find the revenue leaks in your next critical leadership hire.">
+<title>Revenue Leadership Diagnostic | Synchrony Talent Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=DM+Serif+Display:ital@0;1&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-050: #F2FAE8;
+  --green-100: #D4EFA3;
+  --green-300: #AADA60;
+  --green-500: #7DC114;
+  --green-600: #5E9A0D;
+  --green-800: #3F6D07;
+  --green-950: #244002;
+  --blue-050: #E8F3FD;
+  --blue-200: #B8D8F7;
+  --blue-400: #79B8EF;
+  --blue-500: #3A85D4;
+  --blue-700: #1A5FA8;
+  --blue-900: #0C3F75;
+  --blue-950: #062140;
+  --risk-300: #F2A695;
+  --risk-500: #E8806F;
+  --white: #F8F8F6;
+  --gray-100: #EAEAE6;
+  --gray-300: #C4C4BE;
+  --gray-500: #888882;
+  --gray-700: #4E4E4A;
+  --ink: #2A2A27;
+  --black: #111110;
+  --line: rgba(42, 42, 39, 0.16);
+  --max: 1180px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--white); color: var(--ink); font-family: "DM Sans", sans-serif; font-weight: 400; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+a { color: inherit; }
+.shell { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+.eyebrow { display: flex; align-items: center; gap: 14px; margin: 0 0 24px; color: var(--green-800); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+.eyebrow::before { content: ""; width: 30px; height: 1px; background: currentColor; flex-shrink: 0; }
+.display { margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(2.7rem, 5.2vw, 5.25rem); font-weight: 400; line-height: 1; letter-spacing: -0.025em; }
+.display em, .section-title em { color: var(--green-500); font-weight: 400; }
+.clarity-highlight { color: #4F97E6; white-space: nowrap; filter: url(#smudge); text-shadow: 3px 0 3px rgba(58,133,212,0.5), 6px 0 7px rgba(58,133,212,0.3), -2px 0 3px rgba(94,162,232,0.35); }
+.section-title { margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(2.1rem, 4vw, 3.8rem); font-weight: 400; line-height: 1.06; letter-spacing: -0.02em; }
+.body-lg { max-width: 690px; margin: 24px 0 0; color: var(--gray-700); font-size: 1.025rem; line-height: 1.85; }
+.btn { position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0.8rem 1.65rem; border: 1px solid transparent; background: none; color: inherit; cursor: pointer; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; transition: transform 220ms cubic-bezier(0.2, 0, 0, 1), box-shadow 220ms ease, border-color 220ms ease, color 220ms ease; }
+/* Bottom-up fill sweep shared by every button */
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; transform: scaleY(0); transform-origin: bottom; transition: transform 0.42s cubic-bezier(0.2, 0, 0, 1); }
+.btn:hover::before { transform: scaleY(1); }
+.btn[disabled] { overflow: visible; }
+.btn[disabled]::before { display: none; }
+/* Solid buttons: resting depth + a gentle darken sweep on hover */
+.btn-primary { background: linear-gradient(180deg, var(--green-500), var(--green-600)); color: white; box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 6px 18px rgba(36,64,2,0.18); }
+.btn-primary::before { background: linear-gradient(180deg, var(--green-600), var(--green-800)); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 12px 32px rgba(125,193,20,0.32); }
+.btn-blue { background: linear-gradient(180deg, var(--blue-500), var(--blue-700)); color: white; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 6px 18px rgba(6,33,64,0.2); }
+.btn-blue::before { background: linear-gradient(180deg, var(--blue-700), var(--blue-900)); }
+.btn-blue:hover { transform: translateY(-2px); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 32px rgba(58,133,212,0.3); }
+.btn-dark { background: var(--ink); color: white; box-shadow: 0 6px 18px rgba(0,0,0,0.22); }
+.btn-dark::before { background: linear-gradient(180deg, var(--green-800), var(--green-950)); }
+.btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+/* Ghost / outline buttons: brand colour floods up and the label flips to white */
+.btn-secondary { border-color: rgba(248,248,246,0.32); color: var(--white); }
+.btn-secondary::before { background: var(--green-500); }
+.btn-secondary:hover { border-color: var(--green-500); color: white; transform: translateY(-2px); }
+.phone-btn::before { background: var(--blue-900); }
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-blue):not(.btn-dark):not(.phone-btn)::before { background: var(--ink); }
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-blue):not(.btn-dark):not(.phone-btn):hover { color: white; transform: translateY(-2px); }
+/* Tactile press */
+.btn:active { transform: translateY(0) scale(0.985); }
+.strategy-btn, .diagnostic-btn { min-height: 60px; flex-direction: column; gap: 3px; padding-top: 0.65rem; padding-bottom: 0.65rem; line-height: 1.15; }
+.strategy-btn { font-size: 0.88rem; text-align: center; }
+.diagnostic-btn { font-size: 1rem; text-align: center; }
+.diagnostic-btn span, .diagnostic-btn small { display: block; width: 100%; text-align: center; }
+.diagnostic-btn span { font-size: 1.2rem; }
+.diagnostic-btn .cta-carousel { display: block; width: 100%; overflow: hidden; }
+.diagnostic-btn .cta-track { display: flex; align-items: center; width: 300%; animation: ctaCarousel 4.5s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+.diagnostic-btn .cta-slide { flex: 0 0 33.3333%; width: 33.3333%; text-align: center; font-size: 1.2rem; }
+@keyframes ctaCarousel {
+  0%, 40% { transform: translate3d(0, 0, 0); }
+  50%, 90% { transform: translate3d(-33.3333%, 0, 0); }
+  100% { transform: translate3d(-66.6667%, 0, 0); }
+}
+.strategy-btn small { font-size: 0.58rem; font-weight: 500; letter-spacing: 0.08em; opacity: 0.82; }
+.diagnostic-btn small { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; opacity: 0.92; }
+
+nav { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(248,248,246,0.12); background: rgba(17,17,16,0.94); color: var(--white); backdrop-filter: blur(16px); }
+.nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 26px; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand-logo { width: 205px; height: auto; display: block; }
+.nav-links { display: flex; align-items: center; gap: clamp(14px, 2vw, 26px); }
+.nav-links a:not(.btn) { color: var(--gray-300); font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; transition: color 200ms ease; }
+.nav-links a:not(.btn):hover { color: var(--green-300); }
+
+.hero { min-height: calc(100vh - 72px); display: grid; place-items: center; position: relative; overflow: hidden; background: var(--black); color: var(--white); }
+.hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 76% 28%, rgba(125,193,20,0.22), transparent 28%), radial-gradient(circle at 5% 90%, rgba(58,133,212,0.15), transparent 32%); }
+.hero::after { content: ""; position: absolute; width: 520px; height: 520px; right: -270px; bottom: -320px; border: 1px solid rgba(212,239,163,0.18); border-radius: 50%; box-shadow: 0 0 0 80px rgba(212,239,163,0.02), 0 0 0 160px rgba(212,239,163,0.02); animation: heroFloat 18s ease-in-out infinite; }
+.hero-inner { position: relative; z-index: 1; padding: 58px 0 54px; }
+.hero .eyebrow { color: var(--green-300); }
+.hero-copy { max-width: 850px; }
+.nav-diagnostic-name { flex: 0 1 auto; color: var(--green-100); font-family: "DM Serif Display", serif; font-weight: 400; font-size: clamp(0.95rem, 1.5vw, 1.28rem); line-height: 1.1; white-space: nowrap; text-decoration: none; cursor: pointer; transition: opacity 200ms ease; }
+.nav-diagnostic-name:hover { opacity: 0.78; }
+.nav-diagnostic-name em { font-style: italic; color: var(--blue-400); }
+.svg-filters { position: absolute; width: 0; height: 0; overflow: hidden; pointer-events: none; }
+.hero .display span { display: block; color: var(--green-300); font-style: italic; }
+.hero .body-lg { max-width: 720px; margin-top: 22px; color: var(--gray-100); font-size: 1.16rem; line-height: 1.72; }
+.hero-prompt { max-width: 650px; margin: 18px 0 0; color: var(--gray-300); font-size: 0.92rem; line-height: 1.75; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.hero .hero-actions { max-width: 500px; width: 100%; flex-wrap: nowrap; }
+.hero .hero-actions .btn { white-space: nowrap; }
+.hero .hero-actions .strategy-btn { min-width: 280px; font-size: 0.8rem; }
+.hero .hero-actions .diagnostic-btn { width: 100%; min-width: 0; min-height: 60px; gap: 3px; font-size: 0.84rem; letter-spacing: 0.08em; box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 22px rgba(58,133,212,0.3); animation: ctaGlow 3.6s ease-in-out infinite; }
+.hero .hero-actions .diagnostic-btn small { font-size: 0.66rem; letter-spacing: 0.06em; opacity: 0.92; }
+.assessment-subhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px 10px; max-width: 720px; margin: 28px 0 0; padding-top: 20px; color: var(--gray-700); font-size: 0.98rem; line-height: 1.55; }
+.assessment-subhead strong { color: var(--green-950); font-family: "DM Serif Display", serif; font-size: clamp(1.25rem, 2vw, 1.62rem); font-weight: 400; line-height: 1.08; }
+.assessment-subhead span { color: var(--gray-700); }
+.assessment-subhead .blueprint-name { color: var(--green-800); font-weight: 700; }
+.assessment-heading-copy .section-title { padding-bottom: 16px; border-bottom: 1px solid rgba(63,109,7,0.16); }
+.assessment-subtitle { margin: 16px 0 0; padding-bottom: 12px; color: var(--gray-700); font-size: 1.14rem; line-height: 1.6; }
+
+.why-diagnostic { padding: 72px 0 78px; border-top: 4px solid var(--blue-500); border-bottom: 1px solid rgba(12,63,117,0.12); background: var(--blue-050); color: var(--blue-950); text-align: center; }
+.why-diagnostic .shell { max-width: 860px; }
+.why-diagnostic .eyebrow { justify-content: center; margin-bottom: 24px; color: var(--blue-900); letter-spacing: 0; }
+.why-diagnostic .eyebrow::before { background: var(--blue-500); }
+.why-diagnostic blockquote { margin: 0 auto; color: var(--ink); font-family: "DM Serif Display", serif; font-size: 2.25rem; font-style: italic; font-weight: 400; line-height: 1.38; }
+.why-diagnostic .quote-line { display: block; }
+.why-diagnostic .quote-emphasis { color: var(--blue-900); }
+.why-support { max-width: 600px; margin: 26px auto 0; color: var(--blue-950); font-size: 1.05rem; line-height: 1.6; }
+.why-mantra { display: inline-block; margin: 22px auto 0; color: var(--blue-900); font-size: 0.86rem; font-weight: 600; letter-spacing: 0; line-height: 1.4; text-transform: uppercase; }
+/* Leak-motif pipeline */
+.why-diagnostic { position: relative; overflow: hidden; }
+.why-diagnostic .shell { position: relative; z-index: 1; }
+.why-diagnostic::after { content: ""; position: absolute; width: 380px; height: 380px; left: 58%; top: 56%; transform: translate(-50%, -50%); background: radial-gradient(circle, rgba(58,133,212,0.13), transparent 68%); pointer-events: none; }
+.leak-line { display: flex; align-items: center; justify-content: center; max-width: 540px; margin: 8px auto 30px; }
+.leak-dot { flex: 0 0 auto; width: 9px; height: 9px; border-radius: 50%; background: rgba(12,63,117,0.28); }
+.leak-seg { flex: 1 1 auto; height: 0; border-top: 1px dashed rgba(12,63,117,0.32); }
+.leak-dot.leak { width: 15px; height: 15px; background: var(--blue-500); box-shadow: 0 0 0 4px rgba(58,133,212,0.16), 0 0 16px 3px rgba(58,133,212,0.5); animation: leakPulse 2.6s ease-in-out infinite; }
+@keyframes leakPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(58,133,212,0.16), 0 0 12px 2px rgba(58,133,212,0.42); }
+  50% { box-shadow: 0 0 0 7px rgba(58,133,212,0.08), 0 0 24px 5px rgba(58,133,212,0.62); }
+}
+
+.audit-intro { padding: 110px 0 84px; }
+.intro-grid { display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(48px, 6vw, 88px); align-items: center; }
+.intro-note { position: relative; padding: 34px 36px; border-left: 4px solid var(--green-500); border-radius: 0 6px 6px 0; background: var(--white); box-shadow: 0 22px 60px rgba(36,64,2,0.09); color: var(--gray-700); }
+.intro-note-label { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; color: var(--green-800); font-size: 0.66rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+.intro-note-label::before { content: ""; width: 24px; height: 1px; background: var(--green-500); }
+.intro-note p { margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(1.35rem, 2.1vw, 1.72rem); font-weight: 400; line-height: 1.34; color: var(--ink); letter-spacing: -0.01em; }
+.intro-note p strong { color: var(--green-800); font-weight: 400; font-style: italic; }
+.intro-note .intro-note-tail { display: block; margin-top: 14px; font-family: "DM Sans", sans-serif; font-size: 0.92rem; font-style: normal; line-height: 1.7; color: var(--gray-500); letter-spacing: 0; }
+
+.areas { padding: 0 0 110px; }
+.area-table { border: 1px solid var(--line); }
+.area-row { display: grid; grid-template-columns: 70px 1fr; min-height: 120px; border-bottom: 1px solid var(--line); transition: background 220ms ease; }
+.area-row:last-child { border-bottom: 0; }
+.area-num { display: grid; place-items: center; border-right: 1px solid var(--line); color: var(--gray-300); font-family: "DM Serif Display", serif; font-size: 2rem; }
+.area-main { padding: 26px 30px; }
+.area-main h3 { margin: 0 0 10px; color: var(--green-950); font-family: "DM Serif Display", serif; font-size: 1.3rem; font-weight: 400; }
+.area-main p { margin: 0; color: var(--gray-500); font-size: 0.82rem; line-height: 1.7; }
+
+.quote-band { padding: 82px 0; background: var(--green-950); color: var(--white); text-align: center; }
+.quote-band blockquote { max-width: 900px; margin: 0 auto; font-family: "DM Serif Display", serif; font-size: clamp(1.7rem, 3.4vw, 3rem); font-style: italic; font-weight: 400; line-height: 1.35; }
+.quote-band blockquote::before { content: "“"; color: var(--green-300); }
+.quote-band blockquote::after { content: "”"; color: var(--green-300); }
+.quote-band blockquote span { color: var(--green-300); }
+.quote-band cite { display: block; margin-top: 24px; color: var(--green-100); font-size: 0.66rem; font-style: normal; letter-spacing: 0.15em; text-transform: uppercase; }
+
+.assessment-section { padding: 110px 0; background: var(--green-050); }
+.assessment-head { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr); align-items: center; gap: clamp(48px, 8vw, 110px); margin-bottom: 52px; }
+.assessment-heading-copy { max-width: 760px; }
+.assessment-heading-copy .eyebrow { margin-bottom: 18px; }
+.assessment-head p { margin: 0; color: var(--gray-700); }
+.assessment-description { display: grid; gap: 18px; padding: 8px 0 8px 28px; border-left: 2px solid var(--green-500); font-size: 0.94rem; line-height: 1.8; }
+.assessment-description strong { color: var(--green-950); font-weight: 600; }
+.assessment-card { min-height: 520px; border: 1px solid rgba(63,109,7,0.22); background: var(--white); box-shadow: 0 28px 80px rgba(36,64,2,0.08); }
+.assessment-top { height: 4px; background: var(--gray-100); }
+.assessment-bar { width: 10%; height: 100%; background: var(--green-500); transition: width 240ms ease; }
+.assessment-content { padding: 38px 42px 32px; }
+.step-meta { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 38px; color: var(--green-800); font-size: 0.67rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; }
+.step-progress { display: flex; align-items: center; gap: 12px; min-width: 200px; max-width: 260px; flex: 0 1 auto; }
+.step-progress-track { flex: 1; height: 6px; border-radius: 100px; background: var(--gray-100); overflow: hidden; }
+.step-progress-fill { height: 100%; width: 0; border-radius: 100px; background: var(--green-500); transition: width 300ms cubic-bezier(0.2, 0, 0, 1); }
+.step-progress-pct { flex: 0 0 auto; color: var(--green-800); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+.question { max-width: 880px; margin: 0; color: var(--green-950); font-family: "DM Serif Display", serif; font-size: clamp(1.65rem, 3vw, 2.35rem); font-weight: 400; line-height: 1.2; }
+.question-hint { margin: 10px 0 30px; color: var(--gray-500); font-size: 0.87rem; line-height: 1.65; }
+.options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.options.rating-options { grid-template-columns: repeat(5, 1fr); }
+.option { min-height: 62px; padding: 14px 18px; border: 1px solid var(--line); background: var(--white); color: var(--ink); cursor: pointer; text-align: left; font-size: 0.9rem; transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease; }
+.rating-options .option { min-height: 70px; padding: 12px; text-align: center; font-family: "DM Serif Display", serif; font-size: 1.2rem; }
+.rating-scale { display: flex; justify-content: space-between; gap: 20px; margin: 0 0 12px; color: var(--gray-500); font-size: 0.72rem; }
+.rating-scale[hidden] { display: none; }
+.option:hover { border-color: var(--green-500); background: var(--green-050); }
+.option.selected { border-color: var(--green-800); background: var(--green-050); color: var(--green-950); box-shadow: inset 3px 0 0 var(--green-500); }
+.assessment-nav { display: flex; justify-content: space-between; gap: 14px; margin-top: 35px; padding-top: 25px; border-top: 1px solid var(--line); }
+.assessment-nav .btn[disabled] { background: var(--gray-100); color: var(--gray-300); cursor: not-allowed; transform: none; }
+.contact-gate { display: none; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 28px; }
+.field { display: grid; gap: 7px; }
+.field label { color: var(--green-800); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; }
+.field input, .field select, .field textarea { width: 100%; min-height: 54px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 0; background: white; color: var(--ink); outline: none; }
+.field textarea { min-height: 170px; resize: vertical; line-height: 1.6; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--green-500); }
+.form-note { margin: 16px 0 0; color: var(--gray-500); font-size: 0.74rem; }
+.results { display: none; }
+.results.show { display: block; }
+.result-hero { display: grid; grid-template-columns: 150px 1fr; gap: 28px; align-items: center; padding: 32px; background: var(--ink); color: white; }
+.score-block { display: grid; justify-items: center; align-content: center; gap: 14px; }
+.score-ring { position: relative; width: 140px; height: 140px; display: grid; place-items: center; border-radius: 50%; text-align: center; }
+.score-ring strong { display: block; color: var(--green-300); font-family: "DM Serif Display", serif; font-size: 2.9rem; font-weight: 400; line-height: 1; }
+.score-ring-max { color: var(--gray-300); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.04em; }
+.score-ring-label { color: var(--gray-300); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; text-align: center; }
+.result-hero h3 { margin: 0 0 8px; color: var(--green-100); font-family: "DM Serif Display", serif; font-size: 2rem; font-weight: 400; }
+.result-hero p { margin: 0; color: var(--gray-300); }
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+.result-panel { padding: 25px; border: 1px solid var(--line); background: white; }
+.result-panel h4 { margin: 0 0 14px; color: var(--green-800); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; }
+.result-panel ul { margin: 0; padding-left: 18px; color: var(--gray-700); }
+.result-panel li { margin-bottom: 9px; }
+.gap-score { color: var(--green-800); font-weight: 600; }
+.gap-level { color: var(--gray-500); font-size: 0.76rem; }
+.result-method { margin: 16px 0 0; color: var(--gray-500); font-size: 0.72rem; line-height: 1.65; }
+.dimension-scores { margin-top: 18px; }
+.dimension-list { display: grid; gap: 18px; margin-top: 4px; }
+.dimension-row { display: grid; gap: 9px; }
+.dimension-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.dimension-name { color: var(--ink); font-size: 0.95rem; }
+.dimension-pct { color: var(--gray-500); font-size: 0.9rem; font-variant-numeric: tabular-nums; }
+.dimension-track { height: 5px; border-radius: 100px; background: var(--gray-100); overflow: hidden; }
+.dimension-fill { height: 100%; width: 0; border-radius: 100px; transition: width 0.9s cubic-bezier(0.2, 0, 0, 1); }
+.result-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.result-actions .btn { flex: 1 1 0; }
+
+.blueprint { position: relative; overflow: hidden; padding: 110px 0; background: var(--black); color: var(--white); }
+.blueprint::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 68% 0%, rgba(58,133,212,0.26), transparent 34%),
+    radial-gradient(circle at 18% 58%, rgba(26,95,168,0.18), transparent 38%);
+  pointer-events: none;
+}
+.blueprint::after {
+  content: "";
+  position: absolute;
+  width: 680px;
+  height: 680px;
+  right: -260px;
+  bottom: -300px;
+  border: 1px solid rgba(121,184,239,0.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 86px rgba(121,184,239,0.035), 0 0 0 174px rgba(121,184,239,0.025);
+  pointer-events: none;
+  animation: heroFloat 22s ease-in-out infinite;
+}
+.blueprint .shell { position: relative; z-index: 1; }
+.blueprint .eyebrow { color: var(--blue-400); }
+.blueprint-head .eyebrow { color: var(--green-300); }
+.blueprint-head { display: grid; grid-template-columns: 1fr 0.8fr; gap: 70px; align-items: end; margin-bottom: 55px; }
+.blueprint-head p { margin: 0; color: var(--gray-300); }
+.blueprint .section-title em { color: var(--blue-500); }
+.blueprint-tabs { display: grid; grid-template-columns: repeat(5, 1fr); margin-top: 48px; border: 1px solid rgba(248,248,246,0.16); }
+.blueprint-tab { min-height: 66px; border: 0; border-right: 1px solid rgba(248,248,246,0.16); border-bottom: 3px solid transparent; background: transparent; color: var(--gray-300); cursor: pointer; font-size: 0.69rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; transition: color 200ms ease, background 200ms ease, border-bottom-color 200ms ease; }
+.blueprint-tab:last-child { border-right: 0; }
+.blueprint-tab.active { border-bottom-color: var(--blue-500); color: var(--blue-400); background: rgba(58,133,212,0.1); }
+.blueprint-module { display: none; padding: 56px 0 0; }
+.blueprint-module.active { display: block; animation: moduleIn 0.45s cubic-bezier(0.2, 0, 0, 1) both; }
+.blueprint-feedback { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 34px; align-items: center; margin-top: 76px; padding: 30px 32px; border: 1px solid rgba(121,184,239,0.3); background: linear-gradient(110deg, rgba(58,133,212,0.16), rgba(58,133,212,0.035)); }
+.blueprint-feedback-copy { display: grid; gap: 7px; }
+.blueprint-feedback-copy strong { color: var(--blue-200); font-family: "DM Serif Display", serif; font-size: 1.55rem; font-weight: 400; line-height: 1.15; }
+.blueprint-feedback-copy span { color: var(--gray-300); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.13em; line-height: 1.55; text-transform: uppercase; }
+.blueprint-feedback .btn { min-width: 170px; }
+.module-intro { max-width: 760px; margin-bottom: 38px; }
+.module-intro h3 { margin: 0; font-family: "DM Serif Display", serif; font-size: clamp(2.4rem, 5vw, 4.5rem); font-weight: 400; line-height: 1.02; }
+.module-intro h3 em { color: var(--blue-400); }
+.module-intro p { color: var(--gray-300); }
+.module-card-grid { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid rgba(248,248,246,0.16); border-left: 1px solid rgba(248,248,246,0.16); }
+.module-card { padding: 30px; border-right: 1px solid rgba(248,248,246,0.16); border-bottom: 1px solid rgba(248,248,246,0.16); transition: background 200ms ease; }
+.module-card h4 { margin: 0 0 12px; color: var(--blue-200); font-family: "DM Serif Display", serif; font-size: 1.4rem; font-weight: 400; }
+.module-card p { margin: 0; color: var(--gray-300); font-size: 0.84rem; }
+.prompt-list { display: grid; gap: 8px; margin-top: 28px; }
+.prompt-intro { margin: 30px 0 -10px; color: var(--white); font-weight: 500; }
+.prompt-intro strong { color: var(--blue-400); }
+.prompt { padding: 16px 20px; border-left: 2px solid var(--blue-500); background: rgba(58,133,212,0.08); color: var(--gray-300); font-size: 0.86rem; line-height: 1.65; transition: background 200ms ease, border-left-color 200ms ease; }
+.scorecard-list { display: grid; gap: 10px; max-width: 850px; }
+.scorecard-item { padding: 18px; border: 1px solid rgba(248,248,246,0.16); }
+.scorecard-row { display: flex; justify-content: space-between; gap: 18px; align-items: center; }
+.scorecard-row span { color: var(--gray-300); font-size: 0.85rem; }
+.score-buttons { display: flex; gap: 5px; flex: 0 0 auto; }
+.score-buttons button { width: 36px; height: 36px; border: 1px solid rgba(248,248,246,0.2); background: transparent; color: var(--gray-300); cursor: pointer; transition: background 150ms ease, border-color 150ms ease, color 150ms ease; }
+.score-buttons button.selected { border-color: var(--blue-500); background: var(--blue-500); color: white; }
+.score-total { margin-top: 16px; color: var(--blue-400); font-family: "DM Serif Display", serif; font-size: 1.6rem; }
+.scorecard-insight { margin-top: 26px; padding: 24px; border-left: 3px solid var(--blue-500); background: rgba(58,133,212,0.08); }
+.scorecard-insight h4 { margin: 0 0 8px; color: var(--blue-200); font-family: "DM Serif Display", serif; font-size: 1.35rem; font-weight: 400; }
+.scorecard-insight p { margin: 0; color: var(--gray-300); font-size: 0.84rem; }
+.scorecard-insight ul { margin: 14px 0 0; padding-left: 18px; color: var(--gray-300); font-size: 0.84rem; }
+.experience-list { display: grid; gap: 10px; max-width: 850px; }
+.yesno-buttons { display: flex; gap: 6px; flex: 0 0 auto; }
+.yesno-buttons button { width: 54px; height: 40px; border: 1px solid rgba(248,248,246,0.2); background: transparent; color: var(--gray-300); cursor: pointer; font-size: 0.8rem; transition: background 150ms ease, border-color 150ms ease, color 150ms ease; }
+.yesno-buttons button.selected { border-color: var(--blue-500); background: var(--blue-500); color: white; }
+.yesno-buttons button:not(.selected):hover { border-color: rgba(248,248,246,0.55); color: var(--white); background: rgba(248,248,246,0.07); }
+.vacancy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 850px; }
+.vacancy-grid .field label { color: var(--blue-200); }
+.vacancy-grid .field input { background: rgba(255,255,255,0.04); border-color: rgba(248,248,246,0.2); color: var(--white); }
+.vacancy-grid .field input::placeholder { color: var(--gray-500); }
+.vacancy-grid .field input:focus { border-color: var(--blue-500); }
+.vacancy-total { margin-top: 18px; color: var(--blue-400); font-family: "DM Serif Display", serif; font-size: 1.6rem; }
+.blueprint-closing-cta { display: flex; flex-direction: column; align-items: center; gap: 22px; margin-top: 72px; padding-top: 44px; border-top: 1px solid rgba(248,248,246,0.16); text-align: center; }
+.blueprint-closing-kicker { margin: 0; color: var(--white); font-family: "DM Serif Display", serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 400; line-height: 1.15; }
+.blueprint-closing-cta .strategy-btn { min-width: 320px; }
+
+.about { padding: 110px 0; }
+.about-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 80px; align-items: start; }
+.about-card { padding: 34px; background: var(--black); color: white; }
+.about-card .logo-large { width: 100%; margin-bottom: 28px; }
+.about-card strong { display: block; color: var(--green-100); font-family: "DM Serif Display", serif; font-size: 2rem; font-weight: 400; }
+.about-card span { color: var(--blue-200); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; }
+.about-copy .section-title { color: var(--green-950); }
+.about-copy > p { color: var(--gray-700); }
+.credentials { display: grid; gap: 12px; margin-top: 28px; }
+.credential { padding: 18px 20px; border-left: 3px solid var(--green-500); background: var(--green-050); transition: background 200ms ease, transform 200ms ease; }
+.credential strong { display: block; color: var(--green-950); font-weight: 600; }
+.credential span { color: var(--gray-700); font-size: 0.84rem; }
+.about-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+
+.final-cta { padding: 95px 0; background: var(--blue-050); text-align: center; }
+.final-cta .eyebrow { justify-content: center; color: var(--blue-900); }
+.final-cta .section-title { color: var(--blue-950); }
+.final-cta p { max-width: 680px; margin: 20px auto 30px; color: var(--gray-700); }
+footer { padding: 28px 0; background: var(--black); color: var(--gray-500); font-size: 0.72rem; }
+.footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+.footer-inner a { color: var(--green-300); text-decoration: none; }
+.profile-view { display: none; }
+body.profile-mode > nav, body.profile-mode > main, body.profile-mode > footer { display: none; }
+body.profile-mode .profile-view { display: block; }
+.profile-nav { position: sticky; top: 0; z-index: 60; background: rgba(17,17,16,0.96); border-bottom: 1px solid rgba(248,248,246,0.14); }
+.profile-nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+.profile-links { display: flex; align-items: center; gap: 22px; }
+.profile-links a { color: var(--gray-300); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase; transition: color 200ms ease; }
+.profile-links a:hover { color: var(--green-300); }
+.profile-back { border: 1px solid rgba(248,248,246,0.26); background: transparent; color: var(--white); cursor: pointer; padding: 0.72rem 1.1rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.profile-hero { min-height: calc(100vh - 72px); display: grid; place-items: center; padding: 58px 0 54px; background: radial-gradient(circle at 78% 20%, rgba(125,193,20,0.2), transparent 32%), var(--black); color: white; }
+.profile-hero-copy { max-width: 850px; }
+.profile-hero .eyebrow { color: var(--green-300); }
+.profile-hero p:not(.eyebrow) { max-width: 650px; margin: 18px 0 0; color: var(--gray-300); font-size: 0.92rem; line-height: 1.75; }
+.profile-stats { display: grid; grid-template-columns: repeat(4,1fr); background: var(--green-950); color: white; }
+.profile-stat { padding: 28px 20px; text-align: center; border-right: 1px solid rgba(248,248,246,0.12); }
+.profile-stat span { display: block; color: var(--green-100); font-size: 1.2rem; line-height: 1.35; letter-spacing: 0.05em; text-transform: uppercase; }
+.profile-section { padding: 105px 0; scroll-margin-top: 72px; }
+.profile-about { background: var(--green-050); }
+.profile-two-col { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 80px; align-items: start; }
+.profile-quote { margin: 0; padding-left: 24px; border-left: 3px solid var(--green-500); color: var(--green-950); font-family: "DM Serif Display", serif; font-size: 1.7rem; font-style: italic; line-height: 1.45; }
+.profile-credentials { display: grid; gap: 12px; margin-top: 28px; }
+.profile-credential { padding: 18px 20px; border-left: 2px solid var(--green-500); background: white; transition: background 200ms ease, transform 200ms ease; }
+.profile-credential strong { display: block; color: var(--green-950); font-weight: 600; }
+.profile-credential span, .profile-copy p { color: var(--gray-700); font-size: 0.86rem; }
+.profile-testimonials { overflow: hidden; background: var(--black); color: var(--white); }
+.profile-testimonials .eyebrow { color: var(--green-300); }
+.profile-testimonials .section-title { color: var(--white); margin-bottom: 42px; }
+.profile-testimonials-track-wrap { position: relative; overflow: hidden; }
+.profile-testimonials-track-wrap::before, .profile-testimonials-track-wrap::after { content: ""; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none; }
+.profile-testimonials-track-wrap::before { left: 0; background: linear-gradient(to right, var(--black), transparent); }
+.profile-testimonials-track-wrap::after { right: 0; background: linear-gradient(to left, var(--black), transparent); }
+.profile-testimonials-track { display: flex; gap: 18px; width: max-content; animation: profileTestimonialScroll 40s linear infinite; }
+.profile-testimonials-track:hover { animation-play-state: paused; }
+.profile-testimonial-card { position: relative; flex: 0 0 auto; width: 360px; padding: 32px 34px; border: 1px solid rgba(125,193,20,0.18); background: rgba(255,255,255,0.045); }
+.profile-testimonial-card::before { content: "\201C"; position: absolute; top: 4px; left: 22px; color: var(--green-300); font-family: "DM Serif Display", serif; font-size: 4rem; line-height: 1; opacity: 0.3; }
+.profile-testimonial-text { margin: 0 0 22px; padding-top: 16px; color: var(--gray-300); font-family: "DM Serif Display", serif; font-size: 1.02rem; font-style: italic; line-height: 1.65; }
+.profile-testimonial-author { margin: 0; color: var(--green-300); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.profile-testimonial-role { margin: 4px 0 0; color: rgba(248,248,246,0.48); font-size: 0.74rem; line-height: 1.5; }
+@keyframes profileTestimonialScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.profile-beliefs { background: var(--black); color: white; }
+.profile-beliefs .eyebrow { color: var(--green-300); }
+.profile-grid { display: grid; grid-template-columns: repeat(3,1fr); margin-top: 42px; border-top: 1px solid rgba(248,248,246,0.14); border-left: 1px solid rgba(248,248,246,0.14); }
+.profile-belief { padding: 30px; border-right: 1px solid rgba(248,248,246,0.14); border-bottom: 1px solid rgba(248,248,246,0.14); transition: background 220ms ease; }
+.profile-belief strong { display: block; color: var(--green-300); font-family: "DM Serif Display", serif; font-size: 2rem; font-weight: 400; }
+.profile-belief p { color: var(--gray-300); font-style: italic; }
+.profile-pillars { display: grid; grid-template-columns: 1fr 1fr; margin-top: 42px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.profile-pillar { padding: 32px; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background 220ms ease; }
+.profile-pillar span { color: var(--green-500); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; }
+.profile-pillar h3 { margin: 14px 0 8px; color: var(--green-950); font-family: "DM Serif Display", serif; font-size: 1.5rem; font-weight: 400; }
+.profile-pillar p { margin: 0; color: var(--gray-700); font-size: 0.86rem; }
+.profile-serve { background: var(--gray-100); }
+.profile-serve-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 40px; }
+.profile-serve-card { padding: 28px; border-top: 3px solid var(--green-500); background: var(--white); transition: transform 240ms cubic-bezier(0.2, 0, 0, 1), box-shadow 240ms ease; }
+.profile-serve-card h3 { margin: 0 0 8px; color: var(--green-950); font-family: "DM Serif Display", serif; font-size: 1.2rem; font-weight: 400; }
+.profile-serve-card p { margin: 0; color: var(--gray-700); font-size: 0.82rem; }
+.profile-cost { background: var(--green-950); color: white; }
+.profile-cost .eyebrow { color: var(--green-300); }
+.profile-cost p { color: var(--green-100); }
+.cost-calc-cta { align-self: start; padding: 32px; border: 1px solid rgba(125,193,20,0.28); background: rgba(255,255,255,0.03); }
+.cost-calc-cta p { margin: 0 0 26px; font-size: 0.98rem; line-height: 1.7; }
+.cost-calc-cta .hero-actions { margin: 0; max-width: 380px; }
+.cost-calc-cta .strategy-btn { width: 100%; min-width: 0; }
+.calc-dialog { width: min(700px, calc(100vw - 28px)); max-height: min(88vh, 840px); padding: 0; border: 1px solid rgba(248,248,246,0.16); background: var(--ink); color: var(--white); overflow: auto; }
+.calc-dialog::backdrop { background: rgba(6,10,8,0.64); backdrop-filter: blur(3px); }
+.calc-dialog-inner { position: relative; padding: clamp(26px, 4vw, 46px); }
+.calc-dialog .eyebrow { color: var(--green-300); }
+.calc-dialog-close { position: absolute; top: 14px; right: 14px; display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid rgba(248,248,246,0.22); border-radius: 50%; background: transparent; color: var(--white); cursor: pointer; font-size: 1.5rem; line-height: 1; transition: background 200ms ease, border-color 200ms ease; }
+.calc-dialog-close:hover { background: rgba(248,248,246,0.09); border-color: rgba(248,248,246,0.5); }
+.calc-dialog-title { margin: 0 0 12px; font-family: "DM Serif Display", serif; font-size: clamp(1.6rem, 3vw, 2.15rem); font-weight: 400; line-height: 1.1; }
+.calc-dialog-lead { margin: 0 0 26px; max-width: 60ch; color: var(--gray-300); font-size: 0.92rem; line-height: 1.65; }
+.profile-contact { min-height: calc(100vh - 72px); display: grid; place-items: center; background: var(--blue-050); text-align: center; }
+.profile-contact .eyebrow { justify-content: center; color: var(--blue-900); }
+.profile-contact p { max-width: 650px; margin: 20px auto 0; color: var(--gray-700); }
+.contact-primary-cta { display: flex; justify-content: center; margin-top: 32px; }
+.contact-hero-btn { width: min(500px, 100%); min-height: 78px; gap: 4px; }
+.contact-hero-btn span { font-size: 1.05rem; letter-spacing: 0.06em; }
+.contact-hero-btn small { font-size: 0.66rem; }
+.contact-secondary-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 14px; }
+.profile-contact .phone-btn { border-color: var(--blue-700); color: var(--blue-900); }
+.profile-contact .phone-btn:hover { color: white; transform: translateY(-2px); }
+.profile-feedback { position: relative; overflow: hidden; background: var(--black); color: var(--white); }
+.profile-feedback::before { content: ""; position: absolute; width: 520px; height: 520px; top: -300px; right: -180px; border: 1px solid rgba(121,184,239,0.2); border-radius: 50%; box-shadow: 0 0 0 70px rgba(58,133,212,0.025), 0 0 0 140px rgba(58,133,212,0.018); pointer-events: none; }
+.profile-feedback-grid { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(480px, 1.2fr); gap: clamp(54px, 8vw, 110px); align-items: start; }
+.profile-feedback-copy { position: sticky; top: 112px; }
+.profile-feedback .eyebrow { color: var(--blue-400); }
+.profile-feedback .section-title { color: var(--white); }
+.profile-feedback .section-title em { color: var(--blue-400); }
+.profile-feedback-copy > p:not(.eyebrow) { margin: 24px 0 0; color: var(--gray-300); }
+.feedback-promise { display: grid; gap: 14px; margin-top: 36px; padding-top: 25px; border-top: 1px solid rgba(248,248,246,0.14); }
+.feedback-promise span { display: flex; align-items: center; gap: 12px; color: var(--gray-300); font-size: 0.78rem; }
+.feedback-promise span::before { content: ""; width: 20px; height: 1px; flex: 0 0 auto; background: var(--blue-500); }
+.profile-feedback-form { padding: clamp(28px, 5vw, 50px); border-top: 4px solid var(--blue-500); background: var(--white); box-shadow: 0 30px 90px rgba(0,0,0,0.3); }
+.profile-feedback-form h3 { margin: 0; color: var(--green-950); font-family: "DM Serif Display", serif; font-size: clamp(1.7rem, 3vw, 2.35rem); font-weight: 400; line-height: 1.15; }
+.profile-feedback-form > p { margin: 10px 0 0; color: var(--gray-500); font-size: 0.83rem; }
+.feedback-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 30px; }
+.feedback-fields .field-wide { grid-column: 1 / -1; }
+.feedback-form-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+.feedback-form-footer small { max-width: 280px; color: var(--gray-500); font-size: 0.68rem; line-height: 1.5; }
+.feedback-status { min-height: 1.5em; margin: 15px 0 0; color: var(--green-800); font-size: 0.78rem; font-weight: 600; }
+.feedback-closing { position: relative; z-index: 1; margin-top: clamp(56px, 8vw, 90px); padding-top: 42px; border-top: 1px solid rgba(248,248,246,0.14); text-align: center; }
+.feedback-closing p { max-width: 920px; margin: 0 auto; color: var(--white); font-family: "DM Serif Display", serif; font-size: clamp(1.5rem, 2.6vw, 2.15rem); font-weight: 400; line-height: 1.36; }
+.feedback-closing strong { color: var(--blue-400); font-weight: 400; }
+
+/* Selection */
+::selection { background: var(--green-100); color: var(--green-950); }
+
+/* Hero entrance animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-inner { animation: fadeUp 0.7s cubic-bezier(0.2, 0, 0, 1) both; }
+
+/* Smooth scroll anchor offset for sticky nav */
+section[id] { scroll-margin-top: 80px; }
+
+/* Hover states */
+.area-row:hover { background: rgba(125,193,20,0.03); }
+.module-card:hover { background: rgba(255,255,255,0.055); }
+.prompt:hover { background: rgba(255,255,255,0.08); border-left-color: var(--green-300); }
+.credential:hover { background: var(--green-100); transform: translateX(3px); }
+.profile-credential:hover { background: var(--green-050); transform: translateX(3px); }
+.profile-serve-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(36,64,2,0.1); }
+.profile-pillar:hover { background: var(--green-050); }
+.profile-belief:hover { background: rgba(255,255,255,0.05); }
+.blueprint-tab:not(.active):hover { color: var(--white); background: rgba(58,133,212,0.08); border-bottom-color: rgba(58,133,212,0.34); }
+.score-buttons button:not(.selected):hover { border-color: rgba(248,248,246,0.55); color: var(--white); background: rgba(248,248,246,0.07); }
+
+/* Focus-visible states */
+button:focus-visible { outline: 2px solid var(--green-500); outline-offset: 2px; }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--green-500); outline-offset: 0; }
+a:focus-visible { outline: 2px solid var(--green-500); outline-offset: 3px; }
+
+/* Assessment card polish */
+.assessment-card { border-radius: 1px; }
+.assessment-top { border-radius: 1px 1px 0 0; }
+.assessment-bar { border-radius: 0 1px 1px 0; }
+
+/* Nav inner padding refinement */
+.nav-inner { padding: 0 2px; }
+
+@media (max-width: 860px) {
+  body { font-size: 1.03rem; line-height: 1.78; }
+  .display { font-size: 4.1rem; line-height: 0.98; letter-spacing: 0; }
+  .section-title { font-size: 3.15rem; line-height: 1.04; letter-spacing: 0; }
+  .body-lg, .hero .body-lg, .profile-hero p:not(.eyebrow) { font-size: 1.03rem; line-height: 1.78; }
+  .hero .body-lg { max-width: 720px; font-size: 1.2rem; line-height: 1.68; }
+  .eyebrow { font-size: 0.74rem; line-height: 1.45; letter-spacing: 0; }
+  .hero-prompt { font-size: 1.03rem; line-height: 1.78; }
+  .btn { font-size: 0.82rem; line-height: 1.18; letter-spacing: 0; }
+  .strategy-btn { font-size: 0.9rem; }
+  .diagnostic-btn { font-size: 0.86rem; }
+  .strategy-btn small { font-size: 0.62rem; line-height: 1.2; letter-spacing: 0; }
+  .diagnostic-btn small { font-size: 0.72rem; line-height: 1.3; letter-spacing: 0; }
+  nav, .profile-nav { transition: transform 240ms ease, padding 240ms ease; will-change: transform; }
+  body:not(.profile-mode) > nav { position: sticky; top: 0; }
+  body:not(.profile-mode) > main { padding-top: 0; }
+  .nav-inner { flex-wrap: wrap; min-height: auto; padding: 10px 2px; }
+  .nav-diagnostic-name { display: none; }
+  .nav-links { width: 100%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .nav-links a:not(.btn) { display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0.72rem 0.8rem; border: 1px solid rgba(248,248,246,0.26); font-size: 0.68rem; line-height: 1.25; letter-spacing: 0; text-align: center; }
+  .nav-links .btn { padding: 0.72rem 0.9rem; font-size: 0.68rem; }
+  body.mobile-main-nav-compact:not(.profile-mode) > nav { transform: translateY(-105%); }
+  .profile-nav-inner { flex-wrap: wrap; padding: 10px 0; }
+  .profile-links { width: 100%; display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 8px; }
+  .profile-links a { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; border: 1px solid rgba(248,248,246,0.18); font-size: 0.68rem; line-height: 1.25; letter-spacing: 0; text-align: center; }
+  .profile-back { min-height: 42px; padding: 0.66rem 0.85rem; font-size: 0.7rem; letter-spacing: 0; text-align: center; }
+  body.mobile-profile-nav-hidden.profile-mode .profile-nav { transform: translateY(-105%); }
+  .hero .hero-actions { width: 100%; flex-wrap: wrap; }
+  .intro-grid, .blueprint-head, .about-grid { grid-template-columns: 1fr; gap: 35px; }
+  .blueprint-feedback, .profile-feedback-grid { grid-template-columns: 1fr; }
+  .profile-feedback-copy { position: static; }
+  .area-row { grid-template-columns: 52px 1fr; }
+  .area-prompts { grid-column: 2; border-top: 1px solid var(--line); }
+  .area-main { border-right: 0; }
+  .intro-note, .assessment-description, .assessment-head p, .blueprint-head p, .about-copy > p, .final-cta p, .profile-copy p, .profile-cost p, .profile-contact p { font-size: 1.03rem; line-height: 1.78; }
+  .assessment-subhead { font-size: 1.04rem; }
+  .area-main h3, .module-card h4, .profile-pillar h3, .profile-serve-card h3 { font-size: 1.48rem; line-height: 1.15; }
+  .area-main p, .area-prompts p, .module-card p, .credential span, .profile-credential span, .profile-pillar p, .profile-serve-card p { font-size: 0.95rem; line-height: 1.72; }
+  .why-diagnostic { padding: 68px 0 74px; }
+  .why-diagnostic blockquote { font-size: 2.1rem; line-height: 1.36; letter-spacing: 0; }
+  .why-mantra { font-size: 0.84rem; letter-spacing: 0; }
+  .quote-band blockquote { font-size: 2.45rem; }
+  .quote-band cite, .field label, .result-panel h4 { font-size: 0.74rem; line-height: 1.4; letter-spacing: 0; }
+  .question { font-size: 2.2rem; line-height: 1.16; }
+  .question-hint, .option, .field input, .field select, .form-note, .result-hero p, .result-panel, .result-method, .scorecard-row span, .scorecard-insight p, .scorecard-insight ul { font-size: 0.98rem; line-height: 1.68; }
+  .rating-scale { font-size: 0.8rem; }
+  .rating-options .option { font-size: 1.32rem; line-height: 1.1; }
+  .module-intro h3 { font-size: 3.45rem; letter-spacing: 0; }
+  .prompt, .scorecard-insight h4 { font-size: 1rem; line-height: 1.68; }
+  .about-card strong, .profile-belief strong { font-size: 2.15rem; }
+  .profile-quote { font-size: 1.85rem; }
+  .profile-testimonial-text { font-size: 1.12rem; line-height: 1.62; }
+  .options, .contact-grid, .result-grid, .module-card-grid, .vacancy-grid { grid-template-columns: 1fr; }
+  .options.rating-options { grid-template-columns: repeat(5, 1fr); }
+  .blueprint-tabs { grid-template-columns: 1fr 1fr; }
+  .blueprint-tab:nth-child(5) { grid-column: 1 / -1; border-right: 0; border-bottom: 0; }
+  .blueprint-tab { border-right: 1px solid rgba(248,248,246,0.28); border-bottom: 1px solid rgba(248,248,246,0.28); font-size: 0.76rem; line-height: 1.25; letter-spacing: 0; }
+  .blueprint-tab:nth-child(2n) { border-right: 0; }
+  .blueprint-tab.active { border-bottom-color: rgba(248,248,246,0.28); box-shadow: inset 0 -4px 0 var(--blue-500); }
+  .assessment-head { grid-template-columns: 1fr; gap: 28px; }
+  .assessment-description { padding-left: 22px; }
+  .result-hero { grid-template-columns: 1fr; }
+  .profile-two-col { grid-template-columns: 1fr; }
+  .profile-grid, .profile-serve-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 560px) {
+  body { font-size: 1.06rem; line-height: 1.76; }
+  .shell { width: min(100% - 26px, var(--max)); }
+  .brand-logo { width: 145px; }
+  .nav-inner { justify-content: center; }
+  .nav-links { grid-template-columns: 1fr 1fr; }
+  .profile-nav-inner { justify-content: center; }
+  .profile-links { grid-template-columns: 1fr 1fr; }
+  .profile-back { grid-column: 1 / -1; }
+  .hero-inner, .why-diagnostic, .audit-intro, .assessment-section, .blueprint, .about { padding-top: 76px; padding-bottom: 76px; }
+  .display { font-size: 3.12rem; line-height: 1; }
+  .section-title { font-size: 2.58rem; line-height: 1.04; }
+  .body-lg, .hero .body-lg, .intro-note, .assessment-description, .assessment-head p, .blueprint-head p, .about-copy > p, .final-cta p, .profile-hero p:not(.eyebrow), .profile-copy p, .profile-cost p, .profile-contact p { font-size: 1.06rem; line-height: 1.76; }
+  .hero .body-lg { font-size: 1.14rem; line-height: 1.68; }
+  .eyebrow { gap: 10px; margin-bottom: 18px; font-size: 0.76rem; letter-spacing: 0; }
+  .hero-prompt { font-size: 1.06rem; line-height: 1.76; }
+  .hero .hero-actions .strategy-btn, .strategy-btn, .diagnostic-btn, .btn { font-size: 0.88rem; }
+  .strategy-btn small, .diagnostic-btn small { font-size: 0.64rem; }
+  .hero-actions .btn, .result-actions .btn, .about-actions .btn { width: 100%; }
+  .blueprint-feedback { padding: 25px 22px; }
+  .blueprint-feedback .btn { width: 100%; }
+  .feedback-fields { grid-template-columns: 1fr; }
+  .feedback-fields .field-wide { grid-column: auto; }
+  .feedback-form-footer { align-items: stretch; flex-direction: column; }
+  .feedback-form-footer .btn { width: 100%; }
+  .hero .hero-actions .diagnostic-btn { min-width: 0; white-space: normal; }
+  .hero .hero-actions .diagnostic-btn { font-size: 0.8rem; }
+  .hero .hero-actions .diagnostic-btn small { font-size: 0.66rem; line-height: 1.35; }
+  .area-row { min-height: auto; }
+  .area-main, .area-prompts { padding: 22px 18px; }
+  .area-num { font-size: 2.15rem; }
+  .area-main h3, .module-card h4, .profile-pillar h3, .profile-serve-card h3 { font-size: 1.54rem; }
+  .area-main p, .area-prompts p, .module-card p, .credential span, .profile-credential span, .profile-pillar p, .profile-serve-card p { font-size: 0.98rem; }
+  .why-diagnostic blockquote { font-size: 1.78rem; line-height: 1.3; }
+  .why-mantra { margin-top: 24px; font-size: 0.78rem; }
+  .quote-band blockquote { font-size: 2.1rem; line-height: 1.28; }
+  .assessment-content { padding: 25px 18px; }
+  .question { font-size: 2.05rem; }
+  .question-hint, .option, .field input, .field select, .result-panel, .result-hero p, .result-method, .scorecard-row span, .scorecard-insight p, .scorecard-insight ul { font-size: 1rem; }
+  .assessment-nav { flex-direction: column-reverse; }
+  .assessment-nav .btn { width: 100%; }
+  .footer-inner { display: grid; }
+  .options.rating-options { grid-template-columns: repeat(5, 1fr); }
+  .rating-options .option { min-height: 56px; padding: 8px; font-size: 1.34rem; }
+  .blueprint-module { overflow-x: auto; }
+  .blueprint-tab { min-height: 62px; font-size: 0.78rem; letter-spacing: 0; }
+  .module-intro h3 { font-size: 2.85rem; }
+  .profile-testimonial-card { width: min(320px, calc(100vw - 54px)); padding: 28px 24px; }
+  .profile-testimonials-track-wrap::before, .profile-testimonials-track-wrap::after { width: 34px; }
+  .profile-stats, .profile-grid, .profile-pillars, .profile-serve-grid { grid-template-columns: 1fr; }
+  .profile-section, .profile-hero { padding: 72px 0; }
+}
+
+/* ============================================================
+   MOTION & ANIMATIONS
+   ============================================================ */
+
+/* Decorative orb drift (hero + blueprint) */
+@keyframes heroFloat {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(-22px, -26px); }
+}
+
+/* Primary hero CTA attention glow */
+@keyframes ctaGlow {
+  0%, 100% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 20px rgba(58,133,212,0.28); }
+  50% { box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 32px rgba(58,133,212,0.46); }
+}
+
+/* Diagnostic question step transition */
+@keyframes questionIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+.question-animate { animation: questionIn 0.38s cubic-bezier(0.2, 0, 0, 1) both; }
+
+/* Option select micro-interaction */
+@keyframes optionSelectPulse {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(0.985); }
+  100% { transform: scale(1); }
+}
+.option.option-pulse { animation: optionSelectPulse 0.3s cubic-bezier(0.2, 0, 0, 1); }
+
+/* Blueprint module fade-in on tab switch */
+@keyframes moduleIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Animated score ring (results) */
+.score-ring-svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
+.score-ring-track { fill: none; stroke: rgba(248,248,246,0.16); stroke-width: 5; }
+.score-ring-arc { fill: none; stroke: var(--green-500); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 1.15s cubic-bezier(0.2, 0, 0, 1), stroke 0.5s ease; }
+.score-ring-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; width: 100%; }
+
+/* Results reveal + staggered panels */
+.results { opacity: 0; transform: translateY(22px); transition: opacity 0.7s cubic-bezier(0.2, 0, 0, 1), transform 0.7s cubic-bezier(0.2, 0, 0, 1); }
+.results.reveal-in { opacity: 1; transform: none; }
+.results .result-grid .result-panel,
+.results .result-actions { opacity: 0; transform: translateY(16px); transition: opacity 0.55s cubic-bezier(0.2, 0, 0, 1), transform 0.55s cubic-bezier(0.2, 0, 0, 1); }
+.results.reveal-in .result-grid .result-panel:nth-child(1) { transition-delay: 0.18s; }
+.results.reveal-in .result-grid .result-panel:nth-child(2) { transition-delay: 0.3s; }
+.results.reveal-in .result-actions { transition-delay: 0.42s; }
+.results.reveal-in .result-grid .result-panel,
+.results.reveal-in .result-actions { opacity: 1; transform: none; }
+
+/* Scroll reveal (targets assigned via JS) */
+[data-reveal] { opacity: 0; transform: translateY(24px); will-change: opacity, transform; }
+[data-reveal].reveal-ready { transition: opacity 0.75s cubic-bezier(0.2, 0, 0, 1), transform 0.75s cubic-bezier(0.2, 0, 0, 1); transition-delay: var(--reveal-delay, 0ms); }
+[data-reveal].revealed { opacity: 1; transform: none; }
+
+/* Respect reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal],
+  .results,
+  .results .result-grid .result-panel,
+  .results .result-actions { opacity: 1 !important; transform: none !important; }
+  .profile-testimonials-track { animation: none !important; }
+  .hero-inner { animation: none !important; }
+}
+
+/* ============================================================
+   THEME TOGGLE + DARK MODE
+   Light theme is the default; every rule below is scoped to
+   [data-theme="dark"] so the original design is untouched.
+   ============================================================ */
+:root { color-scheme: light; }
+.theme-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px; flex: 0 0 auto; padding: 0; border: 1px solid rgba(248,248,246,0.26); border-radius: 50%; background: transparent; color: var(--white); cursor: pointer; font-size: 1rem; line-height: 1; transition: background 200ms ease, border-color 200ms ease, transform 200ms ease; }
+.theme-toggle::before { content: "\1F319"; }
+.theme-toggle:hover { border-color: var(--green-300); background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --d-bg: #0F1110; --d-surface: #191B1D; --d-surface-2: #22262C;
+  --d-band-blue: #0B1626; --d-band-green: #0E1710; --d-band-gray: #141517;
+  --d-text: #ECECE8; --d-head: #F5F5F1; --d-muted: #B6B6AF; --d-soft: #90908A;
+  --d-border: rgba(248,248,246,0.14);
+}
+[data-theme="dark"] .theme-toggle::before { content: "\2600\FE0F"; }
+
+[data-theme="dark"] body { background: var(--d-bg); color: var(--d-text); }
+
+/* Eyebrows that sit on formerly-light bands */
+[data-theme="dark"] .audit-intro .eyebrow,
+[data-theme="dark"] .assessment-heading-copy .eyebrow,
+[data-theme="dark"] .about .eyebrow,
+[data-theme="dark"] .profile-about .eyebrow,
+[data-theme="dark"] #profile-how .eyebrow,
+[data-theme="dark"] .profile-serve .eyebrow { color: var(--green-300); }
+[data-theme="dark"] .why-diagnostic .eyebrow,
+[data-theme="dark"] .final-cta .eyebrow { color: var(--blue-400); }
+
+/* Why-diagnostic */
+[data-theme="dark"] .why-diagnostic { background: var(--d-band-blue); color: var(--d-text); border-bottom-color: rgba(121,184,239,0.16); }
+[data-theme="dark"] .why-diagnostic blockquote { color: var(--d-text); }
+[data-theme="dark"] .why-support { color: var(--d-muted); }
+[data-theme="dark"] .why-diagnostic .quote-emphasis,
+[data-theme="dark"] .why-mantra { color: var(--blue-400); }
+[data-theme="dark"] .leak-dot { background: rgba(121,184,239,0.45); }
+[data-theme="dark"] .leak-seg { border-top-color: rgba(121,184,239,0.4); }
+
+/* Audit-intro callout */
+[data-theme="dark"] .intro-note { background: var(--d-surface); color: var(--d-muted); box-shadow: 0 22px 60px rgba(0,0,0,0.55); }
+[data-theme="dark"] .intro-note p { color: var(--d-text); }
+[data-theme="dark"] .intro-note-label,
+[data-theme="dark"] .intro-note p strong { color: var(--green-300); }
+[data-theme="dark"] .intro-note .intro-note-tail { color: var(--d-soft); }
+
+/* Areas table */
+[data-theme="dark"] .area-table { border-color: var(--d-border); }
+[data-theme="dark"] .area-row { border-bottom-color: var(--d-border); }
+[data-theme="dark"] .area-row:hover { background: rgba(255,255,255,0.03); }
+[data-theme="dark"] .area-num { border-right-color: var(--d-border); color: var(--d-soft); }
+[data-theme="dark"] .area-main h3 { color: var(--d-head); }
+[data-theme="dark"] .area-main p { color: var(--d-muted); }
+
+/* Assessment */
+[data-theme="dark"] .assessment-section { background: var(--d-band-green); }
+[data-theme="dark"] .assessment-head p,
+[data-theme="dark"] .assessment-subhead,
+[data-theme="dark"] .assessment-subhead span,
+[data-theme="dark"] .assessment-subtitle { color: var(--d-muted); }
+[data-theme="dark"] .assessment-subhead strong { color: var(--d-head); }
+[data-theme="dark"] .assessment-subhead .blueprint-name,
+[data-theme="dark"] .assessment-description strong { color: var(--green-300); }
+[data-theme="dark"] .assessment-heading-copy .section-title { border-bottom-color: rgba(125,193,20,0.22); }
+[data-theme="dark"] .assessment-card { background: var(--d-surface); border-color: var(--d-border); box-shadow: 0 28px 80px rgba(0,0,0,0.55); }
+[data-theme="dark"] .assessment-top { background: rgba(255,255,255,0.08); }
+[data-theme="dark"] .step-meta,
+[data-theme="dark"] .step-progress-pct { color: var(--green-300); }
+[data-theme="dark"] .step-progress-track { background: rgba(255,255,255,0.1); }
+[data-theme="dark"] .question { color: var(--d-head); }
+[data-theme="dark"] .question-hint,
+[data-theme="dark"] .rating-scale { color: var(--d-soft); }
+[data-theme="dark"] .option { background: var(--d-surface-2); border-color: var(--d-border); color: var(--d-text); }
+[data-theme="dark"] .option:hover { border-color: var(--green-500); background: rgba(125,193,20,0.12); }
+[data-theme="dark"] .option.selected { background: rgba(125,193,20,0.16); color: var(--d-head); border-color: var(--green-500); }
+[data-theme="dark"] .assessment-nav { border-top-color: var(--d-border); }
+[data-theme="dark"] .assessment-nav .btn[disabled] { background: rgba(255,255,255,0.06); color: var(--d-soft); }
+
+/* Form fields (contact gate + feedback form) */
+[data-theme="dark"] .field input,
+[data-theme="dark"] .field select,
+[data-theme="dark"] .field textarea { background: var(--d-surface-2); color: var(--d-text); border-color: var(--d-border); }
+[data-theme="dark"] .field label { color: var(--green-300); }
+[data-theme="dark"] .field input::placeholder,
+[data-theme="dark"] .field textarea::placeholder { color: var(--d-soft); }
+[data-theme="dark"] .form-note { color: var(--d-soft); }
+
+/* Results */
+[data-theme="dark"] .result-panel { background: var(--d-surface); border-color: var(--d-border); }
+[data-theme="dark"] .result-panel h4 { color: var(--green-300); }
+[data-theme="dark"] .dimension-name { color: var(--d-head); }
+[data-theme="dark"] .dimension-pct { color: var(--d-soft); }
+[data-theme="dark"] .dimension-track { background: rgba(255,255,255,0.12); }
+[data-theme="dark"] .result-panel ul { color: var(--d-muted); }
+[data-theme="dark"] .gap-score { color: var(--green-300); }
+[data-theme="dark"] .gap-level,
+[data-theme="dark"] .result-method { color: var(--d-soft); }
+
+/* About (light band) */
+[data-theme="dark"] .about-copy .section-title { color: var(--d-head); }
+[data-theme="dark"] .about-copy > p { color: var(--d-muted); }
+[data-theme="dark"] .credential { background: rgba(125,193,20,0.08); }
+[data-theme="dark"] .credential:hover { background: rgba(125,193,20,0.14); }
+[data-theme="dark"] .credential strong { color: var(--d-head); }
+[data-theme="dark"] .credential span { color: var(--d-muted); }
+
+/* Final CTA */
+[data-theme="dark"] .final-cta { background: var(--d-band-blue); }
+[data-theme="dark"] .final-cta .section-title { color: var(--d-head); }
+[data-theme="dark"] .final-cta p { color: var(--d-muted); }
+
+/* Blueprint eyebrow keeps its blue in dark */
+[data-theme="dark"] .blueprint .eyebrow { color: var(--blue-400); }
+
+/* Profile view — light bands */
+[data-theme="dark"] .profile-about { background: var(--d-band-green); }
+[data-theme="dark"] .profile-about .section-title { color: var(--d-head); }
+[data-theme="dark"] .profile-quote { color: var(--d-text); }
+[data-theme="dark"] .profile-credential { background: var(--d-surface); }
+[data-theme="dark"] .profile-credential:hover { background: rgba(125,193,20,0.1); }
+[data-theme="dark"] .profile-credential strong { color: var(--d-head); }
+[data-theme="dark"] .profile-credential span,
+[data-theme="dark"] .profile-copy p { color: var(--d-muted); }
+[data-theme="dark"] .profile-pillars,
+[data-theme="dark"] .profile-pillar { border-color: var(--d-border); }
+[data-theme="dark"] .profile-pillar:hover { background: rgba(125,193,20,0.06); }
+[data-theme="dark"] .profile-pillar h3 { color: var(--d-head); }
+[data-theme="dark"] .profile-pillar p { color: var(--d-muted); }
+[data-theme="dark"] .profile-serve { background: var(--d-band-gray); }
+[data-theme="dark"] .profile-serve-card { background: var(--d-surface); }
+[data-theme="dark"] .profile-serve-card h3 { color: var(--d-head); }
+[data-theme="dark"] .profile-serve-card p { color: var(--d-muted); }
+[data-theme="dark"] .profile-contact { background: var(--d-band-blue); }
+[data-theme="dark"] .profile-contact p { color: var(--d-muted); }
+[data-theme="dark"] .profile-contact .phone-btn { border-color: var(--blue-400); color: var(--blue-200); }
+[data-theme="dark"] .profile-feedback-form { background: var(--d-surface); }
+[data-theme="dark"] .profile-feedback-form h3 { color: var(--d-head); }
+[data-theme="dark"] .profile-feedback-form > p { color: var(--d-soft); }
+[data-theme="dark"] .feedback-form-footer { border-top-color: var(--d-border); }
+[data-theme="dark"] .feedback-form-footer small { color: var(--d-soft); }
+/* Stats band: keep the two-word / one-word line break clean at every width */
+@media (max-width: 1300px) { .profile-stats { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 680px) { .profile-stats { grid-template-columns: 1fr; } }
+
+/* Lite version: one-page diagnostic with cost calculator */
+body.lite-mode .nav-links { gap: clamp(10px, 1.8vw, 22px); }
+body.lite-mode .nav-links .btn { min-height: 44px; padding-inline: 1.2rem; }
+body.lite-mode .profile-cost { scroll-margin-top: 80px; }
+body.lite-mode .profile-cost .section-title { color: var(--white); }
+body.lite-mode .profile-cost .cost-calc-cta { background: rgba(255,255,255,0.045); }
+body.lite-mode .result-actions .btn { flex: 1 1 220px; }
+body.lite-mode footer { background: var(--black); }
+@media (max-width: 860px) { body.lite-mode .nav-links { grid-template-columns: repeat(3, 1fr); } }
+</style>
+<script>
+/* Theme: apply saved choice, else follow the OS/browser setting. Runs before
+   <body> paints so there is no flash of the wrong theme. */
+(function () {
+  try {
+    var saved = localStorage.getItem("stp-theme");
+    var prefersDark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+  } catch (e) {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+})();
+function toggleTheme() {
+  var root = document.documentElement;
+  var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("stp-theme", next); } catch (e) {}
+}
+/* If the visitor has not made an explicit choice, follow live OS theme changes. */
+try {
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+    if (!localStorage.getItem("stp-theme")) {
+      document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
+    }
+  });
+} catch (e) {}
+</script>
+</head><body class="lite-mode">
+<nav>
+  <div class="shell nav-inner">
+    <a class="brand" href="https://synchronytalent.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Synchrony Talent Partners website">
+      <img class="brand-logo" src="../synchrony-logo.png" alt="Synchrony Talent Partners">
+    </a>
+    <a class="nav-diagnostic-name" href="#assessment">The Cost of <em>Not Knowing</em> Diagnostic</a>
+    <div class="nav-links">
+      <a href="#areas">Five Levers</a>
+      <a href="#cost-calculator">Cost Calculator</a>
+      <a class="btn btn-blue" href="#assessment">Start Diagnostic</a>
+      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Toggle light and dark theme" title="Toggle light / dark"></button>
+    </div>
+  </div>
+</nav>
+
+<svg class="svg-filters" width="0" height="0" aria-hidden="true" focusable="false"><filter id="smudge" x="-25%" y="-25%" width="150%" height="150%"><feGaussianBlur stdDeviation="3.4 0.5"/></filter></svg>
+
+<main id="top">
+<section class="hero">
+    <div class="shell hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">The hidden cost no one tracks</p>
+        <h1 class="display">Do you know what your sales leadership vacancy <span>is billing you?</span></h1>
+        <p class="hero-prompt">Start the diagnostic and uncover your hidden hiring leaks before they become expensive mistakes.</p>
+        <div class="hero-actions">
+          <a class="btn btn-blue diagnostic-btn" href="#assessment"><span class="cta-carousel"><span class="cta-track"><span class="cta-slide">What's this vacancy costing you?</span><span class="cta-slide">Start The Diagnostic</span><span class="cta-slide">What's this vacancy costing you?</span></span></span><small class="cta-points">10 questions · Under 5 minutes · Cost calculator included</small></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="audit-intro" id="areas">
+    <div class="shell intro-grid">
+      <div class="intro-lead">
+        <p class="eyebrow">What the diagnostic covers</p>
+        <h2 class="section-title">Five Critical Levers.<br>One Honest <em>Diagnostic.</em></h2>
+      </div>
+      <div class="intro-note">
+        <span class="intro-note-label">Your hidden cost</span>
+        <p>Your leadership hiring process may be <strong>leaking revenue, momentum, and top candidates</strong> in places you cannot see.<span class="intro-note-tail">This diagnostic shows you exactly where.</span></p>
+      </div>
+    </div>
+  </section>
+
+<section class="areas">
+    <div class="shell area-table">
+      <article class="area-row">
+        <div class="area-num">01</div><div class="area-main"><h3>Business Reality Alignment</h3><p>Is the role solving the right problem, and are stakeholders aligned on year-one success?</p></div>
+      </article>
+      <article class="area-row">
+        <div class="area-num">02</div><div class="area-main"><h3>Hiring Scorecard Integrity</h3><p>Are criteria clear, calibrated, and shared, or is every stakeholder picturing someone different?</p></div>
+      </article>
+      <article class="area-row">
+        <div class="area-num">03</div><div class="area-main"><h3>Candidate Experience Diagnostic</h3><p>What is your process actually communicating before you have made the hire?</p></div>
+      </article>
+      <article class="area-row">
+        <div class="area-num">04</div><div class="area-main"><h3>Revenue Impact Analysis</h3><p>What are vacancy, delay, and misalignment actually costing in measurable business impact?</p></div>
+      </article>
+      <article class="area-row">
+        <div class="area-num">05</div><div class="area-main"><h3>Human Alignment Diagnostic</h3><p>Communication style, leadership chemistry, coachability, resilience, and the traits that predict success here.</p></div>
+      </article>
+    </div>
+  </section>
+
+<section class="profile-section profile-cost" id="cost-calculator"><div class="shell profile-two-col"><div><p class="eyebrow">The cost no one tracks</p><h2 class="section-title">The vacancy on your org chart is already <em>billing you.</em></h2><p>Most leadership teams measure the cost of making a hire. Few measure the delay before it, the misalignment during it, or the drag following a wrong decision.</p></div><div class="cost-calc-cta"><p>Every open seat has a number, even when no one is tracking it — lost pipeline, leadership hours pulled off strategy, and the drag of a wrong decision. Get a directional estimate of what your specific vacancy is costing in under a minute.</p><div class="hero-actions"><button class="btn btn-blue strategy-btn" type="button" onclick="openCostCalc()"><span>Calculate Your Cost of Vacancy</span></button></div></div></div></section>
+
+<dialog class="calc-dialog" id="costCalcDialog" aria-labelledby="costCalcTitle">
+    <div class="calc-dialog-inner">
+      <button class="calc-dialog-close" type="button" id="costCalcClose" aria-label="Close calculator">&times;</button>
+      <p class="eyebrow">Cost of vacancy</p>
+      <h3 class="calc-dialog-title" id="costCalcTitle">What is the empty seat billing you?</h3>
+      <p class="calc-dialog-lead">Three inputs, one directional number. It will not be precise, and it does not need to be — the point is that zero is the wrong estimate.</p>
+      <div class="vacancy-grid">
+        <div class="field"><label for="costCalcRevenue">Annual revenue this leader owns ($)</label><input id="costCalcRevenue" type="number" min="0" inputmode="numeric" placeholder="5,000,000"></div>
+        <div class="field"><label for="costCalcMonths">Months the role is (or will be) open</label><input id="costCalcMonths" type="number" min="0" inputmode="numeric" placeholder="4"></div>
+        <div class="field"><label for="costCalcHours">Leadership hours per week covering the gap</label><input id="costCalcHours" type="number" min="0" inputmode="numeric" placeholder="8"></div>
+      </div>
+      <div class="vacancy-total">Directional vacancy cost: <span id="costCalcTotal">$0</span></div>
+      <div class="scorecard-insight" id="costCalcInsight"><h4>Enter your numbers to see the estimate.</h4><p>Assumptions: 20% revenue drag on target while the seat is unled, executive time at $200/hour.</p></div>
+    </div>
+  </dialog>
+
+<section class="assessment-section" id="assessment">
+    <div class="shell">
+      <div class="assessment-head">
+        <div class="assessment-heading-copy"><p class="eyebrow">5-minute diagnostic</p><h2 class="section-title">Why do great <em>sales leadership hires</em> fail before they even start?</h2><p class="assessment-subhead"><strong>Answer 10 focused questions.</strong><span>Two per lever for a balanced read, then review your hiring clarity snapshot.</span></p></div>
+        <div class="assessment-description">
+          <p><strong>In under five minutes,</strong> get an immediate read on where your sales leadership hiring process may be leaking clarity, slowing growth, or increasing the risk of another wrong-fit leader.</p>
+        </div>
+      </div>
+      <div class="assessment-card">
+        <div class="assessment-top"><div class="assessment-bar" id="progressBar"></div></div>
+        <div class="assessment-content">
+          <div id="questionView">
+            <div class="step-meta"><span id="stepLabel">Question 1 of 10</span><div class="step-progress"><div class="step-progress-track"><div class="step-progress-fill" id="stepProgressFill"></div></div><span class="step-progress-pct" id="stepPercent">0%</span></div></div>
+            <h3 class="question" id="questionText"></h3>
+            <p class="question-hint" id="questionHint"></p>
+            <div class="rating-scale" id="ratingScale" hidden><span id="ratingLow"></span><span id="ratingHigh"></span></div>
+            <div class="options" id="options"></div>
+            <div class="assessment-nav">
+              <button class="btn" id="backBtn" type="button">Back</button>
+              <button class="btn btn-primary" id="nextBtn" type="button" disabled>Next</button>
+            </div>
+          </div>
+
+          <form class="contact-gate" id="contactGate">
+            <input type="hidden" id="auditPayload" name="auditPayload">
+            <div class="step-meta"><span>Diagnostic complete</span><span>Unlock your diagnostic</span></div>
+            <h3 class="question">Where should we send your diagnostic report?</h3>
+            <p class="question-hint">Enter your details to reveal your diagnostic results and recommended focus areas.</p>
+            <div class="contact-grid">
+              <div class="field"><label for="firstName">First name</label><input id="firstName" name="firstName" required autocomplete="given-name"></div>
+              <div class="field"><label for="lastName">Last name</label><input id="lastName" name="lastName" required autocomplete="family-name"></div>
+              <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com"></div>
+              <div class="field"><label for="company">Company</label><input id="company" name="company" required autocomplete="organization" placeholder="Your company"></div>
+              <div class="field"><label for="role">Your title</label><select id="role" name="role" required><option value="">Select your role</option><option>CEO / Founder</option><option>Private Equity / Investor</option><option>Executive Leader</option><option>People / Talent Leader</option><option>Revenue Leader</option><option>Other</option></select></div>
+            </div>
+            <p class="form-note">Prototype note: this file calculates results locally. Connect the form to a secure form service or backend before launch to email submissions to Michael.</p>
+            <div class="assessment-nav"><button class="btn" id="contactBack" type="button">Back</button><button class="btn btn-primary" type="submit">See My Results</button></div>
+          </form>
+
+          <div class="results" id="results">
+            <div class="result-hero">
+              <div class="score-block"><div class="score-ring"><svg class="score-ring-svg" viewBox="0 0 140 140" aria-hidden="true"><circle class="score-ring-track" cx="70" cy="70" r="64"></circle><circle class="score-ring-arc" id="scoreArc" cx="70" cy="70" r="64"></circle></svg><div class="score-ring-inner"><strong id="score">0</strong><span class="score-ring-max">/ 100</span></div></div><span class="score-ring-label">Alignment Score</span></div>
+              <div><h3 id="tier">Your diagnostic</h3><p id="summary"></p></div>
+            </div>
+            <div class="result-panel dimension-scores"><h4>Score by dimension</h4><div class="dimension-list" id="dimensionList"></div></div>
+            <div class="result-grid">
+              <div class="result-panel"><h4>Where to focus first</h4><ul id="gaps"></ul><p class="result-method"><strong>Scale:</strong> 0/10 = highest risk; 10/10 = strongest foundation. We surface the levers scoring below 8/10, lowest first. Both questions within each lever are averaged so one topic cannot appear twice.</p></div>
+              <div class="result-panel"><h4>Recommended focus path</h4><ul id="recommendations"></ul></div>
+            </div>
+            <div class="result-actions">
+              <a class="btn btn-blue strategy-btn" href="https://calendly.com/michael-north_discovery/" target="_blank" rel="noopener"><span>Book Your Complimentary Strategy Session</span></a>
+              <button class="btn btn-dark" id="restartBtn" type="button">Restart The Diagnostic</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="shell footer-inner"><span>Michael North · Synchrony Talent Partners</span><a class="btn btn-blue" href="#assessment">Start Diagnostic</a></div></footer>
+
+<script>
+/*
+  EMAIL DELIVERY CONFIGURATION
+  ----------------------------
+  For a static website, create a Formspree form that emails
+  mike@synchronytalentpartners.com, then paste its endpoint below.
+  Example: const EMAIL_ENDPOINT = "https://formspree.io/f/FORM_ID";
+
+  Keep this blank during local development. The diagnostic will still calculate and
+  display results. Never place private email/API credentials inside this file.
+*/
+const EMAIL_ENDPOINT = "";
+const questions = [
+  { category: "business", text: "What best describes your current hiring situation?", hint: "Choose the one that feels most true right now.", options: [["We have made hires that did not work out and want to understand why",7],["We are about to start a search and want to do it right this time",10],["Stakeholders cannot align on what the right person looks like",0],["We have an open critical role and the search is stalling",3]] },
+  { category: "scorecard", text: "How clearly defined is your hiring scorecard for this role?", hint: "Be honest. This is where many searches quietly fail.", options: [["We have a job description but no real scorecard",7],["Different people have different ideas of what great looks like",3],["We have a detailed, agreed-upon scorecard all interviewers use",10],["Honestly, we are winging it and hoping we know it when we see it",0]] },
+  { category: "experience", text: "How would you rate your candidate experience right now?", hint: "Think about how the process feels to a high performer seeing it for the first time.", options: [["Inconsistent depending on the interviewer",3],["Best-in-class and consistently clear",10],["Candidates often disengage early",0],["Generally strong, with a few points of friction",7]] },
+  { category: "revenue", text: "How long has this role been open, or how long ago did the need first surface?", hint: "Delay is often a measurable business cost.", options: [["Just starting the search",10],["1–3 months",7],["3–6 months",3],["6+ months, and we have felt it",0]] },
+  { category: "human", type: "rating", scale: ["We focus on credentials", "We have a human profile"], text: "How clearly can you articulate the human traits that predict success in this role beyond skills and experience?", hint: "1 = we have never gone there, 5 = we have a precise profile", options: [["1",0],["2",2.5],["3",5],["4",7.5],["5",10]] },
+  { category: "business", type: "rating", scale: ["No shared picture", "Fully aligned"], text: "How aligned are your key stakeholders on what this hire needs to accomplish in year one?", hint: "1 = we have never had that conversation, 5 = fully locked in", options: [["1",0],["2",2.5],["3",5],["4",7.5],["5",10]] },
+  { category: "scorecard", text: "Is your compensation range aligned to the caliber of talent you actually need?", hint: "The market answers this question even when internal stakeholders do not.", options: [["There might be a gap",3],["Yes, we have benchmarked it",10],["We think so, but have not verified",7],["We are not sure, and it is a concern",0]] },
+  { category: "experience", text: "How quickly and consistently do candidates hear back after each stage of your process?", hint: "Silence is a decision. Top candidates interpret it as one.", options: [["Within 48 hours, every time",10],["Usually within a week, but it varies",7],["It depends on who is driving the process at that moment",3],["We have probably gone silent on candidates without realizing it",0]] },
+  { category: "revenue", text: "Do you know the revenue or growth impact of this role sitting open right now?", hint: "Unmeasured vacancy cost is still cost.", options: [["We have a rough sense",7],["No, we have not measured it",0],["Yes, we have calculated it",10],["Not quantified, but we feel it",3]] },
+  { category: "human", text: "When top candidates disengage late in your process, what do you typically assume?", hint: "Your answer reveals a lot about current blind spots.", options: [["They received a better offer elsewhere",7],["Something in our process or communication pushed them away",10],["We honestly do not know because we rarely find out",0],["They were not as interested as they seemed",3]] }
+];
+
+const categoryCopy = {
+  business: ["Business reality alignment", "Align every decision-maker on the business problem and a written definition of year-one success before the search advances."],
+  scorecard: ["Evaluation consistency", "Build one shared outcome scorecard and align every interviewer before the search advances."],
+  experience: ["Candidate experience", "Review every candidate touchpoint from first contact to offer. Fix the friction before the next strong candidate enters the process."],
+  revenue: ["Revenue impact", "Quantify the cost of the vacancy in pipeline terms, calculate the leadership bandwidth drain, and use both numbers to drive search urgency."],
+  human: ["Human alignment", "Build a human alignment profile—define the leadership style that succeeds under pressure and the evidence interviewers should seek."]
+};
+const categoryModule = {
+  business: "1",
+  scorecard: "2",
+  experience: "3",
+  revenue: "4",
+  human: "5"
+};
+
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+let recommendedBlueprintModule = "1";
+const questionView = document.getElementById("questionView");
+const contactGate = document.getElementById("contactGate");
+const results = document.getElementById("results");
+const optionsEl = document.getElementById("options");
+const nextBtn = document.getElementById("nextBtn");
+const backBtn = document.getElementById("backBtn");
+
+function renderQuestion() {
+  const q = questions[current];
+  document.getElementById("questionText").textContent = q.text;
+  document.getElementById("questionHint").textContent = q.hint;
+  document.getElementById("stepLabel").textContent = `Question ${current + 1} of ${questions.length}`;
+  const pct = Math.round(((current + 1) / questions.length) * 100);
+  document.getElementById("stepProgressFill").style.width = `${pct}%`;
+  document.getElementById("stepPercent").textContent = `${pct}%`;
+  document.getElementById("progressBar").style.width = `${((current + 1) / questions.length) * 100}%`;
+  optionsEl.innerHTML = "";
+  optionsEl.classList.toggle("rating-options", q.type === "rating");
+  optionsEl.setAttribute("role", "group");
+  optionsEl.setAttribute("aria-label", q.text);
+  const ratingScale = document.getElementById("ratingScale");
+  ratingScale.hidden = q.type !== "rating";
+  if (q.type === "rating") {
+    document.getElementById("ratingLow").textContent = q.scale[0];
+    document.getElementById("ratingHigh").textContent = q.scale[1];
+  }
+  q.options.forEach(([label, score], index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "option" + (answers[current]?.index === index ? " selected" : "");
+    button.textContent = label;
+    button.setAttribute("aria-pressed", answers[current]?.index === index ? "true" : "false");
+    if (q.type === "rating") button.setAttribute("aria-label", `Rate ${index + 1} of 5: ${q.scale[0]} to ${q.scale[1]}`);
+    button.addEventListener("click", () => {
+      answers[current] = { index, score, label, category: q.category };
+      [...optionsEl.children].forEach(el => { el.classList.remove("selected", "option-pulse"); el.setAttribute("aria-pressed", "false"); });
+      button.classList.add("selected");
+      button.setAttribute("aria-pressed", "true");
+      void button.offsetWidth;
+      button.classList.add("option-pulse");
+      nextBtn.disabled = false;
+    });
+    optionsEl.appendChild(button);
+  });
+  backBtn.style.visibility = current === 0 ? "hidden" : "visible";
+  nextBtn.disabled = answers[current] === null;
+  nextBtn.textContent = current === questions.length - 1 ? "Complete Diagnostic" : "Next";
+  questionView.classList.remove("question-animate");
+  void questionView.offsetWidth;
+  questionView.classList.add("question-animate");
+}
+
+nextBtn.addEventListener("click", () => {
+  if (answers[current] === null) return;
+  if (current < questions.length - 1) {
+    current += 1;
+    renderQuestion();
+  } else {
+    questionView.style.display = "none";
+    contactGate.style.display = "block";
+    document.getElementById("progressBar").style.width = "100%";
+  }
+});
+
+backBtn.addEventListener("click", () => { if (current > 0) { current -= 1; renderQuestion(); } });
+document.getElementById("contactBack").addEventListener("click", () => {
+  contactGate.style.display = "none";
+  questionView.style.display = "block";
+});
+
+contactGate.addEventListener("submit", async event => {
+  event.preventDefault();
+  contactGate.style.display = "none";
+  const completedAnswers = answers.filter(Boolean);
+  const rawTotal = completedAnswers.reduce((sum, answer) => sum + answer.score, 0);
+  const total = Math.round((rawTotal / (completedAnswers.length * 10)) * 100);
+  const leverOrder = ["business", "scorecard", "experience", "revenue", "human"];
+  const categoryScores = completedAnswers.reduce((groups, answer) => {
+    if (!groups[answer.category]) groups[answer.category] = [];
+    groups[answer.category].push(answer.score);
+    return groups;
+  }, {});
+  const leverStats = leverOrder
+    .filter(category => categoryScores[category])
+    .map(category => ({
+      category,
+      score: Math.round(categoryScores[category].reduce((sum, score) => sum + score, 0) / categoryScores[category].length)
+    }));
+  const dimensionList = document.getElementById("dimensionList");
+  dimensionList.innerHTML = leverStats.map(lever => {
+    const pct = lever.score * 10;
+    const color = pct >= 75 ? "var(--green-500)" : pct >= 45 ? "var(--blue-500)" : "var(--risk-500)";
+    return `<div class="dimension-row"><div class="dimension-head"><span class="dimension-name">${categoryCopy[lever.category][0]}</span><span class="dimension-pct">${pct}%</span></div><div class="dimension-track"><div class="dimension-fill" style="background:${color}"></div></div></div>`;
+  }).join("");
+  const leverAverages = [...leverStats].sort((a, b) => a.score - b.score || leverOrder.indexOf(a.category) - leverOrder.indexOf(b.category));
+  const belowEight = leverAverages.filter(lever => lever.score < 8).slice(0, 3);
+  const weak = belowEight.length ? belowEight : [leverAverages[0]];
+  const tier = total >= 75 ? "High Clarity" : total >= 45 ? "Developing" : "High Risk";
+  const summary = total >= 75
+    ? "Your fundamentals are stronger than most. The opportunity now is to lock in the remaining gaps before growth pressure exposes them."
+    : total >= 45
+      ? "Several gaps are costing you candidate quality, search speed, or leadership alignment. The fixes are clear and actionable."
+      : "The next critical hire carries substantial alignment and execution risk. Address the mandate and evaluation process before the search advances.";
+  document.getElementById("tier").textContent = tier;
+  document.getElementById("summary").textContent = summary;
+  const gapLevel = score => score <= 3 ? "Highest risk" : score <= 5 ? "Significant gap" : score <= 7 ? "Needs attention" : "Relative strength";
+  document.getElementById("gaps").innerHTML = weak.map(gap => `<li><span class="gap-score">${gap.score}/10</span> · ${categoryCopy[gap.category][0]} <span class="gap-level">(${gapLevel(gap.score)})</span></li>`).join("");
+  const primaryModule = categoryModule[weak[0].category] || "1";
+  recommendedBlueprintModule = primaryModule;
+  const noGap = leverAverages[0].score >= 8;
+  const primaryModuleReference = noGap
+    ? `<li><strong>Start with focus area ${primaryModule}</strong> — no lever scored as a gap, so begin with your relatively lowest and pressure-test it.</li>`
+    : `<li><strong>Start with focus area ${primaryModule}</strong> — your highest priority gap points there.</li>`;
+  document.getElementById("recommendations").innerHTML = primaryModuleReference + weak.map(gap => `<li>${categoryCopy[gap.category][1]}</li>`).join("");
+  document.getElementById("auditPayload").value = JSON.stringify({
+    contact: {
+      firstName: document.getElementById("firstName").value,
+      lastName: document.getElementById("lastName").value,
+      email: document.getElementById("email").value,
+      company: document.getElementById("company").value,
+      role: document.getElementById("role").value
+    },
+    score: total,
+    tier,
+    priorityGaps: weak.map(gap => ({ category: categoryCopy[gap.category][0], score: gap.score })),
+    path: "10-question diagnostic",
+    answers: questions
+      .map((question, index) => answers[index] ? ({ question: question.text, answer: answers[index].label, score: answers[index].score }) : null)
+      .filter(Boolean)
+  }, null, 2);
+  if (EMAIL_ENDPOINT) {
+    try {
+      await fetch(EMAIL_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: document.getElementById("auditPayload").value
+      });
+    } catch (error) {
+      console.error("The diagnostic results could not be emailed.", error);
+    }
+  }
+  results.classList.add("show");
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dimensionList.querySelectorAll(".dimension-fill").forEach((el, index) => {
+      el.style.width = (leverStats[index].score * 10) + "%";
+    });
+  }));
+    results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
+  revealScore(total);
+});
+
+
+document.getElementById("restartBtn").addEventListener("click", () => {
+  current = 0;
+  answers = new Array(questions.length).fill(null);
+  results.classList.remove("show", "reveal-in");
+  const scoreEl = document.getElementById("score");
+  scoreEl.textContent = "0";
+  scoreEl.style.color = "";
+  document.getElementById("tier").style.color = "";
+  recommendedBlueprintModule = "1";
+  contactGate.style.display = "none";
+  questionView.style.display = "block";
+  renderQuestion();
+});
+
+
+/* ---- About page: standalone Cost of Vacancy calculator dialog ---- */
+const costCalcDialog = document.getElementById("costCalcDialog");
+function openCostCalc() {
+  if (costCalcDialog.showModal) costCalcDialog.showModal();
+  else costCalcDialog.setAttribute("open", "");
+}
+if (costCalcDialog) {
+  const ccRevenue = document.getElementById("costCalcRevenue");
+  const ccMonths = document.getElementById("costCalcMonths");
+  const ccHours = document.getElementById("costCalcHours");
+  const ccTotal = document.getElementById("costCalcTotal");
+  const ccInsight = document.getElementById("costCalcInsight");
+  const ccFormat = value => "$" + Math.round(value).toLocaleString();
+  function updateCostCalc() {
+    const quota = parseFloat(ccRevenue.value) || 0;
+    const months = parseFloat(ccMonths.value) || 0;
+    const hours = parseFloat(ccHours.value) || 0;
+    const revenueDrag = (quota / 12) * months * 0.20;
+    const leadershipDrag = hours * 4.33 * months * 200;
+    ccTotal.textContent = ccFormat(Math.round(revenueDrag + leadershipDrag));
+    const touched = ccRevenue.value !== "" || ccMonths.value !== "" || ccHours.value !== "";
+    if (!touched) {
+      ccInsight.innerHTML = `<h4>Enter your numbers to see the estimate.</h4><p>Assumptions: 20% revenue drag on target while the seat is unled, executive time at $200/hour.</p>`;
+      return;
+    }
+    ccInsight.innerHTML = `<h4>Your directional vacancy cost</h4><p><strong>Revenue drag:</strong> ${ccFormat(revenueDrag)} &middot; <strong>Leadership drag:</strong> ${ccFormat(leadershipDrag)}</p><p>Directional, not precise. The point is that zero is the wrong estimate, and this number belongs in every conversation about search urgency.</p>`;
+  }
+  [ccRevenue, ccMonths, ccHours].forEach(input => input.addEventListener("input", updateCostCalc));
+  document.getElementById("costCalcClose").addEventListener("click", () => costCalcDialog.close());
+  costCalcDialog.addEventListener("click", event => { if (event.target === costCalcDialog) costCalcDialog.close(); });
+}
+
+
+const mobileNavQuery = window.matchMedia("(max-width: 860px)");
+let lastNavScrollY = window.scrollY;
+
+function syncMobileMainNavSpace() {
+  if (!mobileNavQuery.matches || document.body.classList.contains("profile-mode")) {
+    document.documentElement.style.removeProperty("--mobile-main-nav-height");
+    return;
+  }
+  const wasCompact = document.body.classList.contains("mobile-main-nav-compact");
+  document.body.classList.remove("mobile-main-nav-compact");
+  const mainNav = document.querySelector("body > nav");
+  document.documentElement.style.setProperty("--mobile-main-nav-height", `${mainNav.offsetHeight}px`);
+  if (wasCompact) document.body.classList.add("mobile-main-nav-compact");
+}
+
+function resetMobileNavState() {
+  document.body.classList.remove("mobile-main-nav-compact", "mobile-profile-nav-hidden");
+  syncMobileMainNavSpace();
+  lastNavScrollY = window.scrollY;
+}
+
+function updateMobileNavState() {
+  if (!mobileNavQuery.matches) {
+    resetMobileNavState();
+    return;
+  }
+  const currentY = Math.max(window.scrollY, 0);
+  const delta = currentY - lastNavScrollY;
+  if (Math.abs(delta) < 8) return;
+  const isProfileMode = document.body.classList.contains("profile-mode");
+  const profileNav = document.querySelector(".profile-nav");
+  const hideThreshold = isProfileMode && profileNav ? profileNav.offsetHeight + 24 : 120;
+
+  if (delta > 0 && currentY > hideThreshold) {
+    if (isProfileMode) {
+      document.body.classList.add("mobile-profile-nav-hidden");
+      document.body.classList.remove("mobile-main-nav-compact");
+    } else {
+      document.body.classList.add("mobile-main-nav-compact");
+      document.body.classList.remove("mobile-profile-nav-hidden");
+    }
+  } else {
+    document.body.classList.remove("mobile-main-nav-compact", "mobile-profile-nav-hidden");
+  }
+
+  if (currentY < 40) resetMobileNavState();
+  lastNavScrollY = currentY;
+}
+
+window.addEventListener("scroll", updateMobileNavState, { passive: true });
+mobileNavQuery.addEventListener("change", resetMobileNavState);
+window.addEventListener("resize", syncMobileMainNavSpace);
+syncMobileMainNavSpace();
+
+if (location.hash === "#michael") setView("michael", false);
+
+/* ---- Motion: scroll reveal, count-ups, score ring ---- */
+const REDUCE_MOTION = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function countUp(el, target, duration) {
+  if (!el) return;
+  if (REDUCE_MOTION) { el.textContent = target; return; }
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.round(target * eased);
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = target;
+  }
+  requestAnimationFrame(tick);
+}
+
+function revealScore(total) {
+  const scoreEl = document.getElementById("score");
+  const arc = document.getElementById("scoreArc");
+  const tierEl = document.getElementById("tier");
+  const ringColor = total >= 75 ? "var(--green-500)" : total >= 45 ? "var(--blue-500)" : "var(--risk-500)";
+  const textColor = total >= 75 ? "var(--green-300)" : total >= 45 ? "var(--blue-400)" : "var(--risk-300)";
+  const circumference = 2 * Math.PI * 64;
+  if (arc) {
+    arc.style.strokeDasharray = circumference;
+    arc.style.strokeDashoffset = circumference;
+    arc.style.stroke = ringColor;
+  }
+  if (scoreEl) scoreEl.style.color = textColor;
+  if (tierEl) tierEl.style.color = textColor;
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    results.classList.add("reveal-in");
+    if (arc) arc.style.strokeDashoffset = circumference * (1 - total / 100);
+    countUp(scoreEl, total, 1150);
+  }));
+}
+
+function countUpStat(el) {
+  const raw = el.textContent.trim();
+  const match = raw.match(/^(\D*)(\d[\d,]*)(.*)$/);
+  if (!match || /\d/.test(match[3]) || REDUCE_MOTION) return;
+  const prefix = match[1];
+  const target = parseInt(match[2].replace(/,/g, ""), 10);
+  const suffix = match[3];
+  const format = value => prefix + value.toLocaleString() + suffix;
+  const start = performance.now();
+  function tick(now) {
+    const progress = Math.min((now - start) / 1200, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = format(Math.round(target * eased));
+    if (progress < 1) requestAnimationFrame(tick);
+    else el.textContent = raw;
+  }
+  el.textContent = format(0);
+  requestAnimationFrame(tick);
+}
+
+(function initScrollMotion() {
+  const revealSelector = [
+    ".why-diagnostic blockquote", ".why-support", ".why-mantra",
+    ".audit-intro .section-title", ".audit-intro .body-lg", ".intro-note",
+    ".area-row",
+    ".quote-band blockquote", ".quote-band cite",
+    ".assessment-head .section-title", ".assessment-description",
+    ".about-card", ".about-copy .section-title", ".about-copy > p", ".credential", ".about-actions",
+    ".final-cta .eyebrow", ".final-cta .section-title", ".final-cta p", ".final-cta .btn",
+    ".profile-about .section-title", ".profile-quote", ".profile-credential", ".profile-copy p",
+    ".profile-testimonials .section-title",
+    ".profile-belief", ".profile-pillar", ".profile-serve-card",
+    ".profile-cost .section-title", ".profile-cost p",
+    ".profile-contact .section-title", ".profile-contact p",
+    ".profile-feedback .section-title", ".profile-feedback-copy > p", ".feedback-promise"
+  ].join(",");
+  const excludeSelector = ".hero, #questionView, #contactGate, #results";
+  const revealEls = [...document.querySelectorAll(revealSelector)].filter(el => !el.closest(excludeSelector));
+
+  if (REDUCE_MOTION || !("IntersectionObserver" in window)) {
+    revealEls.forEach(el => el.classList.add("revealed"));
+  } else {
+    const childIndex = new Map();
+    revealEls.forEach(el => {
+      const parent = el.parentElement;
+      const index = childIndex.get(parent) || 0;
+      el.style.setProperty("--reveal-delay", Math.min(index, 5) * 65 + "ms");
+      childIndex.set(parent, index + 1);
+      el.setAttribute("data-reveal", "");
+    });
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    revealEls.forEach(el => observer.observe(el));
+    requestAnimationFrame(() => revealEls.forEach(el => el.classList.add("reveal-ready")));
+
+    const statEls = [...document.querySelectorAll(".profile-stat strong, .profile-cost .profile-credential strong")];
+    const statObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          countUpStat(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    statEls.forEach(el => statObserver.observe(el));
+  }
+})();
+
+renderQuestion();
+</script>
+</body>
+</html>
