@@ -828,6 +828,58 @@ body.lite-mode .profile-cost .cost-calc-cta { background: rgba(255,255,255,0.045
 body.lite-mode .result-actions .btn { flex: 1 1 220px; }
 body.lite-mode footer { background: var(--black); }
 @media (max-width: 860px) { body.lite-mode .nav-links { grid-template-columns: repeat(3, 1fr); } }
+/* Lite nav refinement + contact modal */
+body.lite-mode .nav-links { align-items: center; gap: 8px; }
+body.lite-mode .nav-links a,
+body.lite-mode .nav-links .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.72rem 1.05rem;
+  border: 1px solid rgba(248,248,246,0.24);
+  background: transparent;
+  box-shadow: none;
+  color: var(--gray-300);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+body.lite-mode .nav-links a:hover,
+body.lite-mode .nav-links .btn:hover {
+  border-color: rgba(121,184,239,0.7);
+  background: rgba(58,133,212,0.08);
+  color: var(--white);
+  transform: none;
+}
+body.lite-mode .theme-toggle { width: 42px; height: 42px; flex: 0 0 42px; }
+body.lite-mode .strategy-btn small { display: block; margin-top: 2px; color: rgba(248,248,246,0.82); font-size: 0.56rem; font-weight: 600; letter-spacing: 0.08em; line-height: 1.2; text-transform: uppercase; }
+.contact-dialog { width: min(880px, calc(100vw - 28px)); background: var(--blue-050); color: var(--ink); text-align: center; }
+.contact-dialog .calc-dialog-inner { padding: clamp(32px, 5vw, 62px); }
+.contact-dialog .calc-dialog-close { color: var(--ink); border-color: rgba(17,17,16,0.18); }
+.contact-dialog .section-title { color: var(--ink); }
+.contact-dialog .section-title em { color: var(--green-500); }
+.contact-dialog .calc-dialog-lead { margin-left: auto; margin-right: auto; color: var(--gray-700); }
+.contact-dialog .contact-primary-cta { margin-top: 28px; }
+.contact-dialog .contact-primary-cta .btn { width: min(500px, 100%); min-height: 78px; }
+.contact-dialog .contact-secondary-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 14px; }
+.contact-dialog .contact-secondary-actions .btn { min-width: 150px; }
+[data-theme="dark"] .contact-dialog { background: var(--d-band-blue); color: var(--d-head); }
+[data-theme="dark"] .contact-dialog .section-title { color: var(--d-head); }
+[data-theme="dark"] .contact-dialog .calc-dialog-lead { color: var(--d-muted); }
+[data-theme="dark"] .contact-dialog .calc-dialog-close { color: var(--d-head); border-color: var(--d-border); }
+@media (max-width: 860px) {
+  body.lite-mode .nav-links { grid-template-columns: repeat(3, 1fr) auto; }
+  body.lite-mode .nav-links a, body.lite-mode .nav-links .btn { min-height: 46px; padding: 0.7rem 0.65rem; font-size: 0.62rem; letter-spacing: 0.04em; }
+}
+@media (max-width: 560px) {
+  body.lite-mode .nav-links { grid-template-columns: 1fr 1fr; }
+  body.lite-mode .theme-toggle { justify-self: center; }
+}
+
 </style>
 <script>
 /* Theme: apply saved choice, else follow the OS/browser setting. Runs before
@@ -921,6 +973,24 @@ try {
     </div>
   </section>
 
+<section class="profile-section profile-testimonials" id="testimonials" aria-labelledby="profile-testimonials-title">
+    <div class="shell"><p class="eyebrow">What People Say</p><h2 class="section-title" id="profile-testimonials-title">Voices from the<br>people we have <em>served.</em></h2></div>
+    <div class="profile-testimonials-track-wrap" aria-label="Client and candidate testimonials, auto-scrolling">
+      <div class="profile-testimonials-track">
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">Michael asked tough questions that I've never been asked before, he heard what we wanted and delivered what we really needed. I'm beyond happy and highly recommend him and Synchrony.</p><p class="profile-testimonial-author">CEO - Fintech</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">Wish we found Synchrony Talent sooner. Would have saved me from more than a few bad hires and quite a lot of lost opportunities. My recommendation is — don't hesitate calling Synchrony. Our ROI has far outweighed the investment.</p><p class="profile-testimonial-author">COO / Partner - Manufacturing</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">Recently, we engaged Synchrony because we were hiring for the same CRO role for the 3rd time and needed to get it right. Mike and Synchrony came through like champs and they saved my a$$. Our new CRO is an absolute killer leader who's accomplished more in the last 6 months than the other two did in two years, combined. I'm a very satisfied client. Problem Solved.</p><p class="profile-testimonial-author">CEO - Group Benefits</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">Synchrony gave us a special process for a special hire. We had never worked with a recruiter before, but we knew this role required someone who could help us find the right person, not just another candidate. Michael listened deeply to what mattered to us, even the delicate cultural and faith-based pieces that are part of who we are. He made it approachable, honest, and necessary.</p><p class="profile-testimonial-author">President, Commercial Construction Contractor</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">This is my second time hiring a sales leader with Synchrony and they did a good job finding our first full-time sales leader a few years ago. The good news is we've grown and the bad news is we've outgrown our current sales leader. So, I called Michael and he found me a superstar leader that has the expertise and the previously missing strategy piece to help us scale the company.</p><p class="profile-testimonial-author">CEO, Packaging Industry</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">For this leader hire, we needed a values-aligned sales leader with the proof, ownership mindset, and credibility to help our company scale. Synchrony delivered that person through a process that was very thorough, targeted, easy, honest, and different from anything we have experienced before. I highly recommend them.</p><p class="profile-testimonial-author">COO / Partner, Multi-Family Construction Products Manufacturer</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">We never hired a sales leader before but found ourselves growing out of our own ability to do it by ourselves. With a growing sales team we knew we needed to hire somebody who actually had industry experience and expertise building. Michael North was recommended to us and we're so happy he found us our new leader.</p><p class="profile-testimonial-author">Founder/SVP of Sales, Multi-Family Construction</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">We contacted Michael and his team on a recommendation to help us get clear on what we needed in a proper VP of Sales. It was extensive but a seamless process and the team at Synchrony made it easy to know what a great fit looks like for us at our stage of growth.</p><p class="profile-testimonial-author">Managing Partner/Founder, Employee Benefits</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">Michael asked tough questions that I've never been asked before, he heard what we wanted and delivered what we really needed. I'm beyond happy and highly recommend him and Synchrony.</p><p class="profile-testimonial-author">CEO - Fintech</p></div>
+        <div class="profile-testimonial-card"><p class="profile-testimonial-text">Wish we found Synchrony Talent sooner. Would have saved me from more than a few bad hires and quite a lot of lost opportunities. My recommendation is — don't hesitate calling Synchrony. Our ROI has far outweighed the investment.</p><p class="profile-testimonial-author">COO / Partner - Manufacturing</p></div>
+      </div>
+    </div>
+  </section>
+
 <section class="profile-section profile-cost" id="cost-calculator"><div class="shell profile-two-col"><div><p class="eyebrow">The cost no one tracks</p><h2 class="section-title">The vacancy on your org chart is already <em>billing you.</em></h2><p>Most leadership teams measure the cost of making a hire. Few measure the delay before it, the misalignment during it, or the drag following a wrong decision.</p></div><div class="cost-calc-cta"><p>Every open seat has a number, even when no one is tracking it — lost pipeline, leadership hours pulled off strategy, and the drag of a wrong decision. Get a directional estimate of what your specific vacancy is costing in under a minute.</p><div class="hero-actions"><button class="btn btn-blue strategy-btn" type="button" onclick="openCostCalc()"><span>Calculate Your Cost of Vacancy</span></button></div></div></div></section>
 
 <dialog class="calc-dialog" id="costCalcDialog" aria-labelledby="costCalcTitle">
@@ -936,6 +1006,16 @@ try {
       </div>
       <div class="vacancy-total">Directional vacancy cost: <span id="costCalcTotal">$0</span></div>
       <div class="scorecard-insight" id="costCalcInsight"><h4>Enter your numbers to see the estimate.</h4><p>Assumptions: 20% revenue drag on target while the seat is unled, executive time at $200/hour.</p></div>
+    </div>
+  </dialog>
+
+<dialog class="calc-dialog contact-dialog" id="contactDialog" aria-labelledby="contactDialogTitle">
+    <div class="calc-dialog-inner">
+      <button class="calc-dialog-close" type="button" id="contactDialogClose" aria-label="Close contact dialog">&times;</button>
+      <h3 class="section-title" id="contactDialogTitle">Ready to find out what you are <em>actually missing?</em></h3>
+      <p class="calc-dialog-lead">A candid diagnostic conversation built entirely around your situation.</p>
+      <div class="contact-primary-cta"><a class="btn btn-blue strategy-btn contact-hero-btn" href="https://calendly.com/michael-north_discovery/" target="_blank" rel="noopener"><span>Book Your Complimentary Strategy Session</span><small>Clarity First. The Right Talent Follows.</small></a></div>
+      <div class="contact-secondary-actions"><a class="btn btn-primary" href="mailto:mike@synchronytalentpartners.com">Email Michael</a><a class="btn phone-btn" href="tel:+16317843467" aria-label="Call Michael at 631-784-3467">Call 631-784-3467</a><a class="btn btn-dark" href="https://www.linkedin.com/in/mikenorth/" target="_blank" rel="noopener">LinkedIn</a></div>
     </div>
   </dialog>
 
@@ -989,7 +1069,7 @@ try {
               <div class="result-panel"><h4>Recommended focus path</h4><ul id="recommendations"></ul></div>
             </div>
             <div class="result-actions">
-              <a class="btn btn-blue strategy-btn" href="https://calendly.com/michael-north_discovery/" target="_blank" rel="noopener"><span>Book Your Complimentary Strategy Session</span></a>
+              <button class="btn btn-blue strategy-btn" type="button" onclick="openContactDialog()"><span>Book Your Complimentary Strategy Session</span><small>Clarity First. The Right Talent Follows.</small></button>
               <button class="btn btn-dark" id="restartBtn" type="button">Restart The Diagnostic</button>
             </div>
           </div>
@@ -1263,6 +1343,17 @@ function resetMobileNavState() {
   document.body.classList.remove("mobile-main-nav-compact", "mobile-profile-nav-hidden");
   syncMobileMainNavSpace();
   lastNavScrollY = window.scrollY;
+}
+
+/* ---- Lite contact dialog ---- */
+const contactDialog = document.getElementById("contactDialog");
+function openContactDialog() {
+  if (contactDialog.showModal) contactDialog.showModal();
+  else contactDialog.setAttribute("open", "");
+}
+if (contactDialog) {
+  document.getElementById("contactDialogClose").addEventListener("click", () => contactDialog.close());
+  contactDialog.addEventListener("click", event => { if (event.target === contactDialog) contactDialog.close(); });
 }
 
 function updateMobileNavState() {
