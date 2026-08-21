@@ -1,0 +1,16 @@
+{
+  "name": "synchrony-landing-pages",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing pages for Synchrony Talent Partners. The pages themselves are plain static HTML with no build step -- npm exists here only for the browser test tooling, and nothing in node_modules ever reaches a visitor.",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "serve": "python3 -m http.server 8788 --directory public"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}

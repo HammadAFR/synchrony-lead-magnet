@@ -67,3 +67,12 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Playwright (dev-only test tooling; nothing here ships to the browser)
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# macOS
+.DS_Store
