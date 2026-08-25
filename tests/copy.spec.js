@@ -38,14 +38,67 @@ test.describe("headline copy", () => {
     await expect(page.locator("#costCalcToDiagnostic")).toHaveText("Diagnose What's Driving The Cost");
   });
 
-  test("the contact dialog asks them to choose what to fix", async ({ page }) => {
+  test("the contact dialog opens from the nav, and only from there", async ({ page }) => {
     await loadDiagnostic(page);
+    await expect(page.locator("#contactDialog")).toBeHidden();
+    /* Every other route to it now books time directly instead. */
+    expect(await page.locator("[onclick*='openContactDialog']").count()).toBe(1);
+    await expect(page.locator(".nav-menu-contact")).toHaveAttribute("onclick", /openContactDialog/);
+
     await page.locator("#navMenuToggle").click();
     await page.locator(".nav-menu-contact").click();
-    const title = page.locator("#contactDialogTitle");
-    await expect(title).toBeVisible();
-    await expect(title).toHaveText("You've seen what may be costing you. Now decide what to fix first.");
-    await expect(title.locator("em")).toHaveText("Now decide what to fix first.");
+    await expect(page.locator("#contactDialog")).toBeVisible();
+    /* The heading is gone; the dialog carries its own accessible name. */
+    await expect(page.locator("#contactDialogTitle")).toHaveCount(0);
+    await expect(page.locator("#contactDialog")).toHaveAttribute("aria-label", /Michael/);
+    await expect(page.locator(".contact-hero-btn")).toBeVisible();
+  });
+
+  test("the calculator carries quiet proof of work", async ({ page }) => {
+    await loadDiagnostic(page);
+    await openCalculator(page);
+    const quotes = page.locator(".calc-proof-quote");
+    await expect(quotes).toHaveCount(1);
+    await expect(quotes.nth(0).locator("cite")).toContainText("Group Benefits");
+    await expect(page.locator(".calc-proof-label"))
+      .toHaveText("Voices from the leaders we have served.");
+    /* It sits after the hand-off, so it never outranks the reason they opened this. */
+    const order = await page.evaluate(() => {
+      const inner = document.querySelector("#costCalcDialog .calc-dialog-inner");
+      const kids = [...inner.children];
+      return kids.indexOf(inner.querySelector(".calc-to-diagnostic"))
+           < kids.indexOf(inner.querySelector(".calc-proof"));
+    });
+    expect(order).toBe(true);
+  });
+});
+
+test.describe("booking CTAs", () => {
+  const BOOKING = "https://outlook.office.com/bookwithme/user/a043f7a7d1444b9397b85678a77afaf4@synchronytalent.com/meetingtype/z55wd8BHVkW0zmaooOYVWA2?anonymous&ismsaljsauthenabled&ep=mlink";
+
+  test("both booking buttons are green and go straight to the booking page", async ({ page }) => {
+    await loadDiagnostic(page);
+    /* Scoped to btn-primary: the contact dialog books the same link but stays
+       blue, so a bare href selector would pick up three. */
+    const ctas = page.locator(`a.btn-primary[href="${BOOKING}"]`);
+    await expect(ctas).toHaveCount(2);
+    await expect(page.locator(`a[href="${BOOKING}"]`)).toHaveCount(3);
+    for (let i = 0; i < 2; i += 1) {
+      const cta = ctas.nth(i);
+      await expect(cta).toHaveClass(/btn-primary/);      // btn-primary is the green one
+      await expect(cta).toHaveAttribute("target", "_blank");
+      await expect(cta).toHaveAttribute("rel", /noopener/);
+      await expect(cta.locator("span").first()).toHaveText("Talk Through My Results With Michael");
+      await expect(cta.locator("small")).toHaveText("15 minutes. One leadership problem. Clear next steps.");
+    }
+  });
+
+  test("the blueprint button is blue, and the retake link is gone", async ({ page }) => {
+    await loadDiagnostic(page);
+    await expect(page.locator("#takeBlueprintBtn")).toHaveClass(/btn-blue/);
+    await expect(page.locator("#takeBlueprintBtn")).not.toHaveClass(/btn-primary/);
+    await expect(page.locator("#restartBtn")).toHaveCount(0);
+    await expect(page.locator(".result-retake")).toHaveCount(0);
   });
 });
 
@@ -74,7 +127,32 @@ test.describe("metadata", () => {
     for (const selector of ['meta[property="og:image"]', 'meta[property="og:url"]', 'link[rel="canonical"]']) {
       const value = await page.locator(selector).getAttribute("content")
         ?? await page.locator(selector).getAttribute("href");
-      expect(value, selector).toMatch(/^https:\/\//);
+      expect(value, selector).toMatch(/^https:\/\/emptyseatdiagnostic\.com\//);
     }
+  });
+});
+
+test.describe("Firebase's default hostnames", () => {
+  /* Firebase keeps <site>.web.app and <site>.firebaseapp.com alive permanently
+     and offers no way to remove them, so the page bounces them to the real
+     address itself. The guard has to be exact: too broad and it would fire on
+     localhost, taking local development and this suite down with it. */
+  test("the redirect leaves localhost alone", async ({ page }) => {
+    await loadDiagnostic(page);
+    expect(page.url()).toContain("127.0.0.1");
+    await expect(page.locator("h1.display")).toBeVisible();
+  });
+
+  test("only the two Firebase suffixes are matched", async ({ page }) => {
+    await loadDiagnostic(page);
+    const matches = await page.evaluate(() =>
+      ["synchrony-lead-magnet.web.app", "synchrony-lead-magnet.firebaseapp.com",
+       "emptyseatdiagnostic.com", "www.emptyseatdiagnostic.com",
+       "localhost", "127.0.0.1"]
+        .filter(host => host.endsWith(".web.app") || host.endsWith(".firebaseapp.com")));
+    expect(matches).toEqual([
+      "synchrony-lead-magnet.web.app",
+      "synchrony-lead-magnet.firebaseapp.com",
+    ]);
   });
 });

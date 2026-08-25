@@ -120,7 +120,7 @@ body.mobile-main-nav-compact:not(.profile-mode) > nav { transform: translateY(-1
 .hero .eyebrow { color: var(--green-300); }
 .hero-copy { max-width: 850px; }
 /* Sits hard left; the auto margin packs the icons and the logo together on the right. */
-.nav-diagnostic-name { display: grid; gap: 3px; flex: 0 1 auto; margin-right: auto; color: var(--blue-400); font-family: "DM Serif Display", serif; font-weight: 400; font-size: clamp(0.95rem, 1.5vw, 1.28rem); line-height: 1.1; white-space: nowrap; text-decoration: none; cursor: pointer; transition: opacity 200ms ease; }
+.nav-diagnostic-name { display: grid; gap: 3px; flex: 0 1 auto; margin-right: auto; color: var(--white); font-family: "DM Serif Display", serif; font-weight: 400; font-size: clamp(0.95rem, 1.5vw, 1.28rem); line-height: 1.1; white-space: nowrap; text-decoration: none; cursor: pointer; transition: opacity 200ms ease; }
 .nav-diagnostic-name:hover { opacity: 0.78; }
 .nav-diagnostic-name em { color: var(--green-300); font-style: italic; }
 .nav-diagnostic-name small { color: var(--gray-500); font-family: "DM Sans", sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.16em; line-height: 1.2; text-transform: uppercase; }
@@ -335,10 +335,6 @@ body.mobile-main-nav-compact:not(.profile-mode) > nav { transform: translateY(-1
 .result-closing-label { display: block; margin-bottom: 5px; color: var(--blue-900); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
 .result-actions { display: grid; justify-items: center; gap: 12px; margin-top: 0; }
 .result-actions .btn { width: min(410px, 100%); min-height: 60px; border-radius: 11px; font-size: 0.86rem; }
-.result-retake { padding: 0; border: 0; background: none; color: var(--gray-700); cursor: pointer; font-size: 0.86rem; font-weight: 500; text-decoration: underline; text-underline-offset: 4px; transition: color 200ms ease; }
-.result-retake:hover { color: var(--green-800); }
-[data-theme="dark"] .result-retake { color: var(--d-soft); }
-[data-theme="dark"] .result-retake:hover { color: var(--d-head); }
 .result-cta-intro { max-width: 540px; margin: 0; color: var(--blue-950); font-family: "DM Serif Display", serif; font-size: 1.22rem; font-weight: 400; line-height: 1.35; }
 
 @media (max-width: 980px) {
@@ -504,6 +500,7 @@ body.profile-mode .bp-note { opacity: 0; transform: translateX(calc(100% + var(-
 }
 /* Shrink to keep the single line inside the narrowest phones. */
 @media (max-width: 620px) {
+  .calc-proof-grid { grid-template-columns: 1fr; }
   .bp-note { --bp-note-gutter: 12px; bottom: 12px; max-width: calc(100vw - 24px); grid-template-columns: 50px auto; gap: 12px; padding: 12px 16px 12px 12px; border-radius: 15px; }
   .bp-note-portrait { width: 50px; height: 50px; }
   .bp-note-copy { font-size: 14px; }
@@ -614,6 +611,18 @@ body.mobile-profile-nav-hidden.profile-mode .profile-nav { transform: translateY
 .calc-to-diagnostic .btn[disabled] { background: rgba(248,248,246,0.09); box-shadow: none; color: var(--gray-500); cursor: not-allowed; transform: none; }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-to-diagnostic .btn[disabled] { background: var(--gray-100); color: var(--gray-500); }
 .calc-to-diagnostic-note { max-width: 500px; margin: 16px auto 0; color: var(--gray-300); font-size: 0.8rem; line-height: 1.55; }
+
+/* Proof of work under the calculator's hand-off. Deliberately quiet: it is
+   reassurance on the way past, not the reason anyone opened this dialog.
+   The cards stretch to a shared height so unequal quote lengths still read as
+   a pair rather than as a mistake. */
+.calc-proof { margin-top: 26px; padding-top: 22px; border-top: 1px solid rgba(248,248,246,0.14); }
+.calc-proof-label { margin: 0 0 14px; color: var(--gray-300); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; line-height: 1.4; text-transform: uppercase; }
+/* auto-fit so the single remaining quote fills the row instead of half of it. */
+.calc-proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; align-items: stretch; }
+.calc-proof-quote { display: grid; align-content: space-between; gap: 12px; margin: 0; padding: 16px 18px; border-left: 2px solid var(--green-500); background: rgba(248,248,246,0.05); }
+.calc-proof-quote p { margin: 0; color: var(--gray-100); font-size: 0.82rem; font-style: italic; line-height: 1.62; }
+.calc-proof-quote cite { color: var(--green-300); font-size: 0.62rem; font-style: normal; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 /* ---- Cost calculator in light mode -------------------------------------
    The dialog is authored dark, so light is a full repaint: paper ground, ink
    type, and the field/insight treatments swapped off their translucent-white
@@ -631,6 +640,11 @@ body.mobile-profile-nav-hidden.profile-mode .profile-nav { transform: translateY
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input:focus { border-color: var(--blue-700); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-total { color: var(--blue-900); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-citation { color: var(--gray-500); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-proof { border-top-color: var(--line); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-proof-label { color: var(--gray-700); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-proof-quote { border-left-color: var(--green-600); background: var(--green-050); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-proof-quote p { color: var(--gray-700); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-proof-quote cite { color: var(--green-800); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .scorecard-insight { background: var(--blue-050); border-left-color: var(--blue-700); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .scorecard-insight h4 { color: var(--blue-900); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .scorecard-insight p { color: var(--gray-700); }
@@ -1221,7 +1235,8 @@ body.lite-mode .contact-dialog .contact-hero-btn small { max-width: none; margin
    neutral pixels recoloured to ink is swapped in here. The mark itself (green
    and blue) is identical in both files -- only the white text was touched. */
 [data-theme="light"] nav { background: rgba(248,248,246,0.94); border-bottom-color: rgba(42,42,39,0.12); color: var(--ink); }
-[data-theme="light"] .nav-diagnostic-name { color: var(--blue-700); }
+/* "The" and "Diagnostic" sit in black on paper; only "Empty Seat" carries the accent. */
+[data-theme="light"] .nav-diagnostic-name { color: var(--black); }
 [data-theme="light"] .nav-diagnostic-name small { color: var(--gray-500); }
 /* green-500 reaches only ~2:1 on the light nav; one step darker clears the floor. */
 [data-theme="light"] .nav-diagnostic-name em { color: var(--green-600); }

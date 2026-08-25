@@ -5,30 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Empty Seat Diagnostic | Synchrony Talent Partners</title>
 <meta name="description" content="What is your sales leadership vacancy costing you? Get your number in 60 seconds, then let the 8-question Empty Seat Diagnostic show you what is driving it.">
-<link rel="canonical" href="https://synchrony-lead-magnet.web.app/">
+<link rel="canonical" href="https://emptyseatdiagnostic.com/">
 
 <!-- Link previews for LinkedIn, Slack, iMessage and X. The four absolute URLs in
      this block and the canonical above are the only places the live host is
-     written down: update them together when the custom domain goes live, or
-     shared links will keep pointing at the old one. -->
+     written down: update them together if the domain ever changes, or shared
+     links will keep pointing at the old one. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Synchrony Talent Partners">
 <meta property="og:title" content="The Empty Seat Diagnostic">
 <meta property="og:description" content="What is your sales leadership vacancy costing you? Get your number in 60 seconds, then let the 8-question Empty Seat Diagnostic show you what is driving it.">
-<meta property="og:url" content="https://synchrony-lead-magnet.web.app/">
-<meta property="og:image" content="https://synchrony-lead-magnet.web.app/assets/images/synchrony-logo-light.png">
+<meta property="og:url" content="https://emptyseatdiagnostic.com/">
+<meta property="og:image" content="https://emptyseatdiagnostic.com/assets/images/synchrony-logo-light.png">
 <meta property="og:image:alt" content="Synchrony Talent Partners">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Empty Seat Diagnostic">
 <meta name="twitter:description" content="What is your sales leadership vacancy costing you? Get your number in 60 seconds, then let the 8-question Empty Seat Diagnostic show you what is driving it.">
-<meta name="twitter:image" content="https://synchrony-lead-magnet.web.app/assets/images/synchrony-logo-light.png">
+<meta name="twitter:image" content="https://emptyseatdiagnostic.com/assets/images/synchrony-logo-light.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400;1,500&amp;family=DM+Serif+Display:ital@0;1&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="/css/styles.css">
 <!-- Stays inline deliberately: an external file would be fetched after the
      first paint, bringing back the flash of the wrong theme this prevents. -->
 <script>
+/* Firebase always keeps its two default hostnames alive and gives no way to
+   remove them, so anyone holding an old link is sent to the real address before
+   a pixel is drawn. Only those two suffixes match -- localhost and the custom
+   domain fall straight through, so local work and the test suite are untouched. */
+(function () {
+  var host = location.hostname;
+  if (host.endsWith(".web.app") || host.endsWith(".firebaseapp.com")) {
+    location.replace("https://emptyseatdiagnostic.com" + location.pathname + location.search + location.hash);
+  }
+})();
 /* Theme: apply saved choice, else follow the OS/browser setting. Runs before
    <body> paints so there is no flash of the wrong theme. */
 (function () {
@@ -71,8 +81,8 @@ try {
       </div>
     </div>
     <a class="brand" href="https://synchronytalent.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the Synchrony Talent Partners website">
-      <img class="brand-logo brand-logo--dark" src="assets/images/synchrony-logo-updated.png" alt="">
-      <img class="brand-logo brand-logo--light" src="assets/images/synchrony-logo-light.png" alt="">
+      <img class="brand-logo brand-logo--dark" src="/assets/images/synchrony-logo-updated.png" alt="">
+      <img class="brand-logo brand-logo--light" src="/assets/images/synchrony-logo-light.png" alt="">
     </a>
   </div>
 </nav>
@@ -109,7 +119,7 @@ try {
       </div>
       <div class="intro-note">
         <span class="intro-note-label">Your hidden cost</span>
-        <p>Your leadership hiring process may be <strong>costing you top candidates, consuming leadership time, and increasing the risk of a wrong-fit hire</strong> in places you cannot see.<span class="intro-note-tail">The Empty Seat Diagnostic shows you exactly where.</span></p>
+        <p>Your leadership hiring process may be <strong>costing you top candidates, consuming leadership time, and increasing the risk of a wrong-fit hire</strong> in places you cannot see.<span class="intro-note-tail">The Empty Seat Diagnostic shows you where.</span></p>
       </div>
     </div>
   </section>
@@ -142,21 +152,29 @@ try {
         <div class="field"><label for="costCalcHours">Executive hours per week covering the gap</label><input id="costCalcHours" type="number" min="0" inputmode="numeric" placeholder="8"></div>
       </div>
       <div class="vacancy-total">Estimated vacancy cost: <span id="costCalcTotal">$0</span></div>
-      <p class="calc-citation">Grounded in Gallup and McKinsey research on the value of a team's leader. Both surveys point higher.</p>
+      <p class="calc-citation">These results are grounded in Gallup and McKinsey research on the value of a team's leader. Both surveys point higher.</p>
       <div class="scorecard-insight" id="costCalcInsight"><h4>Enter your numbers to see your estimated cost of waiting.</h4><p>Assumes $200/hr as the fully loaded value of executive time, not salary, and a 20% revenue factor. Both sit below what SVP and CRO benchmarks support.</p></div>
       <div class="calc-to-diagnostic">
         <p class="calc-to-diagnostic-lead">Three inputs give you the cost. The 8-question diagnostic shows you what's driving it.</p>
         <button class="btn btn-blue" type="button" id="costCalcToDiagnostic" disabled><span>Diagnose What's Driving The Cost</span></button>
         <p class="calc-to-diagnostic-note" id="costCalcToDiagnosticNote">Fill in all three inputs to get your number and unlock the diagnostic.</p>
       </div>
+      <div class="calc-proof">
+        <p class="calc-proof-label">Voices from the leaders we have served.</p>
+        <div class="calc-proof-grid">
+          <blockquote class="calc-proof-quote">
+            <p>Recently, we engaged Synchrony because we were hiring for the same CRO role for the 3rd time and needed to get it right. Mike and Synchrony came through like champs and they saved my a$$. Our new CRO is an absolute killer leader who's accomplished more in the last 6 months than the other two did in two years, combined. I'm a very satisfied client. Problem Solved.</p>
+            <cite>CEO &mdash; Group Benefits</cite>
+          </blockquote>
+        </div>
+      </div>
     </div>
   </dialog>
 
-<dialog class="calc-dialog contact-dialog" id="contactDialog" aria-labelledby="contactDialogTitle">
+<dialog class="calc-dialog contact-dialog" id="contactDialog" aria-label="Contact Michael North">
     <div class="calc-dialog-inner">
       <button class="calc-dialog-close" type="button" id="contactDialogClose" aria-label="Close contact dialog">&times;</button>
-      <h3 class="section-title" id="contactDialogTitle">You've seen what may be costing you. <em>Now decide what to fix first.</em></h3>
-      <div class="contact-primary-cta"><a class="btn btn-blue strategy-btn contact-hero-btn" href="https://calendly.com/michael-north_discovery/" target="_blank" rel="noopener"><span>Book A Conversation With Michael</span><small>No Pitch. No Pressure. Just clarity on what to fix and how.</small></a></div>
+      <div class="contact-primary-cta"><a class="btn btn-blue strategy-btn contact-hero-btn" href="https://outlook.office.com/bookwithme/user/a043f7a7d1444b9397b85678a77afaf4@synchronytalent.com/meetingtype/z55wd8BHVkW0zmaooOYVWA2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener"><span>Book A Conversation With Michael</span><small>No Pitch. No Pressure. Just clarity on what to fix and how.</small></a></div>
       <div class="contact-secondary-actions"><a class="btn btn-primary" href="mailto:mike@synchronytalentpartners.com">Email Michael</a><a class="btn phone-btn" href="tel:+16317843467" aria-label="Call Michael at 631-784-3467">Call 631-784-3467</a><a class="btn btn-dark" href="https://www.linkedin.com/in/mikenorth/" target="_blank" rel="noopener">Connect on LinkedIn</a></div>
     </div>
   </dialog>
@@ -232,8 +250,8 @@ try {
             <div class="result-closing">
               <div><span class="result-closing-label">Your next step</span><p class="result-cta-intro">Your Blueprint is ready and opened to the lever that needs you first.</p></div>
               <div class="result-actions">
-                <button class="btn btn-primary" id="takeBlueprintBtn" type="button"><span>Open Your Hiring Clarity Blueprint</span></button>
-                <button class="result-retake" id="restartBtn" type="button">Retake the Empty Seat Diagnostic</button>
+                <button class="btn btn-blue" id="takeBlueprintBtn" type="button"><span>Open Your Hiring Clarity Blueprint</span></button>
+                <a class="btn btn-primary strategy-btn" href="https://outlook.office.com/bookwithme/user/a043f7a7d1444b9397b85678a77afaf4@synchronytalent.com/meetingtype/z55wd8BHVkW0zmaooOYVWA2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener"><span>Talk Through My Results With Michael</span><small>15 minutes. One leadership problem. Clear next steps.</small></a>
               </div>
             </div>
           </div>
@@ -308,7 +326,7 @@ try {
 
       <div class="blueprint-closing-cta">
         <p class="blueprint-closing-kicker">Ready to stop paying the bill you can't see?</p>
-        <button class="btn btn-blue strategy-btn" type="button" onclick="openContactDialog()"><span>Book Your Complimentary Clarity Session</span><small>Clarity First. The Right Talent Follows.</small></button>
+        <a class="btn btn-primary strategy-btn" href="https://outlook.office.com/bookwithme/user/a043f7a7d1444b9397b85678a77afaf4@synchronytalent.com/meetingtype/z55wd8BHVkW0zmaooOYVWA2?anonymous&amp;ismsaljsauthenabled&amp;ep=mlink" target="_blank" rel="noopener"><span>Talk Through My Results With Michael</span><small>15 minutes. One leadership problem. Clear next steps.</small></a>
       </div>
     </div>
   </section>
@@ -338,7 +356,7 @@ try {
      boxed in by an ancestor, but it only ever shows while the blueprint is up. -->
 <aside class="bp-note" id="bpNoteCard" hidden aria-label="A message from Michael">
   <span class="bp-note-portrait">
-    <img src="assets/images/michael-north-headshot.jpg" alt="Michael North" loading="lazy" decoding="async">
+    <img src="/assets/images/michael-north-headshot.jpg" alt="Michael North" loading="lazy" decoding="async">
     <button class="bp-note-audio" type="button" id="bpVoiceToggle" hidden aria-label="Mute Michael's message">
       <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M11 5 6.5 9H3v6h3.5L11 19z"/>
@@ -352,17 +370,17 @@ try {
   <!-- Ogg Opus is a third the size but Safari only took it on recently, so AAC
        stands behind it. Browsers pick the first one they can actually play. -->
   <audio id="bpVoice" preload="none">
-    <source src="assets/audio/michael-voice-note-4.opus" type="audio/ogg; codecs=opus">
-    <source src="assets/audio/michael-voice-note-4.m4a" type="audio/mp4">
+    <source src="/assets/audio/michael-voice-note-4.opus" type="audio/ogg; codecs=opus">
+    <source src="/assets/audio/michael-voice-note-4.m4a" type="audio/mp4">
   </audio>
 </aside>
 
-<script src="js/app.js"></script>
+<script src="/js/app.js"></script>
 
 <aside class="mn-scroll-prompt" data-mn-scroll-prompt aria-label="Vacancy cost prompt">
   <button class="mn-scroll-prompt__button" type="button" aria-label="Open the Vacancy Cost Calculator">
     <span class="mn-scroll-prompt__portrait-wrap" aria-hidden="true">
-      <img class="mn-scroll-prompt__portrait" src="assets/images/michael-north-headshot.jpg" alt="" loading="lazy" decoding="async">
+      <img class="mn-scroll-prompt__portrait" src="/assets/images/michael-north-headshot.jpg" alt="" loading="lazy" decoding="async">
       <span class="mn-scroll-prompt__pulse"></span>
     </span>
     <span class="mn-scroll-prompt__copy">
@@ -373,6 +391,6 @@ try {
   </button>
 </aside>
 
-<script src="js/scroll-prompt.js"></script>
+<script src="/js/scroll-prompt.js"></script>
 </body>
 </html>

@@ -292,25 +292,6 @@ contactGate.addEventListener("submit", async event => {
 });
 
 
-document.getElementById("restartBtn").addEventListener("click", () => {
-  current = 0;
-  answers = new Array(questions.length).fill(null);
-  results.classList.remove("show", "reveal-in");
-  const scoreEl = document.getElementById("score");
-  scoreEl.textContent = "0";
-  scoreEl.style.color = "";
-  document.getElementById("tier").style.color = "";
-  document.getElementById("resultCostCard").hidden = true;
-  recommendedBlueprintModule = "1";
-  const blueprint = document.getElementById("blueprint");
-  if (blueprint) {
-    blueprint.hidden = true;
-    activateBlueprintModule("1");
-  }
-  contactGate.style.display = "none";
-  questionView.style.display = "block";
-  renderQuestion();
-});
 
 document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
   bpVoice.prime();

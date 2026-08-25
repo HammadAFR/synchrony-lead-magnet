@@ -7,10 +7,15 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
+    "headers": [
       {
-        "source": "**",
-        "destination": "/index.html"
+        "//": "HTML must revalidate. Without this a deploy takes up to an hour to reach anyone who visited recently, which looks exactly like the change never shipped.",
+        "source": "/",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, max-age=0" }]
+      },
+      {
+        "source": "**/*.html",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache, max-age=0" }]
       }
     ]
   }
