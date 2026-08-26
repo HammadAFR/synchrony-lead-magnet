@@ -266,6 +266,11 @@ body.mobile-main-nav-compact:not(.profile-mode) > nav { transform: translateY(-1
 .field input, .field select, .field textarea { width: 100%; min-height: 54px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 0; background: white; color: var(--ink); outline: none; }
 .field textarea { min-height: 170px; resize: vertical; line-height: 1.6; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--green-500); }
+.field-error { margin: 0; color: var(--risk-500); font-size: 0.76rem; font-weight: 600; line-height: 1.45; }
+.field-error:empty { display: none; }
+.field input.is-invalid, .field input.is-invalid:focus { border-color: var(--risk-500); }
+/* The focus ring is green everywhere else; on a rejected field that reads as approval. */
+.field input.is-invalid:focus-visible { outline-color: var(--risk-500); }
 .form-note { margin: 16px 0 0; color: var(--gray-500); font-size: 0.74rem; }
 .results { display: none; }
 .results.show { display: block; }
@@ -1261,6 +1266,9 @@ body.lite-mode .contact-dialog .contact-hero-btn small { max-width: none; margin
 [data-theme="light"] .contact-dialog .section-title em { color: var(--green-600); }
 /* Required marker: the salmon reads at 2.5:1 on paper, too low for 12px text. */
 [data-theme="light"] .req { color: #C24A32; }
+[data-theme="light"] .field-error { color: #C24A32; }
+[data-theme="light"] .field input.is-invalid, [data-theme="light"] .field input.is-invalid:focus { border-color: #C24A32; }
+[data-theme="light"] .field input.is-invalid:focus-visible { outline-color: #C24A32; }
 /* Muted grey sits at 3.35:1 on the paper surfaces -- under the 4.5:1 floor for
    body text. One notch darker clears it while staying clearly secondary to the
    gray-700 body copy. Dark theme already passes, so it is untouched. */

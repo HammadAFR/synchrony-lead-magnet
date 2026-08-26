@@ -144,6 +144,57 @@ nextBtn.addEventListener("click", () => {
 
 backBtn.addEventListener("click", () => { if (current > 0) { current -= 1; renderQuestion(); } });
 
+/* ---- Work email only ----
+   The results are only worth sending to someone reachable at the company they
+   are diagnosing, so consumer mailboxes are turned away at the gate. The list
+   can never be complete; it covers the providers that actually turn up, and
+   errs towards letting an unknown domain through rather than blocking a real
+   customer. Enforced through setCustomValidity so the browser's own required/
+   format checks still run first and the submit is blocked the same way. */
+const CONSUMER_EMAIL_DOMAINS = new Set([
+  "gmail.com", "googlemail.com", "yahoo.com", "ymail.com", "rocketmail.com",
+  "hotmail.com", "outlook.com", "live.com", "msn.com", "passport.com",
+  "aol.com", "icloud.com", "me.com", "mac.com",
+  "protonmail.com", "protonmail.ch", "proton.me", "pm.me",
+  "gmx.com", "gmx.net", "gmx.de", "mail.com", "email.com", "zoho.com",
+  "yandex.com", "yandex.ru", "tutanota.com", "tuta.io", "hey.com",
+  "fastmail.com", "hushmail.com", "inbox.com", "mail.ru", "qq.com", "163.com",
+  "comcast.net", "verizon.net", "att.net", "sbcglobal.net", "bellsouth.net",
+  "cox.net", "charter.net", "earthlink.net", "optonline.net", "shaw.ca",
+  "rogers.com", "sympatico.ca", "btinternet.com", "sky.com", "virginmedia.com",
+  "mailinator.com", "guerrillamail.com", "10minutemail.com", "yopmail.com",
+  "trashmail.com", "sharklasers.com", "temp-mail.org", "throwawaymail.com"
+]);
+/* Country editions -- yahoo.co.uk, hotmail.fr, live.com.au. Every prefix here is
+   a consumer-only brand, so no real company domain can start with one. */
+const CONSUMER_EMAIL_PREFIXES = ["yahoo.", "hotmail.", "live.", "outlook.", "gmx.", "yandex."];
+
+function consumerEmailProblem(value) {
+  const address = String(value || "").trim().toLowerCase();
+  const at = address.lastIndexOf("@");
+  /* An empty or malformed address is the browser's business, not ours. */
+  if (at < 1 || at === address.length - 1) return "";
+  const domain = address.slice(at + 1);
+  const isConsumer = CONSUMER_EMAIL_DOMAINS.has(domain)
+    || CONSUMER_EMAIL_PREFIXES.some(prefix => domain.startsWith(prefix));
+  return isConsumer
+    ? "Please use your work email. Personal addresses like " + domain + " are not accepted."
+    : "";
+}
+
+const workEmailInput = document.getElementById("email");
+const workEmailError = document.getElementById("emailError");
+function syncWorkEmail() {
+  const problem = consumerEmailProblem(workEmailInput.value);
+  workEmailInput.setCustomValidity(problem);
+  workEmailError.textContent = problem;
+  workEmailInput.classList.toggle("is-invalid", Boolean(problem));
+}
+if (workEmailInput && workEmailError) {
+  workEmailInput.addEventListener("input", syncWorkEmail);
+  workEmailInput.addEventListener("blur", syncWorkEmail);
+}
+
 document.getElementById("contactBack").addEventListener("click", () => {
   contactGate.style.display = "none";
   questionView.style.display = "block";

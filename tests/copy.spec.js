@@ -74,7 +74,7 @@ test.describe("headline copy", () => {
 });
 
 test.describe("booking CTAs", () => {
-  const BOOKING = "https://outlook.office.com/bookwithme/user/a043f7a7d1444b9397b85678a77afaf4@synchronytalent.com/meetingtype/z55wd8BHVkW0zmaooOYVWA2?anonymous&ismsaljsauthenabled&ep=mlink";
+  const BOOKING = "https://calendly.com/michael-north_discovery/15min";
 
   test("both booking buttons are green and go straight to the booking page", async ({ page }) => {
     await loadDiagnostic(page);
