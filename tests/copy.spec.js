@@ -88,7 +88,7 @@ test.describe("booking CTAs", () => {
       await expect(cta).toHaveClass(/btn-primary/);      // btn-primary is the green one
       await expect(cta).toHaveAttribute("target", "_blank");
       await expect(cta).toHaveAttribute("rel", /noopener/);
-      await expect(cta.locator("span").first()).toHaveText("Talk Through My Results With Michael");
+      await expect(cta.locator("span").first()).toHaveText("Book a Confidential Conversation");
       await expect(cta.locator("small")).toHaveText("15 minutes. One leadership problem. Clear next steps.");
     }
   });

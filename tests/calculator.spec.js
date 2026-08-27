@@ -65,4 +65,32 @@ test.describe("vacancy cost calculator", () => {
     await expect(page.locator("#costCalcInsight")).toContainText("Revenue at Risk:");
     await expect(page.locator("#costCalcInsight")).toContainText("Executive Coverage Cost:");
   });
+
+  test("the assumptions cite their sources, clamped until asked for", async ({ page }) => {
+    await loadDiagnostic(page);
+    await openCalculator(page);
+    const note = page.locator(".calc-method-text");
+    const toggle = page.locator(".calc-method-toggle");
+    await expect(note).toContainText("BLS wage and benefits data");
+    await expect(note).toContainText("Sales Management Association");
+
+    /* Two lines showing, the rest clamped away -- the box stays scannable. */
+    const clamped = await note.evaluate(el => el.scrollHeight > el.clientHeight + 1);
+    expect(clamped).toBe(true);
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await expect(toggle).toHaveText("Show less");
+    const opened = await note.evaluate(el => el.scrollHeight <= el.clientHeight + 1);
+    expect(opened).toBe(true);
+
+    /* Every source is reachable and opens away from the diagnostic. */
+    const links = note.locator("a");
+    await expect(links).toHaveCount(4);
+    for (let i = 0; i < 4; i += 1) {
+      await expect(links.nth(i)).toHaveAttribute("target", "_blank");
+      await expect(links.nth(i)).toHaveAttribute("rel", /noopener/);
+    }
+  });
 });

@@ -394,11 +394,22 @@ if (costCalcDialog) {
       ? ""
       : "Fill in all three inputs to get your number and unlock the diagnostic.";
     if (!touched) {
-      ccInsight.innerHTML = `<h4>Enter your numbers to see your estimated cost of waiting.</h4><p>Assumes $200/hr as the fully loaded value of executive time, not salary, and a 20% revenue factor. Both sit below what SVP and CRO benchmarks support.</p>`;
+      ccInsight.innerHTML = `<h4>Enter your numbers to see your estimated cost of waiting.</h4><div class="calc-method"><p class="calc-method-text" id="calcMethodText">$200/hour is grounded in <a href="https://www.bls.gov/news.release/ocwage.t01.htm" target="_blank" rel="noopener">BLS wage and benefits data</a> for chief executives (~$185/hour fully loaded) and <a href="https://www.heidrick.com/-/media/heidrickcom/publications-and-reports/2025-pebacked-ceo-compensation-survey.pdf" target="_blank" rel="noopener">Heidrick &amp; Struggles' PE-backed CEO compensation survey</a> (~$252/hour for companies under $50M revenue). The 20% revenue factor draws on <a href="https://www.gallup.com/workplace/321725/gallup-q12-meta-analysis-report.aspx" target="_blank" rel="noopener">Gallup</a> and <a href="https://salesmanagement.org/web/uploads/pdf-renamed-by-uzzal/89f5f8ff556f7a60adf7f1a78eac94c1.pdf" target="_blank" rel="noopener">Sales Management Association</a> research linking leadership engagement and coaching quality to 17&ndash;23% gains in sales productivity and profitability.</p><button class="calc-method-toggle" type="button" aria-expanded="false" aria-controls="calcMethodText">Show sources</button></div>`;
       return;
     }
     ccInsight.innerHTML = `<h4>Your estimated vacancy cost breakdown</h4><p><strong>Revenue at Risk:</strong> ${formatDollars(revenueDrag)} &middot; <strong>Executive Coverage Cost:</strong> ${formatDollars(leadershipDrag)}</p><p>Coverage cost is what you pay when your CEO or leadership team runs the seat instead of running their own. It's approximate by design. Because the cost of waiting is rarely zero.</p>`;
   }
+  /* The sources note opens clamped to two lines so the box stays scannable.
+     Delegated from the container because updateCostCalc rewrites its innerHTML. */
+  ccInsight.addEventListener("click", event => {
+    const toggle = event.target.closest(".calc-method-toggle");
+    if (!toggle) return;
+    const text = ccInsight.querySelector(".calc-method-text");
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    toggle.setAttribute("aria-expanded", open ? "false" : "true");
+    text.classList.toggle("is-open", !open);
+    toggle.textContent = open ? "Show sources" : "Show less";
+  });
   [ccRevenue, ccMonths, ccHours].forEach(input => input.addEventListener("input", updateCostCalc));
   document.getElementById("costCalcClose").addEventListener("click", () => costCalcDialog.close());
   costCalcDialog.addEventListener("click", event => { if (event.target === costCalcDialog) costCalcDialog.close(); });
