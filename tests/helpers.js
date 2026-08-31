@@ -37,6 +37,26 @@ async function loadDiagnostic(page) {
     });
   });
 
+  /* DNS is stubbed for the same reason Formspree is: no test may depend on the
+     network, and none should be answering questions about real domains. The
+     default is a domain that takes mail, so the gate behaves as it does for an
+     ordinary visitor. email-domain.spec.js registers its own routes on top --
+     Playwright matches the most recently added handler first -- to drive the
+     cases where the answer is no.
+
+     Worth knowing if a gate test ever fails for no obvious reason: the fixture
+     address is dana@example.com, and example.com really does publish a null MX
+     declaring it accepts no mail. Without this stub, every submission is
+     correctly refused. */
+  await page.route("**/dns.google/resolve**", route => route.fulfill({
+    status: 200,
+    contentType: "application/json",
+    body: JSON.stringify({
+      Status: 0,
+      Answer: [{ type: 15, data: "10 mail.example-host.net." }],
+    }),
+  }));
+
   page.on("pageerror", error => problems.push(`pageerror: ${error.message}`));
   page.on("console", message => {
     /* Google Fonts is a third party and may be unreachable offline; that is not

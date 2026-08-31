@@ -182,17 +182,115 @@ function consumerEmailProblem(value) {
     : "";
 }
 
+/* ---- Does that domain actually take mail? ----
+   The list above turns away addresses we do not want; this turns away addresses
+   that cannot exist. A domain that accepts mail publishes an MX record saying
+   where to send it, so asking public DNS for one separates acme.com from the
+   acme.com someone just invented -- and from gmial.con, which is the same
+   mistake made honestly.
+
+   Nothing is sent to the visitor. This is a DNS question about a domain, not a
+   message to a person: no email, no account, no third party holding the address.
+
+   It stops at the domain. Whether "john" exists at a real company is not
+   knowable this way, and for the Microsoft-hosted domains most of these
+   companies use it is barely knowable at all -- Exchange accepts any recipient
+   up front and works out later whether the mailbox was real. A domain check is
+   the honest limit of what can be known without sending something.
+
+   Fails open, always. If DNS is unreachable, blocked, or slow, the address goes
+   through: losing a real CEO to a failed lookup costs more than any fake gets. */
+const DNS_QUERY = "https://dns.google/resolve";
+const NXDOMAIN = 3;
+const RECORD = { A: 1, MX: 15 };
+/* One answer per domain per visit. Retyping the local part must not re-ask. */
+const domainVerdicts = new Map();
+
+function dnsAnswers(domain, type) {
+  return fetch(`${DNS_QUERY}?name=${encodeURIComponent(domain)}&type=${type}`)
+    .then(response => (response.ok ? response.json() : null));
+}
+
+function mxRecords(reply) {
+  return (reply.Answer || []).filter(record => record.type === RECORD.MX);
+}
+/* An MX of "0 ." is a domain declaring it takes no mail at all (RFC 7505). It
+   has to stay distinct from having no MX record: the first is a refusal, the
+   second merely means the answer lies elsewhere. */
+function routesMail(records) {
+  return records.some(record => {
+    const target = String(record.data || "").trim().split(/\s+/)[1] || "";
+    return target !== "" && target !== ".";
+  });
+}
+
+async function mailDomainProblem(value) {
+  const address = String(value || "").trim().toLowerCase();
+  const at = address.lastIndexOf("@");
+  if (at < 1 || at === address.length - 1) return "";
+  const domain = address.slice(at + 1);
+  /* Nothing to look up until there is a dot and something after it. */
+  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(domain)) return "";
+  if (domainVerdicts.has(domain)) return domainVerdicts.get(domain);
+
+  let verdict = "";
+  try {
+    const mx = await dnsAnswers(domain, RECORD.MX);
+    if (!mx) return "";
+    const records = mxRecords(mx);
+    if (mx.Status === NXDOMAIN) {
+      verdict = "We cannot find a domain called " + domain + ". Please check the spelling.";
+    } else if (records.length) {
+      /* Records exist, so this domain has already answered the question. If none
+         of them route anywhere, the answer was no, and an address record does
+         not overrule it. */
+      if (!routesMail(records)) verdict = domain + " is not set up to receive email. Please check the address.";
+    } else {
+      /* No MX at all is not yet a no: a domain with an address record still takes
+         mail addressed to it (RFC 5321), which small company domains rely on. */
+      const a = await dnsAnswers(domain, RECORD.A);
+      const hasAddress = a && (a.Answer || []).some(record => record.type === RECORD.A);
+      if (!hasAddress) verdict = domain + " is not set up to receive email. Please check the address.";
+    }
+  } catch (error) {
+    /* Unreachable DNS is our problem, not the visitor's. */
+    console.info("[email] Domain check skipped:", String(error.message || ""));
+    return "";
+  }
+  domainVerdicts.set(domain, verdict);
+  return verdict;
+}
+
 const workEmailInput = document.getElementById("email");
 const workEmailError = document.getElementById("emailError");
 function syncWorkEmail() {
-  const problem = consumerEmailProblem(workEmailInput.value);
+  showEmailProblem(consumerEmailProblem(workEmailInput.value));
+}
+function showEmailProblem(problem) {
   workEmailInput.setCustomValidity(problem);
   workEmailError.textContent = problem;
   workEmailInput.classList.toggle("is-invalid", Boolean(problem));
 }
+function domainOf(value) {
+  const address = String(value || "").trim().toLowerCase();
+  const at = address.lastIndexOf("@");
+  return at < 1 ? "" : address.slice(at + 1);
+}
+/* On blur rather than per keystroke: half a typed domain is not a wrong one.
+   The verdict is applied only if they are still on the domain it was asked
+   about -- DNS answers after they have moved on belong to nothing. */
+async function checkEmailDomain() {
+  if (consumerEmailProblem(workEmailInput.value)) return;
+  const asked = domainOf(workEmailInput.value);
+  if (!asked) return;
+  const problem = await mailDomainProblem(workEmailInput.value);
+  if (domainOf(workEmailInput.value) !== asked) return;
+  if (problem) showEmailProblem(problem);
+}
 if (workEmailInput && workEmailError) {
   workEmailInput.addEventListener("input", syncWorkEmail);
   workEmailInput.addEventListener("blur", syncWorkEmail);
+  workEmailInput.addEventListener("blur", checkEmailDomain);
 }
 
 document.getElementById("contactBack").addEventListener("click", () => {
@@ -202,7 +300,19 @@ document.getElementById("contactBack").addEventListener("click", () => {
 
 contactGate.addEventListener("submit", async event => {
   event.preventDefault();
+  /* Primed before the await: it needs the click still to be the current gesture. */
   bpVoice.prime();
+  /* Last line before the point of no return -- past here the results render and
+     the lead is sent. Usually already answered from the blur check, so this
+     resolves instantly; when it does not, a fifth of a second is the whole cost.
+     A typo is caught while they are still here to fix it. */
+  const domainProblem = await mailDomainProblem(workEmailInput.value);
+  if (domainProblem) {
+    showEmailProblem(domainProblem);
+    workEmailInput.reportValidity();
+    workEmailInput.focus();
+    return;
+  }
   contactGate.style.display = "none";
   const completedAnswers = answers.filter(Boolean);
   const rawTotal = completedAnswers.reduce((sum, answer) => sum + answer.score, 0);
