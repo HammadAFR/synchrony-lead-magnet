@@ -87,6 +87,9 @@ tooling all sit outside it and are never uploaded.
 
 ## Changing the domain
 
-Five absolute URLs in `<head>` name the live host — the canonical link, `og:url`,
-`og:image`, `twitter:image`. They sit together under one comment block. Update them
-together when the domain changes, or shared links keep pointing at the old host.
+Several absolute URLs in `<head>` name the live host: the canonical link, `og:url`,
+`og:image` and `twitter:image` sit together under one comment block, the JSON-LD
+block below them carries the organisation `logo` plus the `WebApplication` `@id`
+and `url`, and the redirect in the inline theme script names it once more. Update
+them together when the domain changes, or shared links and structured data keep
+pointing at the old host. Grep for the host rather than counting them by hand.

@@ -105,7 +105,7 @@ test.describe("booking CTAs", () => {
 test.describe("metadata", () => {
   test("title and description describe the diagnostic as it stands", async ({ page }) => {
     await loadDiagnostic(page);
-    await expect(page).toHaveTitle("The Empty Seat Diagnostic | Synchrony Talent Partners");
+    await expect(page).toHaveTitle("Sales Leadership Vacancy Cost Calculator | Empty Seat Diagnostic");
     const description = await page.locator('meta[name="description"]').getAttribute("content");
     expect(description).toContain("Empty Seat Diagnostic");
     expect(description).not.toMatch(/leak|Revenue Leadership/i);

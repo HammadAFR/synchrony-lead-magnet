@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Empty Seat Diagnostic | Synchrony Talent Partners</title>
+<title>Sales Leadership Vacancy Cost Calculator | Empty Seat Diagnostic</title>
 <meta name="description" content="What is your sales leadership vacancy costing you? Get your number in 60 seconds, then let the 8-question Empty Seat Diagnostic show you what is driving it.">
 <link rel="canonical" href="https://emptyseatdiagnostic.com/">
 
@@ -24,6 +24,56 @@
 <meta name="twitter:title" content="The Empty Seat Diagnostic">
 <meta name="twitter:description" content="What is your sales leadership vacancy costing you? Get your number in 60 seconds, then let the 8-question Empty Seat Diagnostic show you what is driving it.">
 <meta name="twitter:image" content="https://emptyseatdiagnostic.com/assets/images/og-empty-seat-diagnostic.png">
+<!-- Structured data. One @graph so the three nodes can reference each other by
+     @id instead of repeating themselves. Street address, founding date and
+     employee count are deliberately absent: they are not recorded anywhere in
+     this codebase, and invented NAP data conflicts with the Google Business
+     Profile later. No FAQPage -- Google retired those rich results. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://synchronytalent.com/#organization",
+        "name": "Synchrony Talent Partners",
+        "url": "https://synchronytalent.com/",
+        "logo": "https://emptyseatdiagnostic.com/assets/images/synchrony-logo-light.png",
+        "telephone": "+1-631-784-3467",
+        "email": "mike@synchronytalentpartners.com",
+        "sameAs": [
+          "https://www.linkedin.com/company/69208884"
+        ]
+      },
+      {
+        "@type": "Person",
+        "@id": "https://synchronytalent.com/#michael-north",
+        "name": "Michael North",
+        "worksFor": {
+          "@id": "https://synchronytalent.com/#organization"
+        },
+        "sameAs": [
+          "https://www.linkedin.com/in/mikenorth/"
+        ]
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://emptyseatdiagnostic.com/#empty-seat-diagnostic",
+        "name": "The Empty Seat Diagnostic",
+        "url": "https://emptyseatdiagnostic.com/",
+        "applicationCategory": "BusinessApplication",
+        "provider": {
+          "@id": "https://synchronytalent.com/#organization"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    ]
+  }
+</script>
 <!-- Fonts are self-hosted in /assets/fonts. crossorigin is required on a font
      preload even same-origin, or the browser fetches the file twice. -->
 <link rel="preload" href="/assets/fonts/dm-sans-roman.woff2" as="font" type="font/woff2" crossorigin>
