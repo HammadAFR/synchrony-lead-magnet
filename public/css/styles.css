@@ -1,5 +1,50 @@
 /* The Empty Seat Diagnostic -- all styles for lite/index.html.
    Plain CSS, no build step: the page links this file directly. */
+
+/* ---- Self-hosted faces -------------------------------------------------
+   Served from this origin so first paint waits on nothing but this domain.
+   Every face keeps font-display: swap, which is what the &display=swap on the
+   old Google Fonts link was doing -- drop it and text goes invisible while the
+   file loads instead of falling back and reflowing.
+
+   Latin only. Google serves each family split by unicode-range, and the
+   Eastern European subsets would be files this audience never downloads.
+
+   DM Sans is variable, so one file covers the whole weight range. It is
+   declared 400-600 rather than up to 700 on purpose: .calc-method-toggle asks
+   for 700, which the old Google Fonts request never loaded either, so the
+   browser has always synthesised that weight. Widening the range here would
+   quietly restyle that button. Licence in assets/fonts/OFL.txt. */
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/dm-sans-roman.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/dm-sans-italic.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: italic;
+  font-display: swap;
+}
+/* DM Serif Display ships one weight, in roman and italic. */
+@font-face {
+  font-family: "DM Serif Display";
+  src: url("/assets/fonts/dm-serif-display-roman.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Serif Display";
+  src: url("/assets/fonts/dm-serif-display-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
 :root {
   --green-050: #F2FAE8;
   --green-100: #D4EFA3;
