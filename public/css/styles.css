@@ -1337,6 +1337,57 @@ body.lite-mode .contact-dialog .contact-hero-btn small { max-width: none; margin
 [data-theme="light"] .form-note,
 [data-theme="light"] .result-method { color: #6B6B66; }
 
+/* ---- What the diagnostic asks ----
+   The questions and lever copy live in app.js, which means a reader that does
+   not run scripts -- most AI crawlers -- sees none of the best writing on this
+   page. This section puts the same words in the markup.
+
+   Collapsed, not hidden. A <details> is closed by default but fully reachable,
+   which search engines treat as ordinary content; markup a visitor can never
+   open is the cloaking pattern that gets sites penalised. Native <details> also
+   gets keyboard support and the disclosure semantics for free. */
+.diagnostic-preview { padding: 0 0 78px; }
+.preview-details { border: 1px solid var(--line); border-radius: 4px; background: rgba(248,248,246,0.03); }
+.preview-details[open] { background: rgba(248,248,246,0.05); }
+.preview-details summary { display: flex; flex-direction: column; gap: 5px; padding: 22px 26px; cursor: pointer; list-style: none; }
+.preview-details summary::-webkit-details-marker { display: none; }
+.preview-details summary::after { content: "+"; position: absolute; right: 30px; color: var(--green-300); font-size: 1.5rem; line-height: 1; }
+.preview-details[open] summary::after { content: "\2212"; }
+.preview-details summary { position: relative; }
+.preview-summary-title { color: var(--white); font-family: "DM Serif Display", serif; font-size: 1.3rem; line-height: 1.2; padding-right: 34px; }
+.preview-summary-note { color: var(--gray-500); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.preview-details summary:hover .preview-summary-title { color: var(--green-300); }
+.preview-details summary:focus-visible { outline: 2px solid var(--green-500); outline-offset: -2px; }
+.preview-body { display: grid; gap: 30px; padding: 4px 26px 30px; }
+.preview-lever h3 { display: flex; align-items: baseline; gap: 12px; margin: 0 0 10px; color: var(--white); font-family: "DM Serif Display", serif; font-size: 1.22rem; font-weight: 400; }
+.preview-num { color: var(--green-500); font-family: "DM Sans", sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; }
+.preview-cost { margin: 0 0 8px; max-width: 68ch; color: var(--gray-300); font-size: 0.9rem; line-height: 1.62; }
+.preview-fix { margin: 0 0 14px; max-width: 68ch; color: var(--gray-500); font-size: 0.86rem; line-height: 1.6; }
+.preview-fix strong { color: var(--green-300); font-weight: 600; }
+.preview-questions { margin: 0; padding-left: 20px; display: grid; gap: 12px; }
+.preview-questions li::marker { color: var(--green-800); font-size: 0.8rem; }
+.preview-q { margin: 0; color: var(--gray-100); font-size: 0.92rem; line-height: 1.55; }
+.preview-hint { margin: 3px 0 0; color: var(--gray-500); font-size: 0.8rem; font-style: italic; line-height: 1.5; }
+
+[data-theme="light"] .preview-details { border-color: rgba(42,42,39,0.14); background: rgba(255,255,255,0.7); }
+[data-theme="light"] .preview-details[open] { background: rgba(255,255,255,0.92); }
+[data-theme="light"] .preview-summary-title { color: var(--green-950); }
+[data-theme="light"] .preview-details summary:hover .preview-summary-title { color: var(--green-800); }
+[data-theme="light"] .preview-summary-note { color: #6B6B66; }
+[data-theme="light"] .preview-lever h3 { color: var(--green-950); }
+[data-theme="light"] .preview-num { color: var(--green-600); }
+[data-theme="light"] .preview-cost { color: var(--gray-700); }
+[data-theme="light"] .preview-fix { color: #6B6B66; }
+[data-theme="light"] .preview-fix strong { color: var(--green-800); }
+[data-theme="light"] .preview-q { color: var(--ink); }
+[data-theme="light"] .preview-hint { color: #6B6B66; }
+
+@media (max-width: 640px) {
+  .diagnostic-preview { padding-bottom: 54px; }
+  .preview-details summary { padding: 18px 18px; }
+  .preview-body { padding: 4px 18px 24px; gap: 26px; }
+}
+
 /* ---- Michael scroll prompt: floating nudge toward the diagnostic ---- */
 .mn-scroll-prompt {
   --mn-green: #93ad51;
