@@ -105,6 +105,24 @@ test.describe("standalone vacancy cost calculator", () => {
     }
   });
 
+  test("the diagnostic links to it, so it is not an orphan", async ({ page }) => {
+    await loadDiagnostic(page);
+    /* A page nothing points at is a page Google has no reason to index -- the
+       state that left the home page unindexed for its first week. The hero
+       link carries the words someone would actually search for. */
+    const hero = page.locator('.hero-calc-line a[href="/vacancy-cost-calculator/"]');
+    await expect(hero).toBeVisible();
+    await expect(hero).toHaveText("Vacancy Cost Calculator");
+
+    /* Real anchors, not click handlers: Google follows href, not onclick. */
+    const all = page.locator('a[href="/vacancy-cost-calculator/"]');
+    expect(await all.count()).toBeGreaterThanOrEqual(2);
+
+    await hero.click();
+    await expect(page).toHaveURL(/\/vacancy-cost-calculator\/$/);
+    await expect(page.locator("#pageRevenue")).toBeVisible();
+  });
+
   test("it is listed in the sitemap", async ({ request }) => {
     const xml = await (await request.get("/sitemap.xml")).text();
     expect(xml).toContain("https://emptyseatdiagnostic.com/vacancy-cost-calculator/");
