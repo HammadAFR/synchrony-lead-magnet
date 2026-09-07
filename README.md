@@ -11,11 +11,18 @@ Hiring Clarity Blueprint → book a clarity session.**
 
 ```
 public/                     everything that gets deployed
-├── index.html              the page: markup only
-├── css/styles.css          all styles
-├── js/app.js               calculator, diagnostic, results, blueprint
+├── index.html              the diagnostic: markup only
+├── vacancy-cost-calculator/
+│   └── index.html          the calculator on its own URL, for linking and indexing
+├── css/styles.css          all styles, both pages
+├── js/vacancy-cost.js      the cost formula, shared by both pages
+├── js/app.js               diagnostic, results, blueprint, the calculator dialog
+├── js/calculator-page.js   wiring for the standalone calculator only
 ├── js/scroll-prompt.js     Michael's floating nudge
+├── robots.txt
+├── sitemap.xml
 └── assets/
+    ├── fonts/              self-hosted DM Sans and DM Serif Display
     ├── images/
     └── audio/
 tests/                      Playwright browser tests
@@ -33,7 +40,10 @@ there reaches a visitor. If the tooling ever goes stale the site keeps working; 
 just lose the tests.
 
 The scripts are classic scripts rather than ES modules, so top-level declarations stay
-reachable from the markup's inline handlers and across files. `js/app.js` loads before
+reachable from the markup's inline handlers and across files. That is also how the two
+pages share code: `js/vacancy-cost.js` declares the cost formula and the sessionStorage
+handoff at top level, and both `js/app.js` and `js/calculator-page.js` use them as
+globals. It must be loaded first on either page. `js/app.js` loads before
 Michael's card exists in the document, which is why `js/scroll-prompt.js` is separate
 rather than merged into it. The theme script stays inline in `<head>`: moving it to a
 file would fetch it after first paint and bring back a flash of the wrong theme.
@@ -87,9 +97,13 @@ tooling all sit outside it and are never uploaded.
 
 ## Changing the domain
 
-Several absolute URLs in `<head>` name the live host: the canonical link, `og:url`,
-`og:image` and `twitter:image` sit together under one comment block, the JSON-LD
-block below them carries the organisation `logo` plus the `WebApplication` `@id`
-and `url`, and the redirect in the inline theme script names it once more. Update
-them together when the domain changes, or shared links and structured data keep
-pointing at the old host. Grep for the host rather than counting them by hand.
+Several absolute URLs in `<head>` name the live host, on **both pages**: the canonical
+link, `og:url`, `og:image` and `twitter:image` sit together under one comment block, the
+JSON-LD carries `@id` and `url` values, and the redirect in the inline theme script names
+it once more. `public/sitemap.xml` and `public/robots.txt` name it too. Update them
+together when the domain changes, or shared links and structured data keep pointing at
+the old host. Grep for the host rather than counting them by hand:
+
+```bash
+grep -rn emptyseatdiagnostic.com public/
+```

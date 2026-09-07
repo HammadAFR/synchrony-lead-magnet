@@ -693,10 +693,14 @@ body.mobile-profile-nav-hidden.profile-mode .profile-nav { transform: translateY
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-dialog-title { color: var(--green-950); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-dialog-close { border-color: rgba(17,17,16,0.18); color: var(--ink); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-dialog-close:hover { background: rgba(17,17,16,0.06); border-color: rgba(17,17,16,0.42); }
-[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field label { color: var(--green-800); }
-[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input { background: var(--white); border-color: var(--line); color: var(--ink); }
-[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input::placeholder { color: var(--gray-500); }
-[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input:focus { border-color: var(--blue-700); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field label,
+[data-theme="light"] .calc-page .vacancy-grid .field label { color: var(--green-800); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input,
+[data-theme="light"] .calc-page .vacancy-grid .field input { background: var(--white); border-color: var(--line); color: var(--ink); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input::placeholder,
+[data-theme="light"] .calc-page .vacancy-grid .field input::placeholder { color: var(--gray-500); }
+[data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-grid .field input:focus,
+[data-theme="light"] .calc-page .vacancy-grid .field input:focus { border-color: var(--blue-700); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .vacancy-total { color: var(--blue-900); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-citation { color: var(--gray-500); }
 [data-theme="light"] .calc-dialog:not(.contact-dialog) .calc-proof { border-top-color: var(--line); }
@@ -1336,6 +1340,76 @@ body.lite-mode .contact-dialog .contact-hero-btn small { max-width: none; margin
 [data-theme="light"] .question-hint,
 [data-theme="light"] .form-note,
 [data-theme="light"] .result-method { color: #6B6B66; }
+
+/* ---- Standalone calculator page (/vacancy-cost-calculator/) ----
+   Shares every token and control style with the dialog on the home page; only
+   the page furniture around them is new. The calculator itself is laid out
+   inline here rather than in a <dialog>, because someone arriving from a search
+   result should meet the tool, not a page with a button that opens it. */
+.calc-page { padding: 40px 0 0; }
+.calc-page-head { padding: 0 0 34px; }
+.calc-page-head .display { max-width: 16ch; }
+.calc-page-answer { max-width: 62ch; margin: 24px 0 0; color: var(--gray-300); font-size: 1.05rem; line-height: 1.72; }
+.calc-page-tool { padding: 0 0 56px; }
+/* Bottom-aligned so the three inputs line up even when one label wraps to a
+   second line and its neighbours do not. */
+.calc-page-tool .vacancy-grid { margin-top: 0; align-items: end; }
+.calc-page-result { margin: 30px 0 0; padding: 26px 28px; border-left: 3px solid var(--blue-500); background: rgba(58,133,212,0.08); }
+.calc-page-total { margin: 0; color: var(--blue-200); font-family: "DM Serif Display", serif; font-size: clamp(1.5rem, 3.6vw, 2.1rem); line-height: 1.2; }
+/* An explicit display beats the browser's own [hidden] rule, so the attribute
+   stops working the moment one is set. Restated here rather than globally. */
+.calc-page-split[hidden] { display: none; }
+.calc-page-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px; margin: 20px 0 0; padding-top: 18px; border-top: 1px solid rgba(248,248,246,0.12); }
+.calc-page-split-label { display: block; margin-bottom: 3px; color: var(--gray-500); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.calc-page-split strong { color: var(--gray-100); font-family: "DM Serif Display", serif; font-size: 1.3rem; font-weight: 400; }
+.calc-page-empty { margin: 14px 0 0; color: var(--gray-500); font-size: 0.84rem; }
+.calc-page-cta { margin: 32px 0 0; }
+.calc-page-next { opacity: 0.55; transition: opacity 220ms ease; }
+.calc-page-next.is-ready { opacity: 1; }
+.calc-page-method { padding: 56px 0; border-top: 1px solid var(--line); }
+.calc-page-method h2, .calc-page-close h2 { margin: 0 0 16px; color: var(--white); font-family: "DM Serif Display", serif; font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 400; line-height: 1.16; }
+.calc-page-method > .shell > p { max-width: 64ch; color: var(--gray-300); }
+.method-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 26px; margin: 28px 0 0; }
+.method-grid article { padding: 24px 26px; border: 1px solid var(--line); background: rgba(248,248,246,0.03); }
+.method-grid h3 { margin: 0 0 10px; color: var(--green-300); font-family: "DM Sans", sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.method-formula { margin: 0 0 14px; padding: 10px 14px; background: rgba(248,248,246,0.05); color: var(--gray-100); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.84rem; }
+.method-grid p { margin: 0; color: var(--gray-300); font-size: 0.9rem; line-height: 1.66; }
+.method-grid a, .calc-page-close a, .calc-page-byline a { color: var(--blue-200); text-decoration: underline; text-underline-offset: 2px; }
+.calc-page-caveat { max-width: 64ch; margin: 30px 0 0; color: var(--gray-300); font-size: 0.94rem; line-height: 1.7; }
+.calc-page-caveat strong { color: var(--white); }
+.calc-page-close { padding: 0 0 84px; }
+.calc-page-close p { max-width: 64ch; color: var(--gray-300); }
+.calc-page-byline { margin: 20px 0 0; color: var(--gray-500); font-size: 0.86rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+[data-theme="light"] .calc-page-answer { color: var(--gray-700); }
+[data-theme="light"] .calc-page-result { border-left-color: var(--blue-700); background: var(--blue-050); }
+[data-theme="light"] .calc-page-total { color: var(--blue-900); }
+[data-theme="light"] .calc-page-split { border-top-color: rgba(12,63,117,0.16); }
+[data-theme="light"] .calc-page-split strong { color: var(--blue-950); }
+[data-theme="light"] .calc-page-split-label,
+[data-theme="light"] .calc-page-empty,
+[data-theme="light"] .calc-page-byline { color: #6B6B66; }
+[data-theme="light"] .calc-page-method h2,
+[data-theme="light"] .calc-page-close h2 { color: var(--green-950); }
+[data-theme="light"] .calc-page-method > .shell > p,
+[data-theme="light"] .method-grid p,
+[data-theme="light"] .calc-page-caveat,
+[data-theme="light"] .calc-page-close p { color: var(--gray-700); }
+[data-theme="light"] .calc-page-caveat strong { color: var(--green-950); }
+[data-theme="light"] .method-grid article { border-color: rgba(42,42,39,0.14); background: rgba(255,255,255,0.7); }
+[data-theme="light"] .method-grid h3 { color: var(--green-800); }
+[data-theme="light"] .method-formula { background: rgba(36,64,2,0.06); color: var(--ink); }
+[data-theme="light"] .method-grid a,
+[data-theme="light"] .calc-page-close a,
+[data-theme="light"] .calc-page-byline a { color: var(--blue-700); }
+
+@media (max-width: 640px) {
+  .calc-page { padding-top: 26px; }
+  .calc-page-result { padding: 20px 18px; }
+  .calc-page-method { padding: 42px 0; }
+  .calc-page-close { padding-bottom: 60px; }
+}
 
 /* ---- What the diagnostic asks ----
    The questions and lever copy live in app.js, which means a reader that does

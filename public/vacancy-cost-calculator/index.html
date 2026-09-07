@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Leadership Vacancy Cost Calculator | Synchrony Talent Partners</title>
+<meta name="description" content="Work out what an open sales leadership seat is costing you. Three inputs, a number in under a minute, and the research behind every assumption. No email required.">
+<link rel="canonical" href="https://emptyseatdiagnostic.com/vacancy-cost-calculator/">
+
+<!-- Link previews. These absolute URLs name the live host, as do the canonical
+     above and the redirect in the theme script: grep for the host when the
+     domain changes rather than counting them by hand. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Synchrony Talent Partners">
+<meta property="og:title" content="Sales Leadership Vacancy Cost Calculator">
+<meta property="og:description" content="Work out what an open sales leadership seat is costing you. Three inputs, a number in under a minute, and the research behind every assumption.">
+<meta property="og:url" content="https://emptyseatdiagnostic.com/vacancy-cost-calculator/">
+<meta property="og:image" content="https://emptyseatdiagnostic.com/assets/images/og-empty-seat-diagnostic.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Cost of Vacancy Calculator: what is your sales leadership vacancy billing you?">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sales Leadership Vacancy Cost Calculator">
+<meta name="twitter:description" content="Work out what an open sales leadership seat is costing you. Three inputs, a number in under a minute.">
+<meta name="twitter:image" content="https://emptyseatdiagnostic.com/assets/images/og-empty-seat-diagnostic.png">
+
+<!-- WebApplication rather than a second Organization node: the company and
+     Michael are described once, on the home page, and referenced here by @id
+     so the two pages describe one business rather than two. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://emptyseatdiagnostic.com/vacancy-cost-calculator/#calculator",
+  "name": "Sales Leadership Vacancy Cost Calculator",
+  "url": "https://emptyseatdiagnostic.com/vacancy-cost-calculator/",
+  "applicationCategory": "BusinessApplication",
+  "description": "Estimates the cost of an unfilled sales leadership role from revenue at risk and the executive hours spent covering the seat.",
+  "provider": { "@id": "https://synchronytalent.com/#organization" },
+  "isPartOf": { "@id": "https://emptyseatdiagnostic.com/#empty-seat-diagnostic" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+
+<link rel="preload" href="/assets/fonts/dm-sans-roman.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/styles.css">
+<!-- Stays inline deliberately: an external file would be fetched after the
+     first paint, bringing back the flash of the wrong theme this prevents. -->
+<script>
+(function () {
+  var host = location.hostname;
+  if (host.endsWith(".web.app") || host.endsWith(".firebaseapp.com")) {
+    location.replace("https://emptyseatdiagnostic.com" + location.pathname + location.search + location.hash);
+  }
+})();
+(function () {
+  try {
+    var saved = localStorage.getItem("stp-theme");
+    var prefersDark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+  } catch (e) {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+})();
+function toggleTheme() {
+  var root = document.documentElement;
+  var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try { localStorage.setItem("stp-theme", next); } catch (e) {}
+}
+try {
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+    if (!localStorage.getItem("stp-theme")) {
+      document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
+    }
+  });
+} catch (e) {}
+</script>
+</head><body class="lite-mode">
+<nav>
+  <div class="shell nav-inner">
+    <a class="nav-diagnostic-name" href="/"><span>The <em>Empty Seat</em> Diagnostic</span><small>Uncover the hidden cost no one tracks</small></a>
+    <div class="nav-actions">
+      <button class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="Switch between light and dark theme"><span class="theme-toggle-icon" aria-hidden="true"></span></button>
+      <a class="brand-logo-link" href="https://synchronytalent.com/">
+        <img class="brand-logo brand-logo--dark" src="/assets/images/synchrony-logo-updated.png" alt="Synchrony Talent Partners">
+        <img class="brand-logo brand-logo--light" src="/assets/images/synchrony-logo-light.png" alt="Synchrony Talent Partners">
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main class="calc-page">
+  <header class="calc-page-head">
+    <div class="shell">
+      <p class="eyebrow">Cost of vacancy calculator</p>
+      <h1 class="display">What is your sales leadership vacancy <em>billing you?</em></h1>
+      <p class="calc-page-answer">An open sales leadership seat costs you in two ways at once: the revenue the role owns underperforms while nobody runs it, and your executives pay for the gap in their own hours. This works out both from three numbers you already know. It takes under a minute, and it asks for no email.</p>
+    </div>
+  </header>
+
+  <section class="calc-page-tool" aria-labelledby="calcToolTitle">
+    <div class="shell">
+      <h2 class="visually-hidden" id="calcToolTitle">Your three inputs</h2>
+      <div class="vacancy-grid">
+        <div class="field"><label for="pageRevenue">Annual revenue this role owns ($)</label><input id="pageRevenue" type="number" min="0" inputmode="numeric" placeholder="5,000,000"></div>
+        <div class="field"><label for="pageMonths">Months the role is (or will be) open</label><input id="pageMonths" type="number" min="0" inputmode="numeric" placeholder="4"></div>
+        <div class="field"><label for="pageHours">Executive hours per week covering the gap</label><input id="pageHours" type="number" min="0" inputmode="numeric" placeholder="8"></div>
+      </div>
+
+      <div class="calc-page-result" id="pageResult" role="status">
+        <p class="calc-page-total">Estimated vacancy cost: <span id="pageTotal">$0</span></p>
+        <div class="calc-page-split" id="pageSplit" hidden>
+          <div><span class="calc-page-split-label">Revenue at risk</span><strong id="pageRevenueDrag">$0</strong></div>
+          <div><span class="calc-page-split-label">Executive coverage cost</span><strong id="pageCoverage">$0</strong></div>
+        </div>
+        <p class="calc-page-empty" id="pageEmpty">Fill in all three to see your number.</p>
+      </div>
+
+      <div class="calc-page-cta">
+        <a class="btn btn-blue strategy-btn calc-page-next" id="pageToDiagnostic" href="/#assessment"><span>Now find out what's driving it</span><small>The 8-question diagnostic &middot; your number carries over</small></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="calc-page-method" aria-labelledby="methodTitle">
+    <div class="shell">
+      <h2 id="methodTitle">How this is calculated</h2>
+      <p>Nothing here is hidden, because a number you cannot check is a number you cannot use. The estimate is the sum of two figures.</p>
+
+      <div class="method-grid">
+        <article>
+          <h3>Revenue at risk</h3>
+          <p class="method-formula">(annual revenue &divide; 12) &times; months open &times; 20%</p>
+          <p>While the seat is empty, the revenue that role owns underperforms. The 20% factor draws on <a href="https://www.gallup.com/workplace/321725/gallup-q12-meta-analysis-report.aspx" target="_blank" rel="noopener">Gallup's Q<sup>12</sup> meta-analysis</a> of 183,806 business units, which found an 18% gap in sales productivity between the best- and worst-led teams, and on <a href="https://salesmanagement.org/web/uploads/pdf-renamed-by-uzzal/89f5f8ff556f7a60adf7f1a78eac94c1.pdf" target="_blank" rel="noopener">Sales Management Association</a> research linking coaching quality to quota attainment.</p>
+        </article>
+        <article>
+          <h3>Executive coverage cost</h3>
+          <p class="method-formula">hours per week &times; 4.33 &times; months &times; $200</p>
+          <p>What you pay when your CEO or leadership team runs the seat instead of running their own. $200/hour is the fully loaded value of executive time, not salary &mdash; grounded in <a href="https://www.bls.gov/news.release/ocwage.t01.htm" target="_blank" rel="noopener">BLS wage and benefits data</a> for chief executives (about $185/hour fully loaded) and <a href="https://www.heidrick.com/-/media/heidrickcom/publications-and-reports/2025-pebacked-ceo-compensation-survey.pdf" target="_blank" rel="noopener">Heidrick &amp; Struggles' PE-backed CEO compensation survey</a> (about $252/hour at companies under $50M revenue).</p>
+        </article>
+      </div>
+
+      <p class="calc-page-caveat"><strong>It is an estimate, deliberately.</strong> It does not attempt to price the wrong hire you make in a hurry, the pipeline that quietly stops being built, or the second search twelve months later. The point is not precision. It is that the cost of waiting is rarely zero, and almost never as small as it feels.</p>
+    </div>
+  </section>
+
+  <section class="calc-page-close">
+    <div class="shell">
+      <h2>The number is the symptom</h2>
+      <p>Knowing what the vacancy costs tells you the size of the problem. It does not tell you why the seat is still open, or why the last hire did not work. That is what <a href="/">the Empty Seat Diagnostic</a> is for &mdash; eight questions across the four levers where sales leadership searches usually fail.</p>
+      <p class="calc-page-byline">Built by <a href="https://synchronytalent.com/" target="_blank" rel="noopener">Synchrony Talent Partners</a>, an executive search firm specialising in sales leadership.</p>
+    </div>
+  </section>
+</main>
+
+<script src="/js/vacancy-cost.js"></script>
+<script src="/js/calculator-page.js"></script>
+</body></html>

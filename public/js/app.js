@@ -70,12 +70,8 @@ let current = 0;
 let answers = new Array(questions.length).fill(null);
 let recommendedBlueprintModule = "1";
 let lastVacancyEstimate = null;
-const formatDollars = value => "$" + Math.round(value).toLocaleString();
-function computeVacancyCost(quota, months, hours) {
-  const revenueDrag = (quota / 12) * months * 0.20;
-  const leadershipDrag = hours * 4.33 * months * 200;
-  return { revenueDrag, leadershipDrag, total: Math.round(revenueDrag + leadershipDrag) };
-}
+/* formatDollars and computeVacancyCost now live in js/vacancy-cost.js,
+   which the standalone calculator page shares. Loaded before this file. */
 const questionView = document.getElementById("questionView");
 const contactGate = document.getElementById("contactGate");
 const results = document.getElementById("results");
@@ -520,6 +516,17 @@ if (costCalcDialog) {
     text.classList.toggle("is-open", !open);
     toggle.textContent = open ? "Show sources" : "Show less";
   });
+  /* Someone who filled this in on /vacancy-cost-calculator/ arrives with their
+     three numbers already answered. Replaying them through updateCostCalc is
+     what unlocks the diagnostic, so the handoff needs no separate flag. */
+  const carried = typeof recallVacancyInputs === "function" ? recallVacancyInputs() : null;
+  if (carried && carried.revenue && carried.months && carried.hours) {
+    ccRevenue.value = carried.revenue;
+    ccMonths.value = carried.months;
+    ccHours.value = carried.hours;
+    updateCostCalc();
+  }
+
   [ccRevenue, ccMonths, ccHours].forEach(input => input.addEventListener("input", updateCostCalc));
   document.getElementById("costCalcClose").addEventListener("click", () => costCalcDialog.close());
   costCalcDialog.addEventListener("click", event => { if (event.target === costCalcDialog) costCalcDialog.close(); });
