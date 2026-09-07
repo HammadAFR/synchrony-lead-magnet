@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, VACANCY } = require("./helpers");
+const { loadDiagnostic, answerAll, fillGate, VACANCY } = require("./helpers");
 
 const PAGE = "/vacancy-cost-calculator/";
 
@@ -121,6 +121,40 @@ test.describe("standalone vacancy cost calculator", () => {
     await hero.click();
     await expect(page).toHaveURL(/\/vacancy-cost-calculator\/$/);
     await expect(page.locator("#pageRevenue")).toBeVisible();
+  });
+
+  test("the diagnostic behaves the same whichever calculator was used", async ({ page }) => {
+    /* Two routes to the same three numbers. Whichever they took, the diagnostic
+       must unlock and the lead must quote the figure they actually saw --
+       otherwise the two calculators are two products, not one. */
+    const { submissions } = await loadDiagnostic(page);
+
+    await page.goto(PAGE, { waitUntil: "domcontentloaded" });
+    await fillPage(page, VACANCY.larger);
+    await page.locator("#pageToDiagnostic").click();
+    await expect(page.locator("h1.display")).toBeVisible();
+    await expect(page.locator("body")).toHaveAttribute("data-calculator-used", "true");
+
+    await answerAll(page);
+    await fillGate(page);
+    await page.locator("#contactGate button[type=submit]").click();
+
+    await expect(page.locator("#results")).toBeVisible();
+    await expect.poll(() => submissions.length).toBe(1);
+    /* The same figure the standalone page put on screen, not a recalculation
+       and not "Calculator not completed". */
+    expect(submissions[0]["Vacancy Cost Estimate"]).toBe(VACANCY.larger.total);
+  });
+
+  test("the theme toggle matches the diagnostic's, so the icon centres", async ({ page }) => {
+    /* The icon is a ::before on an intentionally empty button. Any child makes
+       the grid two rows and shoves it off centre. */
+    for (const url of ["/index.html", PAGE]) {
+      await page.goto(url, { waitUntil: "domcontentloaded" });
+      const rows = await page.locator(".theme-toggle").evaluate(el => getComputedStyle(el).gridTemplateRows);
+      expect(rows, `${url} toggle should be a single grid row`).not.toContain(" ");
+      expect(await page.locator(".theme-toggle").evaluate(el => el.childElementCount)).toBe(0);
+    }
   });
 
   test("it is listed in the sitemap", async ({ request }) => {
