@@ -134,6 +134,7 @@ nextBtn.addEventListener("click", () => {
     renderQuestion();
   } else {
     questionView.style.display = "none";
+    track("diagnostic_completed");
     contactGate.style.display = "block";
     document.getElementById("progressBar").style.width = "100%";
   }
@@ -263,10 +264,23 @@ const workEmailError = document.getElementById("emailError");
 function syncWorkEmail() {
   showEmailProblem(consumerEmailProblem(workEmailInput.value));
 }
+/* The gate refuses consumer addresses and dead domains. That is deliberate,
+   but it is also the likeliest reason someone abandons the form, and until it
+   is measured the drop-off is indistinguishable from losing interest.
+   Reported here rather than at each of the three call sites: the consumer
+   check runs on every keystroke, so anywhere else either misses a path or
+   counts one refusal a dozen times. */
+let lastGateBlock = "";
 function showEmailProblem(problem) {
   workEmailInput.setCustomValidity(problem);
   workEmailError.textContent = problem;
   workEmailInput.classList.toggle("is-invalid", Boolean(problem));
+  if (problem && problem !== lastGateBlock) {
+    track("gate_blocked", {
+      reason: /work email/i.test(problem) ? "consumer_address" : "domain_cannot_receive_mail",
+    });
+  }
+  lastGateBlock = problem;
 }
 function domainOf(value) {
   const address = String(value || "").trim().toLowerCase();
@@ -432,7 +446,6 @@ contactGate.addEventListener("submit", async event => {
       else console.error("[email] Formspree rejected the submission.", response.status, await response.json().catch(() => ({})));
     }).catch(error => console.error("[email] The diagnostic results could not be sent.", error));
   }
-  track("diagnostic_completed", { score: scoreOutOf40, tier: tier });
   track("lead_submitted", {
     value: lastVacancyEstimate || 0,
     currency: "USD",
@@ -449,6 +462,7 @@ contactGate.addEventListener("submit", async event => {
   const blueprint = document.getElementById("blueprint");
   if (blueprint) {
     blueprint.hidden = false;
+    track("blueprint_opened", { source: "results" });
     activateBlueprintModule(primaryModule);
   }
     results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
@@ -458,6 +472,7 @@ contactGate.addEventListener("submit", async event => {
 
 
 document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
+  track("blueprint_opened", { source: "button" });
   bpVoice.prime();
   const blueprint = document.getElementById("blueprint");
   blueprint.hidden = false;

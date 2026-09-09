@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, openCalculator, fillCalculator, answerAll, fillGate, VACANCY } = require("./helpers");
+const { loadDiagnostic, openCalculator, fillCalculator, getVacancyNumber, answerAll, fillGate, VACANCY } = require("./helpers");
 
 /* The Google tag itself is blocked in tests, but the inline snippet still
    defines gtag() and dataLayer, so every event the page fires lands in
@@ -74,13 +74,47 @@ test.describe("funnel measurement", () => {
     const lead = fired.filter(e => e.name === "lead_submitted");
 
     expect(completed).toHaveLength(1);
-    expect(completed[0].params.tier).toBeTruthy();
 
     expect(lead).toHaveLength(1);
     /* The lead carries the figure the visitor saw, so revenue can be attributed
        to the funnel rather than counted as a bare conversion. */
     expect(lead[0].params.value).toBe(251960);
     expect(lead[0].params.calculator_used).toBe(true);
+  });
+
+  test("finishing the questions is its own step, separate from the lead", async ({ page }) => {
+    await loadDiagnostic(page);
+    await getVacancyNumber(page);
+    await answerAll(page);
+    await expect(page.locator("#contactGate")).toBeVisible();
+
+    /* The eight questions being finished has to be measurable on its own,
+       otherwise form abandonment is invisible -- which is exactly the gap that
+       hid 28 people starting the form and none finishing it. */
+    let fired = await events(page);
+    expect(fired.filter(e => e.name === "diagnostic_completed")).toHaveLength(1);
+    expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(0);
+
+    await fillGate(page);
+    await page.locator("#contactGate button[type=submit]").click();
+    await expect(page.locator("#results")).toBeVisible();
+
+    fired = await events(page);
+    expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(1);
+    expect(fired.filter(e => e.name === "blueprint_opened")).toHaveLength(1);
+  });
+
+  test("being turned away at the gate is measured, with the reason", async ({ page }) => {
+    await loadDiagnostic(page);
+    await getVacancyNumber(page);
+    await answerAll(page);
+    await fillGate(page, { email: "someone@gmail.com" });
+    await page.locator("#email").blur();
+    await expect(page.locator("#emailError")).toContainText("work email");
+
+    const blocked = (await events(page)).filter(e => e.name === "gate_blocked");
+    expect(blocked.length).toBeGreaterThanOrEqual(1);
+    expect(blocked[0].params.reason).toBe("consumer_address");
   });
 
   test("booking clicks are caught wherever the button lives", async ({ page }) => {
