@@ -107,6 +107,7 @@ function renderQuestion() {
     if (q.type === "rating") button.setAttribute("aria-label", `Rate ${index + 1} of 5: ${q.scale[0]} to ${q.scale[1]}`);
     button.addEventListener("click", () => {
       /* First answer means they are in it -- the hero nudge has nothing left to say. */
+      if (document.body.dataset.diagnosticStarted !== "true") track("diagnostic_started");
       document.body.dataset.diagnosticStarted = "true";
       answers[current] = { index, score, label, category: q.category };
       [...optionsEl.children].forEach(el => { el.classList.remove("selected", "option-pulse"); el.setAttribute("aria-pressed", "false"); });
@@ -431,6 +432,12 @@ contactGate.addEventListener("submit", async event => {
       else console.error("[email] Formspree rejected the submission.", response.status, await response.json().catch(() => ({})));
     }).catch(error => console.error("[email] The diagnostic results could not be sent.", error));
   }
+  track("diagnostic_completed", { score: scoreOutOf40, tier: tier });
+  track("lead_submitted", {
+    value: lastVacancyEstimate || 0,
+    currency: "USD",
+    calculator_used: document.body.dataset.calculatorUsed === "true",
+  });
   results.classList.add("show");
   /* The hero nudge has done its job -- retire it for the rest of the visit. */
   document.body.dataset.diagnosticTaken = "true";
@@ -462,6 +469,7 @@ document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
 /* ---- About page: standalone Cost of Vacancy calculator dialog ---- */
 const costCalcDialog = document.getElementById("costCalcDialog");
 function openCostCalc() {
+  track("calculator_opened", { source: "dialog" });
   if (costCalcDialog.showModal) costCalcDialog.showModal();
   else costCalcDialog.setAttribute("open", "");
 }
@@ -489,6 +497,11 @@ if (costCalcDialog) {
        complete one. Reworking the inputs mid-diagnostic moves it to the new
        total; emptying a field leaves the last real number standing, so the
        results never end up quoting a blank. */
+    /* Fired on the transition into "they have a number", not on every
+       keystroke -- otherwise a completed calculation reports a dozen times. */
+    if (hasNumber && lastVacancyEstimate !== total) {
+      track("calculator_completed", { value: total, currency: "USD", source: "dialog" });
+    }
     if (hasNumber) lastVacancyEstimate = total;
     if (hasNumber) document.body.dataset.calculatorUsed = "true";
     else delete document.body.dataset.calculatorUsed;
@@ -1055,5 +1068,15 @@ function countUpStat(el) {
     statEls.forEach(el => statObserver.observe(el));
   }
 })();
+
+/* Booking clicks, delegated: there are three of these anchors and they move
+   around as the copy changes. Matching on the destination rather than a class
+   means a fourth one is measured the day it is added. */
+document.addEventListener("click", event => {
+  const link = event.target.closest('a[href*="calendly.com"]');
+  if (!link) return;
+  const where = link.closest("section, dialog");
+  track("booking_clicked", { location: (where && where.id) || "page" });
+});
 
 renderQuestion();

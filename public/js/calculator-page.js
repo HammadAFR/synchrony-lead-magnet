@@ -17,6 +17,7 @@ const pageRevenueDrag = document.getElementById("pageRevenueDrag");
 const pageCoverage = document.getElementById("pageCoverage");
 const pageToDiagnostic = document.getElementById("pageToDiagnostic");
 
+let lastReported = null;
 function updatePageCalc() {
   const revenue = parseFloat(pageRevenue.value) || 0;
   const months = parseFloat(pageMonths.value) || 0;
@@ -33,12 +34,22 @@ function updatePageCalc() {
   pageToDiagnostic.classList.toggle("is-ready", complete);
 
   if (!complete) return;
+  /* Once per completed set of figures, not per keystroke. */
+  if (lastReported !== total) {
+    track("calculator_completed", { value: total, currency: "USD", source: "page" });
+    lastReported = total;
+  }
   pageRevenueDrag.textContent = formatDollars(revenueDrag);
   pageCoverage.textContent = formatDollars(leadershipDrag);
   rememberVacancyInputs(pageRevenue.value, pageMonths.value, pageHours.value);
 }
 
 [pageRevenue, pageMonths, pageHours].forEach(input => input.addEventListener("input", updatePageCalc));
+
+/* This page is the calculator, so arriving is opening it -- the same funnel
+   step the dialog reports, so the two routes stay comparable. */
+track("calculator_opened", { source: "page" });
+pageToDiagnostic.addEventListener("click", () => track("calculator_to_diagnostic"));
 
 /* Coming back to this page mid-visit should not wipe the answers already given. */
 const carried = recallVacancyInputs();

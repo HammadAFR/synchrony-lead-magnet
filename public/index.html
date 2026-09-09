@@ -76,6 +76,20 @@
 </script>
 <!-- Fonts are self-hosted in /assets/fonts. crossorigin is required on a font
      preload even same-origin, or the browser fetches the file twice. -->
+<!-- Google tag (gtag.js). Async, so it never blocks first paint. track() is
+     defined here rather than in a file so it exists before any script that
+     calls it, and so a blocked or failed tag is a no-op instead of an error --
+     measurement must never be able to break the diagnostic. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3M9JFG2SPZ"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+gtag("js", new Date());
+gtag("config", "G-3M9JFG2SPZ");
+function track(name, params) {
+  try { gtag("event", name, params || {}); } catch (e) {}
+}
+</script>
 <link rel="preload" href="/assets/fonts/dm-sans-roman.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/css/styles.css">
 <!-- Stays inline deliberately: an external file would be fetched after the

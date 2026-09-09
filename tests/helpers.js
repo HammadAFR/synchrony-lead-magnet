@@ -57,6 +57,12 @@ async function loadDiagnostic(page) {
     }),
   }));
 
+  /* The Google tag is blocked for the same reason Formspree and DNS are: no
+     test may reach a real service. The inline snippet still defines gtag and
+     dataLayer, so events are still recorded and assertable -- only the network
+     request is stopped. */
+  await page.route("**/googletagmanager.com/**", route => route.abort());
+
   page.on("pageerror", error => problems.push(`pageerror: ${error.message}`));
   page.on("console", message => {
     /* Google Fonts is a third party and may be unreachable offline; that is not
