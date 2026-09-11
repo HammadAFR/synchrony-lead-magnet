@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, answerAll, fillGate, VACANCY } = require("./helpers");
+const { loadDiagnostic, openCalculator, answerAll, fillGate, VACANCY } = require("./helpers");
 
 const PAGE = "/vacancy-cost-calculator/";
 
@@ -108,19 +108,29 @@ test.describe("standalone vacancy cost calculator", () => {
   test("the diagnostic links to it, so it is not an orphan", async ({ page }) => {
     await loadDiagnostic(page);
     /* A page nothing points at is a page Google has no reason to index -- the
-       state that left the home page unindexed for its first week. The hero
-       link carries the words someone would actually search for. */
-    const hero = page.locator('.hero-calc-line a[href="/vacancy-cost-calculator/"]');
-    await expect(hero).toBeVisible();
-    await expect(hero).toHaveText("Vacancy Cost Calculator");
+       state that left the home page unindexed for its first week. The link
+       lives in the calculator dialog, beside the assumptions: the hero keeps
+       one call to action rather than two competing ones. */
+    const link = page.locator('a[href="/vacancy-cost-calculator/"]');
+    expect(await link.count()).toBeGreaterThanOrEqual(1);
 
-    /* Real anchors, not click handlers: Google follows href, not onclick. */
-    const all = page.locator('a[href="/vacancy-cost-calculator/"]');
-    expect(await all.count()).toBeGreaterThanOrEqual(2);
+    /* A real anchor, not a click handler: Google follows href, not onclick. */
+    await openCalculator(page);
+    const inDialog = page.locator('#costCalcDialog a[href="/vacancy-cost-calculator/"]');
+    await expect(inDialog).toBeVisible();
 
-    await hero.click();
+    await inDialog.click();
     await expect(page).toHaveURL(/\/vacancy-cost-calculator\/$/);
     await expect(page.locator("#pageRevenue")).toBeVisible();
+  });
+
+  test("the hero keeps one call to action, not two", async ({ page }) => {
+    await loadDiagnostic(page);
+    /* The phrase names the tool; the button beside it opens the tool. Making
+       the phrase a second link sent people to a different calculator from the
+       one the button opens, which read as the dialog having been replaced. */
+    await expect(page.locator(".hero-calc-name")).toBeVisible();
+    await expect(page.locator(".hero-calc-line a")).toHaveCount(0);
   });
 
   test("the diagnostic behaves the same whichever calculator was used", async ({ page }) => {
