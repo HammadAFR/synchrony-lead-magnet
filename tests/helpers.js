@@ -114,26 +114,25 @@ async function answerAll(page, optionIndex = 0) {
     await expect(page.locator("#nextBtn")).toBeEnabled();
     await page.locator("#nextBtn").click();
   }
+  /* The eighth answer now scores and shows the whole readout. The form comes
+     later, and only for the Blueprint. */
+  await expect(page.locator("#results")).toHaveClass(/show/);
+}
+
+/** Open the form. It now sits behind the results, guarding the Blueprint. */
+async function openGate(page) {
+  await page.locator("#takeBlueprintBtn").click();
   await expect(page.locator("#contactGate")).toBeVisible();
 }
 
 async function fillGate(page, overrides = {}) {
   const details = {
-    firstName: "Dana",
-    lastName: "Reyes",
+    name: "Dana Reyes",
     email: "dana@example.com",
-    company: "Acme Industrial",
-    optIn: "Yes",
     ...overrides,
   };
-  await page.fill("#firstName", details.firstName);
-  await page.fill("#lastName", details.lastName);
-  await page.fill("#company", details.company);
+  await page.fill("#fullName", details.name);
   await page.fill("#email", details.email);
-  /* The radio itself is visually hidden (opacity 0, pointer-events none); the
-     label around it is what a visitor actually clicks. */
-  await page.locator(`.optin-choice label:has(input[value="${details.optIn}"])`).click();
-  await expect(page.locator(`input[name="emailOptIn"][value="${details.optIn}"]`)).toBeChecked();
   return details;
 }
 
@@ -145,5 +144,5 @@ async function scrollPastHero(page) {
 
 module.exports = {
   PAGE, VACANCY, loadDiagnostic, openCalculator, fillCalculator,
-  getVacancyNumber, answerAll, fillGate, scrollPastHero,
+  getVacancyNumber, answerAll, openGate, fillGate, scrollPastHero,
 };

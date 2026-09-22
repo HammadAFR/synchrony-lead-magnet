@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, openCalculator, fillCalculator, getVacancyNumber, answerAll, fillGate, VACANCY } = require("./helpers");
+const { loadDiagnostic, openCalculator, fillCalculator, getVacancyNumber, answerAll, openGate, fillGate, VACANCY } = require("./helpers");
 
 /* The Google tag itself is blocked in tests, but the inline snippet still
    defines gtag() and dataLayer, so every event the page fires lands in
@@ -65,6 +65,7 @@ test.describe("funnel measurement", () => {
     /* Answering eight questions must report one start, not eight. */
     expect((await events(page)).filter(e => e.name === "diagnostic_started")).toHaveLength(1);
 
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect(page.locator("#results")).toBeVisible();
@@ -86,18 +87,24 @@ test.describe("funnel measurement", () => {
     await loadDiagnostic(page);
     await getVacancyNumber(page);
     await answerAll(page);
-    await expect(page.locator("#contactGate")).toBeVisible();
+    await expect(page.locator("#results")).toHaveClass(/show/);
 
-    /* The eight questions being finished has to be measurable on its own,
-       otherwise form abandonment is invisible -- which is exactly the gap that
-       hid 28 people starting the form and none finishing it. */
+    /* Finishing the questions is now its own step, reported before anyone is
+       asked for anything -- which is what makes abandonment at the form
+       visible rather than indistinguishable from losing interest. */
     let fired = await events(page);
     expect(fired.filter(e => e.name === "diagnostic_completed")).toHaveLength(1);
     expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(0);
+    expect(fired.filter(e => e.name === "blueprint_opened")).toHaveLength(0);
 
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
-    await expect(page.locator("#results")).toBeVisible();
+    await expect(page.locator("#blueprint")).toBeVisible();
+
+    fired = await events(page);
+    expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(1);
+    expect(fired.filter(e => e.name === "blueprint_opened")).toHaveLength(1);
 
     fired = await events(page);
     expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(1);
@@ -108,6 +115,7 @@ test.describe("funnel measurement", () => {
     await loadDiagnostic(page);
     await getVacancyNumber(page);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page, { email: "someone@gmail.com" });
     await page.locator("#email").blur();
     await expect(page.locator("#emailError")).toContainText("work email");
@@ -141,7 +149,7 @@ test.describe("funnel measurement", () => {
     await expect(page.locator("body")).toHaveAttribute("data-calculator-used", "true");
     await page.locator("#costCalcClose").click();
     await answerAll(page);
-    await expect(page.locator("#contactGate")).toBeVisible();
+    await expect(page.locator("#results")).toHaveClass(/show/);
     expect(problems).toEqual([]);
   });
 });

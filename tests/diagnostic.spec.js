@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { loadDiagnostic, openCalculator, fillCalculator, getVacancyNumber,
-        answerAll, fillGate, VACANCY } = require("./helpers");
+        answerAll, openGate, fillGate, VACANCY } = require("./helpers");
 
 test.describe("the lock in front of the diagnostic", () => {
   test("is closed on arrival and the questions cannot be reached", async ({ page }) => {
@@ -67,6 +67,7 @@ test.describe("running the diagnostic", () => {
     await loadDiagnostic(page);
     await getVacancyNumber(page);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
 
@@ -84,6 +85,7 @@ test.describe("running the diagnostic", () => {
     await loadDiagnostic(page);
     await getVacancyNumber(page, VACANCY.larger);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect(page.locator("#resultCostValue")).toHaveText(VACANCY.larger.total);
@@ -93,6 +95,7 @@ test.describe("running the diagnostic", () => {
     await loadDiagnostic(page);
     await getVacancyNumber(page);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect(page.locator("body")).toHaveAttribute("data-diagnostic-taken", "true");

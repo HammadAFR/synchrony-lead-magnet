@@ -134,9 +134,8 @@ nextBtn.addEventListener("click", () => {
     renderQuestion();
   } else {
     questionView.style.display = "none";
-    track("diagnostic_completed");
-    contactGate.style.display = "block";
     document.getElementById("progressBar").style.width = "100%";
+    renderResults();
   }
 });
 
@@ -306,25 +305,19 @@ if (workEmailInput && workEmailError) {
 
 document.getElementById("contactBack").addEventListener("click", () => {
   contactGate.style.display = "none";
-  questionView.style.display = "block";
+  results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
 });
 
-contactGate.addEventListener("submit", async event => {
-  event.preventDefault();
-  /* Primed before the await: it needs the click still to be the current gesture. */
-  bpVoice.prime();
-  /* Last line before the point of no return -- past here the results render and
-     the lead is sent. Usually already answered from the blur check, so this
-     resolves instantly; when it does not, a fifth of a second is the whole cost.
-     A typo is caught while they are still here to fix it. */
-  const domainProblem = await mailDomainProblem(workEmailInput.value);
-  if (domainProblem) {
-    showEmailProblem(domainProblem);
-    workEmailInput.reportValidity();
-    workEmailInput.focus();
-    return;
-  }
-  contactGate.style.display = "none";
+/* The results are no longer behind the form. Answering the eighth question
+   scores the diagnostic and shows the whole readout -- every lever, the one to
+   start with, and what to do about it. The form now stands between that and
+   the Blueprint, which is the thing it is actually trading for.
+
+   What the form needs afterwards is kept here rather than recomputed, so the
+   lead reports the same numbers the visitor was shown. */
+let diagnosticOutcome = null;
+
+function renderResults() {
   const completedAnswers = answers.filter(Boolean);
   const rawTotal = completedAnswers.reduce((sum, answer) => sum + answer.score, 0);
   /* Percentage drives the tier bands and the ring arc; the visitor sees it out of 40,
@@ -398,12 +391,40 @@ contactGate.addEventListener("submit", async event => {
     primaryModuleReference = `<li><strong>Start with Lever 0${primaryModule}: ${categoryCopy[weak[0].category][0]}</strong>. Your highest priority gap points there.</li>`;
   }
   document.getElementById("recommendations").innerHTML = primaryModuleReference + weak.map(gap => `<li>${categoryCopy[gap.category][1]}</li>`).join("");
+  diagnosticOutcome = { scoreOutOf40, tier, primaryModule, leverStats, weak, total };
+
+  track("diagnostic_completed", { score: scoreOutOf40, tier: tier });
+  results.classList.add("show");
+  /* The hero nudge has done its job -- retire it for the rest of the visit. */
+  document.body.dataset.diagnosticTaken = "true";
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    dimensionList.querySelectorAll(".dimension-fill").forEach((el, index) => {
+      el.style.width = (leverStats[index].score * 10) + "%";
+    });
+  }));
+  results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
+  revealScore(total, scoreOutOf40);
+}
+
+contactGate.addEventListener("submit", async event => {
+  event.preventDefault();
+  /* Primed before the await: it needs the click still to be the current gesture. */
+  bpVoice.prime();
+  /* A typo is caught while they are still here to fix it. Usually already
+     answered from the blur check, so this resolves instantly. */
+  const domainProblem = await mailDomainProblem(workEmailInput.value);
+  if (domainProblem) {
+    showEmailProblem(domainProblem);
+    workEmailInput.reportValidity();
+    workEmailInput.focus();
+    return;
+  }
+  if (!diagnosticOutcome) return;
+  const { scoreOutOf40, tier, primaryModule, weak } = diagnosticOutcome;
+  contactGate.style.display = "none";
   const contact = {
-    firstName: document.getElementById("firstName").value,
-    lastName: document.getElementById("lastName").value,
-    email: document.getElementById("email").value,
-    emailOptIn: (contactGate.querySelector("input[name='emailOptIn']:checked") || {}).value || "No",
-    company: document.getElementById("company").value
+    name: document.getElementById("fullName").value,
+    email: document.getElementById("email").value
   };
   const priorityGaps = weak.map(gap => ({ category: categoryCopy[gap.category][0], score: gap.score }));
   const answerLog = questions
@@ -423,12 +444,10 @@ contactGate.addEventListener("submit", async event => {
      screen", so a slow or unreachable endpoint must never hold them back. */
   if (EMAIL_DELIVERY_ENABLED && EMAIL_ENDPOINT) {
     const lead = {
-      _subject: `Empty Seat Diagnostic: ${contact.firstName} ${contact.lastName}, ${contact.company} (${scoreOutOf40}/40, ${tier})`,
+      _subject: `Empty Seat Diagnostic: ${contact.name} (${scoreOutOf40}/40, ${tier})`,
       _replyto: contact.email,
-      "Name": `${contact.firstName} ${contact.lastName}`,
-      "Company": contact.company,
+      "Name": contact.name,
       "Work Email": contact.email,
-      "Email Opt-In": contact.emailOptIn,
       "Hiring Clarity Score": `${scoreOutOf40} / 40`,
       "Risk Tier": tier,
       "Vacancy Cost Estimate": lastVacancyEstimate ? formatDollars(lastVacancyEstimate) : "Calculator not completed",
@@ -451,33 +470,32 @@ contactGate.addEventListener("submit", async event => {
     currency: "USD",
     calculator_used: document.body.dataset.calculatorUsed === "true",
   });
-  results.classList.add("show");
-  /* The hero nudge has done its job -- retire it for the rest of the visit. */
-  document.body.dataset.diagnosticTaken = "true";
-  requestAnimationFrame(() => requestAnimationFrame(() => {
-    dimensionList.querySelectorAll(".dimension-fill").forEach((el, index) => {
-      el.style.width = (leverStats[index].score * 10) + "%";
-    });
-  }));
   const blueprint = document.getElementById("blueprint");
   if (blueprint) {
     blueprint.hidden = false;
-    track("blueprint_opened", { source: "results" });
+    track("blueprint_opened", { source: "gate" });
     activateBlueprintModule(primaryModule);
+    blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
   }
-    results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
-  revealScore(total, scoreOutOf40);
 });
 
 
 
+
+/* The Blueprint is what the form buys. This button therefore asks, rather than
+   opens -- unless they have already given their details this visit, in which
+   case asking twice would be the only thing standing in their way. */
 document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
-  track("blueprint_opened", { source: "button" });
   bpVoice.prime();
   const blueprint = document.getElementById("blueprint");
-  blueprint.hidden = false;
-  activateBlueprintModule(recommendedBlueprintModule);
-  blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
+  if (!blueprint.hidden) {
+    activateBlueprintModule(recommendedBlueprintModule);
+    blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
+    return;
+  }
+  contactGate.style.display = "block";
+  contactGate.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
+  document.getElementById("fullName").focus({ preventScroll: true });
 });
 
 

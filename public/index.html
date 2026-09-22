@@ -295,7 +295,7 @@ try {
 <section class="assessment-section" id="assessment">
     <div class="shell">
       <div class="assessment-head">
-        <div class="assessment-heading-copy"><p class="eyebrow">5-minute diagnostic</p><h2 class="section-title">You know the cost.<br><em>Now uncover what's driving it.</em></h2><p class="assessment-subhead"><strong>Answer 8 focused questions.</strong><span>Two per lever for a balanced diagnostic. The moment you finish, your Results and Blueprint open right here on this page.</span></p></div>
+        <div class="assessment-heading-copy"><p class="eyebrow">5-minute diagnostic</p><h2 class="section-title">You know the cost.<br><em>Now uncover what's driving it.</em></h2><p class="assessment-subhead"><strong>Answer 8 focused questions.</strong><span>The moment you finish, see your Full Diagnostic Results right here on this page.</span></p></div>
         <div class="assessment-description">
           <p><strong>In under five minutes,</strong> get an immediate read on where your sales leadership hiring process may be costing you top candidates, consuming leadership time, and increasing the risk of a wrong-fit hire in places you cannot see.</p>
         </div>
@@ -315,26 +315,6 @@ try {
             </div>
           </div>
 
-          <form class="contact-gate" id="contactGate">
-            <div class="step-meta"><span>Diagnostic complete</span><span>Unlock your diagnostic</span></div>
-            <h3 class="question">Are you ready to see what in your hiring process may be <em>costing you and increasing the risk</em> of another wrong-fit leader?</h3>
-            <p class="question-hint">Enter your details to reveal your diagnostic results and recommended focus areas.</p>
-            <div class="contact-grid">
-              <div class="field"><label for="firstName">First name</label><input id="firstName" name="firstName" required autocomplete="given-name"></div>
-              <div class="field"><label for="lastName">Last name</label><input id="lastName" name="lastName" required autocomplete="family-name"></div>
-              <div class="field"><label for="company">Company</label><input id="company" name="company" required autocomplete="organization" placeholder="Your company"></div>
-              <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" aria-describedby="emailError"><p class="field-error" id="emailError" role="alert"></p></div>
-              <fieldset class="optin-field">
-                <legend><span>Email opt-in <span class="req" aria-hidden="true">*</span></span></legend>
-                <div class="optin-choice">
-                  <label><input type="radio" name="emailOptIn" value="Yes" required><span>Yes</span></label>
-                  <label><input type="radio" name="emailOptIn" value="No"><span>No</span></label>
-                </div>
-              </fieldset>
-            </div>
-            <p class="form-note contact-optin-note"><span class="req" aria-hidden="true">*</span> Opting in allows you to receive an occasional email from us. Rest assured, there'll be no inbox clutter and no pitching. Only clarity.</p>
-            <div class="assessment-nav"><button class="btn" id="contactBack" type="button">Back</button><button class="btn btn-primary" type="submit">See My Results</button></div>
-          </form>
 
           <div class="results" id="results" aria-live="polite">
             <div class="result-hero">
@@ -361,13 +341,23 @@ try {
             </div>
             <div class="result-panel result-note-panel"><p class="result-method">How scoring works: each lever is scored 0 to 10, where 0 is highest risk and 10 is strongest. Scores are the average of the questions in that lever.</p></div>
             <div class="result-closing">
-              <div><span class="result-closing-label">Your next step</span><p class="result-cta-intro">Your Blueprint is ready and opened to the lever that needs you first.</p></div>
+              <div><span class="result-closing-label">Your next step</span><p class="result-cta-intro">Your Blueprint is ready, and opens to the lever that needs you first.</p></div>
               <div class="result-actions">
                 <button class="btn btn-blue" id="takeBlueprintBtn" type="button"><span>Open Your Hiring Clarity Blueprint</span></button>
                 <a class="btn btn-primary strategy-btn" href="https://calendly.com/michael-north_discovery/15min" target="_blank" rel="noopener"><span>Book a Confidential Conversation</span><small>15 minutes. One leadership problem. Clear next steps.</small></a>
               </div>
             </div>
           </div>
+          <form class="contact-gate" id="contactGate">
+            <div class="step-meta"><span>Diagnostic complete</span><span>Unlock your Blueprint</span></div>
+            <h3 class="question">Where should you focus first to reduce your risk of another <em>wrong-fit hire?</em></h3>
+            <p class="question-hint">Enter your name and work email to receive your Hiring Clarity Blueprint.</p>
+            <div class="contact-grid contact-grid--short">
+              <div class="field"><label for="fullName">Name</label><input id="fullName" name="name" required autocomplete="name"></div>
+              <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" aria-describedby="emailError"><p class="field-error" id="emailError" role="alert"></p></div>
+            </div>
+            <div class="assessment-nav"><button class="btn" id="contactBack" type="button">Back</button><button class="btn btn-primary" type="submit">Open Your Hiring Clarity Blueprint</button></div>
+          </form>
         </div>
         <div class="assessment-lock" id="assessmentLock">
           <div class="assessment-lock-inner">

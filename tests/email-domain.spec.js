@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, getVacancyNumber, answerAll, fillGate, VACANCY } = require("./helpers");
+const { loadDiagnostic, getVacancyNumber, answerAll, openGate, fillGate, VACANCY } = require("./helpers");
 
 /* Public DNS is stubbed throughout. These tests are about what the page does
    with each answer -- and above all that a domain lookup, however it goes,
@@ -35,6 +35,7 @@ async function stubDns(page, byType) {
 async function submitGate(page, email) {
   await getVacancyNumber(page, VACANCY.larger);
   await answerAll(page);
+  await openGate(page);
   await fillGate(page, { email });
   await page.locator("#contactGate button[type=submit]").click();
 }
@@ -60,9 +61,9 @@ test.describe("work email domain check", () => {
 
     await expect(page.locator("#emailError")).toContainText("cannot find a domain called asdfqwerzxcv12345.com");
     await expect(page.locator("#email")).toHaveClass(/is-invalid/);
-    /* Still on the form, with the results and the lead both withheld. */
+    /* Still on the form, with the Blueprint and the lead both withheld. */
     await expect(page.locator("#contactGate")).toBeVisible();
-    await expect(page.locator("#results")).not.toBeVisible();
+    await expect(page.locator("#blueprint")).toBeHidden();
     expect(submissions).toEqual([]);
   });
 
@@ -123,6 +124,7 @@ test.describe("work email domain check", () => {
 
     await getVacancyNumber(page, VACANCY.larger);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page, { email: "someone@gmail.com" });
     await page.locator("#email").blur();
 
@@ -137,6 +139,7 @@ test.describe("work email domain check", () => {
 
     await getVacancyNumber(page, VACANCY.larger);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page, { email: "first@acme.com" });
     await page.locator("#email").blur();
     await expect.poll(() => asked.length).toBe(1);

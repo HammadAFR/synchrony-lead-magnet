@@ -1,11 +1,12 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, getVacancyNumber, answerAll, fillGate } = require("./helpers");
+const { loadDiagnostic, getVacancyNumber, answerAll, openGate, fillGate } = require("./helpers");
 
 /** Reach the contact gate with everything filled except the email. */
 async function atGate(page) {
   const state = await loadDiagnostic(page);
   await getVacancyNumber(page);
   await answerAll(page);
+  await openGate(page);
   await fillGate(page);
   return state;
 }
@@ -22,8 +23,9 @@ test.describe("work email only", () => {
     await expect(page.locator("#email")).toHaveClass(/is-invalid/);
 
     await submit(page);
-    /* Blocked by constraint validation, so nothing scores and nothing is sent. */
-    await expect(page.locator("#results")).not.toHaveClass(/show/);
+    /* The results were already given; what the refusal withholds is the
+       Blueprint, and nothing is sent. */
+    await expect(page.locator("#blueprint")).toBeHidden();
     expect(submissions).toEqual([]);
   });
 

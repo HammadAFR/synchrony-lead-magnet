@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, openCalculator, answerAll, fillGate, VACANCY } = require("./helpers");
+const { loadDiagnostic, openCalculator, answerAll, openGate, fillGate, VACANCY } = require("./helpers");
 
 const PAGE = "/vacancy-cost-calculator/";
 
@@ -146,6 +146,7 @@ test.describe("standalone vacancy cost calculator", () => {
     await expect(page.locator("body")).toHaveAttribute("data-calculator-used", "true");
 
     await answerAll(page);
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
 

@@ -1,5 +1,5 @@
 const { test, expect } = require("@playwright/test");
-const { loadDiagnostic, getVacancyNumber, answerAll, fillGate, VACANCY } = require("./helpers");
+const { loadDiagnostic, getVacancyNumber, answerAll, openGate, fillGate, VACANCY } = require("./helpers");
 
 /*
   Every request to formspree.io is intercepted in loadDiagnostic, so these assertions
@@ -16,6 +16,7 @@ test.describe("the lead that goes to Formspree", () => {
 
     await getVacancyNumber(page);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect(page.locator("#results")).toHaveClass(/show/);
@@ -32,6 +33,7 @@ test.describe("the lead that goes to Formspree", () => {
     const { submissions } = await loadDiagnostic(page);
     await getVacancyNumber(page, VACANCY.larger);
     await answerAll(page);
+    await openGate(page);
     const details = await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect.poll(() => submissions.length).toBe(1);
@@ -41,7 +43,7 @@ test.describe("the lead that goes to Formspree", () => {
        output, not an accident. */
     expect(Object.keys(lead)).toEqual([
       "_subject", "_replyto",
-      "Name", "Company", "Work Email", "Email Opt-In",
+      "Name", "Work Email",
       "Hiring Clarity Score", "Risk Tier", "Vacancy Cost Estimate",
       "Priority Levers", "Diagnostic Answers", "Submitted", "Page",
     ]);
@@ -52,10 +54,8 @@ test.describe("the lead that goes to Formspree", () => {
       expect(key, "labels are titles, not identifiers").toMatch(/^[A-Z][A-Za-z -]*$/);
     }
 
-    expect(lead["Name"]).toBe(`${details.firstName} ${details.lastName}`);
-    expect(lead["Company"]).toBe(details.company);
+    expect(lead["Name"]).toBe(details.name);
     expect(lead["Work Email"]).toBe(details.email);
-    expect(lead["Email Opt-In"]).toBe("Yes");
     expect(lead["Hiring Clarity Score"]).toBe("18 / 40");
     expect(lead["Risk Tier"]).toBe("Developing");
     expect(lead["Vacancy Cost Estimate"]).toBe(VACANCY.larger.total);
@@ -67,18 +67,20 @@ test.describe("the lead that goes to Formspree", () => {
     const { submissions } = await loadDiagnostic(page);
     await getVacancyNumber(page);
     await answerAll(page);
+    await openGate(page);
     const details = await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect.poll(() => submissions.length).toBe(1);
     expect(submissions[0]._replyto).toBe(details.email);
     expect(submissions[0]._subject).toBe(
-      `Empty Seat Diagnostic: ${details.firstName} ${details.lastName}, ${details.company} (18/40, Developing)`);
+      `Empty Seat Diagnostic: ${details.name} (18/40, Developing)`);
   });
 
   test("spells out all eight answers and the priority levers", async ({ page }) => {
     const { submissions } = await loadDiagnostic(page);
     await getVacancyNumber(page);
     await answerAll(page);
+    await openGate(page);
     await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect.poll(() => submissions.length).toBe(1);
@@ -96,11 +98,11 @@ test.describe("the lead that goes to Formspree", () => {
     const { submissions } = await loadDiagnostic(page);
     await page.evaluate(() => { document.body.dataset.calculatorUsed = "true"; });
     await answerAll(page);
-    await fillGate(page, { optIn: "No" });
+    await openGate(page);
+    await fillGate(page);
     await page.locator("#contactGate button[type=submit]").click();
     await expect.poll(() => submissions.length).toBe(1);
     expect(submissions[0]["Vacancy Cost Estimate"]).toBe("Calculator not completed");
-    expect(submissions[0]["Email Opt-In"]).toBe("No");
   });
 
   test("nothing is sent when a diagnostic is not completed", async ({ page }) => {
