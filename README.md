@@ -86,6 +86,15 @@ Which inbox receives the mail, spam filtering and allowed domains are all config
 formspree.io against that form, not here. Never put a private API key in these files —
 they ship to the browser.
 
+## Caching
+
+`firebase.json` makes the HTML, the CSS and the JavaScript revalidate on every
+request, and lets the fonts sit in cache for a year. None of the asset filenames
+carry a hash, so anything cached by time alone eventually serves a stale copy
+against fresh markup — new copy with old behaviour, which looks exactly like a
+deploy that silently failed. `no-cache` still caches; it only means the browser
+asks first, and an unchanged file comes back as a cheap 304.
+
 ## Deploying
 
 ```bash
