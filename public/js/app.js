@@ -305,6 +305,8 @@ if (workEmailInput && workEmailError) {
 
 document.getElementById("contactBack").addEventListener("click", () => {
   contactGate.style.display = "none";
+  const closing = document.getElementById("resultClosing");
+  if (closing) closing.hidden = false;
   results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
 });
 
@@ -422,6 +424,8 @@ contactGate.addEventListener("submit", async event => {
   if (!diagnosticOutcome) return;
   const { scoreOutOf40, tier, primaryModule, weak } = diagnosticOutcome;
   contactGate.style.display = "none";
+  const closing = document.getElementById("resultClosing");
+  if (closing) closing.hidden = false;
   const contact = {
     name: document.getElementById("fullName").value,
     email: document.getElementById("email").value
@@ -493,6 +497,8 @@ document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
     blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
     return;
   }
+  const closing = document.getElementById("resultClosing");
+  if (closing) closing.hidden = true;
   contactGate.style.display = "block";
   contactGate.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
   document.getElementById("fullName").focus({ preventScroll: true });

@@ -81,9 +81,12 @@ test.describe("booking CTAs", () => {
     /* Scoped to btn-primary: the contact dialog books the same link but stays
        blue, so a bare href selector would pick up three. */
     const ctas = page.locator(`a.btn-primary[href="${BOOKING}"]`);
-    await expect(ctas).toHaveCount(2);
-    await expect(page.locator(`a[href="${BOOKING}"]`)).toHaveCount(3);
-    for (let i = 0; i < 2; i += 1) {
+    /* Three now: the results, the form guarding the Blueprint, and the closing
+       section. The form carries one because it takes the results' closing block
+       off screen while it is up, and the conversation should not go with it. */
+    await expect(ctas).toHaveCount(3);
+    await expect(page.locator(`a[href="${BOOKING}"]`)).toHaveCount(4);
+    for (let i = 0; i < 3; i += 1) {
       const cta = ctas.nth(i);
       await expect(cta).toHaveClass(/btn-primary/);      // btn-primary is the green one
       await expect(cta).toHaveAttribute("target", "_blank");

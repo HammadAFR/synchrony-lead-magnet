@@ -340,7 +340,7 @@ try {
               <div class="result-panel result-action-panel"><span class="result-panel-eyebrow">Your immediate action plan</span><h4>What to Do First</h4><ol class="result-steps" id="recommendations"></ol></div>
             </div>
             <div class="result-panel result-note-panel"><p class="result-method">How scoring works: each lever is scored 0 to 10, where 0 is highest risk and 10 is strongest. Scores are the average of the questions in that lever.</p></div>
-            <div class="result-closing">
+            <div class="result-closing" id="resultClosing">
               <div><span class="result-closing-label">Your next step</span><p class="result-cta-intro">Your Blueprint is ready, and opens to the lever that needs you first.</p></div>
               <div class="result-actions">
                 <button class="btn btn-blue" id="takeBlueprintBtn" type="button"><span>Open Your Hiring Clarity Blueprint</span></button>
@@ -351,12 +351,18 @@ try {
           <form class="contact-gate" id="contactGate">
             <div class="step-meta"><span>Diagnostic complete</span><span>Unlock your Blueprint</span></div>
             <h3 class="question">Where should you focus first to reduce your risk of another <em>wrong-fit hire?</em></h3>
-            <p class="question-hint">Enter your name and work email to receive your Hiring Clarity Blueprint.</p>
+            <p class="question-hint">Enter your name and work email to view your Hiring Clarity Blueprint.</p>
             <div class="contact-grid contact-grid--short">
               <div class="field"><label for="fullName">Name</label><input id="fullName" name="name" required autocomplete="name"></div>
               <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" aria-describedby="emailError"><p class="field-error" id="emailError" role="alert"></p></div>
             </div>
-            <div class="assessment-nav"><button class="btn" id="contactBack" type="button">Back</button><button class="btn btn-primary" type="submit">Open Your Hiring Clarity Blueprint</button></div>
+            <div class="assessment-nav">
+              <button class="btn" id="contactBack" type="button">Back</button>
+              <div class="contact-gate-actions">
+                <button class="btn btn-blue" type="submit">Open Your Hiring Clarity Blueprint</button>
+                <a class="btn btn-primary strategy-btn" href="https://calendly.com/michael-north_discovery/15min" target="_blank" rel="noopener"><span>Book a Confidential Conversation</span><small>15 minutes. One leadership problem. Clear next steps.</small></a>
+              </div>
+            </div>
           </form>
         </div>
         <div class="assessment-lock" id="assessmentLock">

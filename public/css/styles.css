@@ -306,11 +306,19 @@ body.mobile-main-nav-compact:not(.profile-mode) > nav { transform: translateY(-1
 .option.selected { border-color: var(--green-800); background: var(--green-050); color: var(--green-950); box-shadow: inset 3px 0 0 var(--green-500); }
 .assessment-nav { display: flex; justify-content: space-between; gap: 14px; margin-top: 35px; padding-top: 25px; border-top: 1px solid var(--line); }
 .assessment-nav .btn[disabled] { background: var(--gray-100); color: var(--gray-300); cursor: not-allowed; transform: none; }
-.contact-gate { display: none; }
+.contact-gate { display: none; margin-top: 44px; padding-top: 40px; border-top: 1px solid var(--line); }
 /* Two fields rather than five: the grid would otherwise strand a lone input on
    its own row on wide screens. */
-.contact-grid--short { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); max-width: 720px; }
 .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 28px; }
+/* Two fields rather than five, each taking half the form so the right-hand one
+   lines up with the buttons underneath it. */
+.contact-grid--short { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.contact-gate .assessment-nav { flex-wrap: wrap; gap: 14px; }
+.contact-gate-actions { display: flex; flex-wrap: wrap; gap: 14px; align-items: stretch; margin-left: auto; }
+@media (max-width: 720px) {
+  .contact-gate-actions { width: 100%; }
+  .contact-gate-actions .btn { width: 100%; }
+}
 .field { display: grid; align-content: start; gap: 7px; }
 .field label { color: var(--green-800); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; }
 .field input, .field select, .field textarea { width: 100%; min-height: 54px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 0; background: white; color: var(--ink); outline: none; }
@@ -386,6 +394,9 @@ body.mobile-main-nav-compact:not(.profile-mode) > nav { transform: translateY(-1
 .dimension-fill { height: 100%; width: 0; border-radius: 6px; transition: width 0.9s cubic-bezier(0.2, 0, 0, 1); }
 .dimension-state { font-size: 0.61rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 /* Blueprint is the whole ask here; retake sits quietly underneath it. */
+/* An explicit display beats the browser's own [hidden] rule, so the attribute
+   stops working the moment one is set. */
+.result-closing[hidden] { display: none; }
 .result-closing { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center; margin-top: 20px; padding: 27px 30px; border: 1px solid rgba(58,133,212,0.22); border-radius: 16px; background: linear-gradient(120deg, var(--blue-050), rgba(242,250,232,0.76)); box-shadow: 0 12px 34px rgba(12,63,117,0.06); }
 .result-closing-label { display: block; margin-bottom: 5px; color: var(--blue-900); font-size: 0.61rem; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; }
 .result-actions { display: grid; justify-items: center; gap: 12px; margin-top: 0; }
