@@ -125,6 +125,53 @@ test.describe("funnel measurement", () => {
     expect(blocked[0].params.reason).toBe("consumer_address");
   });
 
+  test("asking for the Blueprint is measured on its own", async ({ page }) => {
+    await loadDiagnostic(page);
+    await getVacancyNumber(page);
+    await answerAll(page);
+
+    /* Everyone here has already been given their results, so this is the step
+       that separates not wanting the Blueprint from wanting it and giving up
+       at the form. Nothing should report it until they ask. */
+    let fired = await events(page);
+    expect(fired.filter(e => e.name === "blueprint_requested")).toHaveLength(0);
+
+    await openGate(page);
+    fired = await events(page);
+    expect(fired.filter(e => e.name === "blueprint_requested")).toHaveLength(1);
+    expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(0);
+
+    /* Backing out and asking again is a second ask, not a second lead. Wait for
+       the closing block to come back before asking again: its button is what
+       reopens the form, and clicking while it is still hidden races. */
+    await page.locator("#contactBack").click();
+    await expect(page.locator("#resultClosing")).toBeVisible();
+    await openGate(page);
+    fired = await events(page);
+    expect(fired.filter(e => e.name === "blueprint_requested")).toHaveLength(2);
+    expect(fired.filter(e => e.name === "lead_submitted")).toHaveLength(0);
+  });
+
+  test("the funnel reports every step of the new flow, in order", async ({ page }) => {
+    await loadDiagnostic(page);
+    await getVacancyNumber(page);
+    await answerAll(page);
+    await openGate(page);
+    await fillGate(page);
+    await page.locator("#contactGate button[type=submit]").click();
+    await expect(page.locator("#blueprint")).toBeVisible();
+
+    const order = (await events(page)).map(e => e.name)
+      .filter(n => n !== "calculator_opened" && n !== "calculator_completed");
+    expect(order).toEqual([
+      "diagnostic_started",
+      "diagnostic_completed",
+      "blueprint_requested",
+      "lead_submitted",
+      "blueprint_opened",
+    ]);
+  });
+
   test("booking clicks are caught wherever the button lives", async ({ page }) => {
     await loadDiagnostic(page);
     /* Delegated on the destination, not a class, so a fourth CTA is measured

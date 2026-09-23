@@ -497,6 +497,11 @@ document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
     blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
     return;
   }
+  /* Asking for the Blueprint is now a step of its own, and the one the whole
+     restructure exists to measure: everyone reaching the results has already
+     been given them, so this separates "did not want the Blueprint" from
+     "wanted it and gave up at the form". */
+  track("blueprint_requested");
   const closing = document.getElementById("resultClosing");
   if (closing) closing.hidden = true;
   contactGate.style.display = "block";
