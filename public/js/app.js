@@ -303,20 +303,7 @@ if (workEmailInput && workEmailError) {
   workEmailInput.addEventListener("blur", checkEmailDomain);
 }
 
-document.getElementById("contactBack").addEventListener("click", () => {
-  contactGate.style.display = "none";
-  const closing = document.getElementById("resultClosing");
-  if (closing) closing.hidden = false;
-  results.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
-});
-
-/* The results are no longer behind the form. Answering the eighth question
-   scores the diagnostic and shows the whole readout -- every lever, the one to
-   start with, and what to do about it. The form now stands between that and
-   the Blueprint, which is the thing it is actually trading for.
-
-   What the form needs afterwards is kept here rather than recomputed, so the
-   lead reports the same numbers the visitor was shown. */
+/* Results and Blueprint access are independent of the optional email request. */
 let diagnosticOutcome = null;
 
 function renderResults() {
@@ -366,13 +353,7 @@ function renderResults() {
   const primaryLeverScore = document.getElementById("primaryLeverScore");
   primaryLeverScore.textContent = `${weakest.score}/10 · ${primaryLevel.label}`;
   primaryLeverScore.style.color = `var(--sc-${primaryLevel.tone})`;
-  const resultCostCard = document.getElementById("resultCostCard");
-  if (lastVacancyEstimate) {
-    document.getElementById("resultCostValue").textContent = formatDollars(lastVacancyEstimate);
-    resultCostCard.hidden = false;
-  } else {
-    resultCostCard.hidden = true;
-  }
+  updateResultCost();
   document.getElementById("gaps").innerHTML = weak.map((gap, index) => {
     const level = severityFor(gap.score);
     return `<div class="focus-item" style="--focus-accent:var(--scb-${level.tone})"><div class="focus-priority">Priority ${String(index + 1).padStart(2, "0")}</div><div class="focus-head"><span class="focus-name">${categoryCopy[gap.category][0]}</span><span class="gap-score" style="background:var(--scb-${level.tone})">${gap.score}/10</span></div><span class="gap-level" style="color:var(--sc-${level.tone})">${level.label}</span><p class="gap-consequence">${categoryCopy[gap.category][2]}</p></div>`;
@@ -410,8 +391,10 @@ function renderResults() {
 
 contactGate.addEventListener("submit", async event => {
   event.preventDefault();
-  /* Primed before the await: it needs the click still to be the current gesture. */
-  bpVoice.prime();
+  if (!document.getElementById("emailBlueprintPdf").checked || !contactGate.reportValidity()) return;
+  const submitButton = contactGate.querySelector("button[type=submit]");
+  const status = document.getElementById("blueprintEmailStatus");
+  if (submitButton.disabled) return;
   /* A typo is caught while they are still here to fix it. Usually already
      answered from the blur check, so this resolves instantly. */
   const domainProblem = await mailDomainProblem(workEmailInput.value);
@@ -422,14 +405,11 @@ contactGate.addEventListener("submit", async event => {
     return;
   }
   if (!diagnosticOutcome) return;
-  const { scoreOutOf40, tier, primaryModule, weak } = diagnosticOutcome;
-  contactGate.style.display = "none";
-  const closing = document.getElementById("resultClosing");
-  if (closing) closing.hidden = false;
+  const { scoreOutOf40, tier, weak } = diagnosticOutcome;
   const contact = {
-    name: document.getElementById("fullName").value,
     email: document.getElementById("email").value
   };
+  const pdfRequested = document.getElementById("emailBlueprintPdf").checked;
   const priorityGaps = weak.map(gap => ({ category: categoryCopy[gap.category][0], score: gap.score }));
   const answerLog = questions
     .map((question, index) => answers[index] ? ({ question: question.text, answer: answers[index].label, score: answers[index].score }) : null)
@@ -444,14 +424,13 @@ contactGate.addEventListener("submit", async event => {
      the diagnostic. Underscore-prefixed keys are reserved, so neither of them
      shows up as a row.
 
-     Deliberately not awaited. The page promises results "immediately on the
-     screen", so a slow or unreachable endpoint must never hold them back. */
+     The request has its own confirmation; Blueprint access never waits for it. */
   if (EMAIL_DELIVERY_ENABLED && EMAIL_ENDPOINT) {
     const lead = {
-      _subject: `Empty Seat Diagnostic: ${contact.name} (${scoreOutOf40}/40, ${tier})`,
+      _subject: `Blueprint email request (${scoreOutOf40}/40, ${tier})`,
       _replyto: contact.email,
-      "Name": contact.name,
       "Work Email": contact.email,
+      "Blueprint PDF Requested": pdfRequested ? "Yes" : "No",
       "Hiring Clarity Score": `${scoreOutOf40} / 40`,
       "Risk Tier": tier,
       "Vacancy Cost Estimate": lastVacancyEstimate ? formatDollars(lastVacancyEstimate) : "Calculator not completed",
@@ -460,55 +439,60 @@ contactGate.addEventListener("submit", async event => {
       "Submitted": new Date().toLocaleString(),
       "Page": window.location.href
     };
-    fetch(EMAIL_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify(lead)
-    }).then(async response => {
-      if (response.ok) console.info("[email] Diagnostic results sent.");
-      else console.error("[email] Formspree rejected the submission.", response.status, await response.json().catch(() => ({})));
-    }).catch(error => console.error("[email] The diagnostic results could not be sent.", error));
+    submitButton.disabled = true;
+    status.textContent = "Sending your request…";
+    try {
+      const response = await fetch(EMAIL_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(lead)
+      });
+      if (!response.ok) throw new Error("Submission failed");
+      status.textContent = "Your request has been sent to our team. You can view your Blueprint now.";
+    } catch (error) {
+      status.textContent = "Your request could not be sent. Please try again. You can still view your Blueprint.";
+      return;
+    } finally {
+      submitButton.disabled = false;
+    }
+  } else {
+    status.textContent = "Email requests are unavailable right now. You can still view your Blueprint.";
+    return;
   }
   track("lead_submitted", {
     value: lastVacancyEstimate || 0,
     currency: "USD",
     calculator_used: document.body.dataset.calculatorUsed === "true",
+    pdf_requested: pdfRequested,
   });
-  const blueprint = document.getElementById("blueprint");
-  if (blueprint) {
-    blueprint.hidden = false;
-    track("blueprint_opened", { source: "gate" });
-    activateBlueprintModule(primaryModule);
-    blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
-  }
 });
 
-
-
-
-/* The Blueprint is what the form buys. This button therefore asks, rather than
-   opens -- unless they have already given their details this visit, in which
-   case asking twice would be the only thing standing in their way. */
+/* Open directly, without submitting or validating the optional email form. */
 document.getElementById("takeBlueprintBtn").addEventListener("click", () => {
   bpVoice.prime();
   const blueprint = document.getElementById("blueprint");
-  if (!blueprint.hidden) {
-    activateBlueprintModule(recommendedBlueprintModule);
-    blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
-    return;
+  if (blueprint.hidden) {
+    track("blueprint_requested");
+    blueprint.hidden = false;
+    track("blueprint_opened", { source: "results" });
   }
-  /* Asking for the Blueprint is now a step of its own, and the one the whole
-     restructure exists to measure: everyone reaching the results has already
-     been given them, so this separates "did not want the Blueprint" from
-     "wanted it and gave up at the form". */
-  track("blueprint_requested");
-  const closing = document.getElementById("resultClosing");
-  if (closing) closing.hidden = true;
-  contactGate.style.display = "block";
-  contactGate.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
-  document.getElementById("fullName").focus({ preventScroll: true });
+  activateBlueprintModule(recommendedBlueprintModule);
+  blueprint.scrollIntoView({ behavior: REDUCE_MOTION ? "auto" : "smooth", block: "start" });
 });
 
+
+function updateResultCost() {
+  const card = document.getElementById("resultCostCard");
+  const value = document.getElementById("resultCostValue");
+  const complete = lastVacancyEstimate !== null;
+  card.hidden = false;
+  value.textContent = complete ? formatDollars(lastVacancyEstimate) : "$689,950";
+  value.classList.toggle("is-placeholder", !complete);
+  value.setAttribute("aria-label", complete ? value.textContent : "Cost not calculated");
+  card.querySelector("small").textContent = complete
+    ? "Your calculated estimate while the seat remains open"
+    : "Enter only 3 numbers into the vacancy calculator to know your cost";
+}
 
 /* ---- About page: standalone Cost of Vacancy calculator dialog ---- */
 const costCalcDialog = document.getElementById("costCalcDialog");
@@ -525,6 +509,9 @@ if (costCalcDialog) {
   const ccInsight = document.getElementById("costCalcInsight");
   const ccToDiagnostic = document.getElementById("costCalcToDiagnostic");
   const ccToDiagnosticNote = document.getElementById("costCalcToDiagnosticNote");
+  const editedFields = new Set();
+  const trackedFields = new Set();
+  const calcFields = [ccRevenue, ccMonths, ccHours];
   function updateCostCalc() {
     const quota = parseFloat(ccRevenue.value) || 0;
     const months = parseFloat(ccMonths.value) || 0;
@@ -532,30 +519,16 @@ if (costCalcDialog) {
     const { revenueDrag, leadershipDrag, total } = computeVacancyCost(quota, months, hours);
     ccTotal.textContent = formatDollars(total);
     const touched = ccRevenue.value !== "" || ccMonths.value !== "" || ccHours.value !== "";
-    /* Having a number means all three inputs answered and a real total on the
-       board -- a single figure typed into one box is not an estimate. The hero
-       nudge and the diagnostic lock both read this, and clearing any field puts
-       them back to not having one. */
-    const hasNumber = ccRevenue.value !== "" && ccMonths.value !== "" && ccHours.value !== "" && total > 0;
-    /* The figure the results quote back is only ever overwritten by another
-       complete one. Reworking the inputs mid-diagnostic moves it to the new
-       total; emptying a field leaves the last real number standing, so the
-       results never end up quoting a blank. */
-    /* Fired on the transition into "they have a number", not on every
-       keystroke -- otherwise a completed calculation reports a dozen times. */
+    const hasNumber = calcFields.every(input => editedFields.has(input.id) && input.value !== "" && input.validity.valid && Number.isFinite(Number(input.value))) && total > 0;
     if (hasNumber && lastVacancyEstimate !== total) {
       track("calculator_completed", { value: total, currency: "USD", source: "dialog" });
     }
-    if (hasNumber) lastVacancyEstimate = total;
+    lastVacancyEstimate = hasNumber ? total : null;
     if (hasNumber) document.body.dataset.calculatorUsed = "true";
     else delete document.body.dataset.calculatorUsed;
-    /* A partial answer already puts a figure on screen, so the way through to the
-       diagnostic stays shut until it is a real one -- otherwise this button lands
-       them on a locked card with no idea why. */
-    ccToDiagnostic.disabled = !hasNumber;
-    ccToDiagnosticNote.textContent = hasNumber
-      ? ""
-      : "Fill in all three inputs to get your number and unlock the diagnostic.";
+    updateResultCost();
+    ccToDiagnostic.disabled = false;
+    ccToDiagnosticNote.textContent = hasNumber ? "" : "The diagnostic is available with or without a calculated cost.";
     if (!touched) {
       ccInsight.innerHTML = `<h4>Enter your numbers to see your estimated cost of waiting.</h4><div class="calc-method"><p class="calc-method-text" id="calcMethodText">$200/hour is a conservative executive-time assumption grounded in <a href="https://www.bls.gov/news.release/ocwage.t01.htm" target="_blank" rel="noopener">BLS wage and benefits data</a> for chief executives (~$185/hour fully loaded) and <a href="https://www.heidrick.com/-/media/heidrickcom/publications-and-reports/2025-pebacked-ceo-compensation-survey.pdf" target="_blank" rel="noopener">Heidrick &amp; Struggles' PE-backed CEO compensation survey</a> (~$252/hour for companies under $50M revenue). The 20% revenue factor draws on <a href="https://www.gallup.com/workplace/321725/gallup-q12-meta-analysis-report.aspx" target="_blank" rel="noopener">Gallup</a> and <a href="https://salesmanagement.org/web/uploads/pdf-renamed-by-uzzal/89f5f8ff556f7a60adf7f1a78eac94c1.pdf" target="_blank" rel="noopener">Sales Management Association</a> research linking leadership engagement and coaching quality to 17&ndash;23% gains in sales productivity and profitability.</p><button class="calc-method-toggle" type="button" aria-expanded="false" aria-controls="calcMethodText">Show sources</button></div>`;
       return;
@@ -573,18 +546,22 @@ if (costCalcDialog) {
     text.classList.toggle("is-open", !open);
     toggle.textContent = open ? "Show sources" : "Show less";
   });
-  /* Someone who filled this in on /vacancy-cost-calculator/ arrives with their
-     three numbers already answered. Replaying them through updateCostCalc is
-     what unlocks the diagnostic, so the handoff needs no separate flag. */
+  /* Only completed user inputs from the standalone calculator qualify. */
   const carried = typeof recallVacancyInputs === "function" ? recallVacancyInputs() : null;
   if (carried && carried.revenue && carried.months && carried.hours) {
     ccRevenue.value = carried.revenue;
     ccMonths.value = carried.months;
     ccHours.value = carried.hours;
-    updateCostCalc();
+    calcFields.forEach(input => editedFields.add(input.id));
   }
+  updateCostCalc();
 
-  [ccRevenue, ccMonths, ccHours].forEach(input => input.addEventListener("input", updateCostCalc));
+  calcFields.forEach((input, index) => input.addEventListener("input", () => {
+    if (!trackedFields.has(input.id)) track("calculator_field_started", { source: "dialog", field: ["revenue", "months", "hours"][index] });
+    trackedFields.add(input.id);
+    editedFields.add(input.id);
+    updateCostCalc();
+  }));
   document.getElementById("costCalcClose").addEventListener("click", () => costCalcDialog.close());
   costCalcDialog.addEventListener("click", event => { if (event.target === costCalcDialog) costCalcDialog.close(); });
   document.getElementById("costCalcToDiagnostic").addEventListener("click", () => {
@@ -866,50 +843,6 @@ if (experienceEl) {
     experienceEl.appendChild(wrapper);
   });
 }
-
-/* ---- Diagnostic lock: tracks whether they have a number, both ways ----
-   Locking is applied here rather than in the markup so a script failure leaves
-   the diagnostic reachable rather than sealed shut. Emptying any calculator
-   field puts the panel back, since the number is the reason these questions are
-   worth answering -- but only up until they start answering. Dropping a panel
-   over work already done would read as a reset, and their figure is kept for the
-   results either way. */
-(() => {
-  const card = document.querySelector(".assessment-card");
-  const lock = document.getElementById("assessmentLock");
-  const content = card && card.querySelector(".assessment-content");
-  if (!card || !lock || !content) return;
-
-  const hasNumber = () => document.body.dataset.calculatorUsed === "true";
-  const hasStarted = () => document.body.dataset.diagnosticStarted === "true";
-  let fadeTimer = 0;
-
-  function open() {
-    window.clearTimeout(fadeTimer);
-    card.classList.remove("is-locked");
-    content.removeAttribute("inert");
-    lock.classList.add("is-open");
-    /* Out of the layout, but only once the fade has played. */
-    fadeTimer = window.setTimeout(() => { lock.hidden = true; }, 500);
-  }
-
-  function close() {
-    window.clearTimeout(fadeTimer);
-    card.classList.add("is-locked");
-    content.setAttribute("inert", "");
-    lock.hidden = false;
-    /* A frame in the laid-out state so the panel fades back rather than snapping. */
-    requestAnimationFrame(() => lock.classList.remove("is-open"));
-  }
-
-  if (hasNumber()) lock.hidden = true;
-  else close();
-
-  new MutationObserver(() => {
-    if (hasNumber()) open();
-    else if (!hasStarted()) close();
-  }).observe(document.body, { attributes: true, attributeFilter: ["data-calculator-used"] });
-})();
 
 const mobileNavQuery = window.matchMedia("(max-width: 860px)");
 let lastNavScrollY = window.scrollY;

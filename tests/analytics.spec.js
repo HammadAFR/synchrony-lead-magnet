@@ -162,7 +162,7 @@ test.describe("funnel measurement", () => {
     await expect(page.locator("#blueprint")).toBeVisible();
 
     const order = (await events(page)).map(e => e.name)
-      .filter(n => n !== "calculator_opened" && n !== "calculator_completed");
+      .filter(n => n !== "calculator_opened" && n !== "calculator_completed" && n !== "calculator_field_started");
     expect(order).toEqual([
       "diagnostic_started",
       "diagnostic_completed",
@@ -199,4 +199,16 @@ test.describe("funnel measurement", () => {
     await expect(page.locator("#results")).toHaveClass(/show/);
     expect(problems).toEqual([]);
   });
+});
+
+test("calculator field events require edits and fire once per field", async ({ page }) => {
+  await loadDiagnostic(page);
+  expect((await events(page)).filter(e => e.name === "calculator_completed")).toHaveLength(0);
+  await openCalculator(page);
+  expect((await events(page)).filter(e => e.name === "calculator_field_started")).toHaveLength(0);
+  await fillCalculator(page);
+  await page.fill("#costCalcRevenue", "3000000");
+  const fields = (await events(page)).filter(e => e.name === "calculator_field_started");
+  expect(fields.map(e => e.params.field)).toEqual(["revenue", "months", "hours"]);
+  expect(fields.every(e => e.params.source === "dialog")).toBe(true);
 });

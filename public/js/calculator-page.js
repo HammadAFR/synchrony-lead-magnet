@@ -44,7 +44,12 @@ function updatePageCalc() {
   rememberVacancyInputs(pageRevenue.value, pageMonths.value, pageHours.value);
 }
 
-[pageRevenue, pageMonths, pageHours].forEach(input => input.addEventListener("input", updatePageCalc));
+const startedFields = new Set();
+[pageRevenue, pageMonths, pageHours].forEach((input, index) => input.addEventListener("input", () => {
+  if (!startedFields.has(input.id)) track("calculator_field_started", { source: "page", field: ["revenue", "months", "hours"][index] });
+  startedFields.add(input.id);
+  updatePageCalc();
+}));
 
 /* This page is the calculator, so arriving is opening it -- the same funnel
    step the dialog reports, so the two routes stay comparable. */

@@ -2,12 +2,12 @@ const { test, expect } = require("@playwright/test");
 const { loadDiagnostic, openCalculator, fillCalculator, getVacancyNumber,
         answerAll, openGate, fillGate, VACANCY } = require("./helpers");
 
-test.describe("the lock in front of the diagnostic", () => {
-  test("is closed on arrival and the questions cannot be reached", async ({ page }) => {
+test.describe("the diagnostic is always available", () => {
+  test("is available on arrival", async ({ page }) => {
     await loadDiagnostic(page);
-    await expect(page.locator("#assessmentLock")).toBeVisible();
-    await expect(page.locator(".assessment-card")).toHaveClass(/is-locked/);
-    await expect(page.locator(".assessment-content")).toHaveAttribute("inert", "");
+    await expect(page.locator("#assessmentLock")).toBeHidden();
+    await expect(page.locator(".assessment-card")).not.toHaveClass(/is-locked/);
+    await expect(page.locator(".assessment-content")).not.toHaveAttribute("inert", "");
   });
 
   test("opens once a real number is on the board", async ({ page }) => {
@@ -18,14 +18,14 @@ test.describe("the lock in front of the diagnostic", () => {
     await expect(page.locator(".assessment-content")).not.toHaveAttribute("inert", "");
   });
 
-  test("closes again if a field is emptied before answering", async ({ page }) => {
+  test("remains available if a field is emptied before answering", async ({ page }) => {
     await loadDiagnostic(page);
     await openCalculator(page);
     await fillCalculator(page);
     await expect(page.locator("#assessmentLock")).toBeHidden();
     await page.fill("#costCalcMonths", "");
-    await expect(page.locator("#assessmentLock")).toBeVisible();
-    await expect(page.locator(".assessment-content")).toHaveAttribute("inert", "");
+    await expect(page.locator("#assessmentLock")).toBeHidden();
+    await expect(page.locator(".assessment-content")).not.toHaveAttribute("inert", "");
   });
 
   test("stays open once answering has begun, even if the fields are cleared", async ({ page }) => {
@@ -100,4 +100,21 @@ test.describe("running the diagnostic", () => {
     await page.locator("#contactGate button[type=submit]").click();
     await expect(page.locator("body")).toHaveAttribute("data-diagnostic-taken", "true");
   });
+});
+
+test("example and partial inputs never enter the report", async ({ page }) => {
+  const { submissions } = await loadDiagnostic(page);
+  await openCalculator(page);
+  await expect(page.locator("#costCalcRevenue")).toHaveValue("7500000");
+  await expect(page.locator("#costCalcTotal")).toHaveText("$689,950");
+  await page.fill("#costCalcRevenue", "2000000");
+  await page.locator("#costCalcClose").click();
+  await answerAll(page);
+  await expect(page.locator("#resultCostValue")).toHaveClass(/is-placeholder/);
+  await expect(page.locator("#resultCostCard small")).toHaveText("Enter only 3 numbers into the vacancy calculator to know your cost");
+  await openGate(page);
+  await fillGate(page);
+  await page.locator("#contactGate button[type=submit]").click();
+  await expect.poll(() => submissions.length).toBe(1);
+  expect(submissions[0]["Vacancy Cost Estimate"]).toBe("Calculator not completed");
 });

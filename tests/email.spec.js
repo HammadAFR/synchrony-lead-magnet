@@ -43,7 +43,7 @@ test.describe("the lead that goes to Formspree", () => {
        output, not an accident. */
     expect(Object.keys(lead)).toEqual([
       "_subject", "_replyto",
-      "Name", "Work Email",
+      "Name", "Work Email", "Blueprint PDF Requested",
       "Hiring Clarity Score", "Risk Tier", "Vacancy Cost Estimate",
       "Priority Levers", "Diagnostic Answers", "Submitted", "Page",
     ]);
@@ -114,3 +114,18 @@ test.describe("the lead that goes to Formspree", () => {
     expect(submissions).toEqual([]);
   });
 });
+
+for (const requested of [false, true]) {
+  test(`PDF request ${requested} preserves online Blueprint access`, async ({ page }) => {
+    const { submissions } = await loadDiagnostic(page);
+    await answerAll(page);
+    await openGate(page);
+    await fillGate(page);
+    await expect(page.locator("#emailBlueprintPdf")).not.toBeChecked();
+    if (requested) await page.locator("#emailBlueprintPdf").check();
+    await page.locator("#contactGate button[type=submit]").click();
+    await expect(page.locator("#blueprint")).toBeVisible();
+    await expect.poll(() => submissions.length).toBe(1);
+    expect(submissions[0]["Blueprint PDF Requested"]).toBe(requested ? "Yes" : "No");
+  });
+}

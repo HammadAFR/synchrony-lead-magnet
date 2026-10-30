@@ -259,18 +259,19 @@ try {
       <p class="eyebrow">Cost of Vacancy Calculator</p>
       <h3 class="calc-dialog-title" id="costCalcTitle">What is the empty seat billing you?</h3>
       <div class="vacancy-grid">
-        <div class="field"><label for="costCalcRevenue">Annual revenue this role owns ($)</label><input id="costCalcRevenue" type="number" min="0" inputmode="numeric" placeholder="5,000,000"></div>
-        <div class="field"><label for="costCalcMonths">Months the role is (or will be) open</label><input id="costCalcMonths" type="number" min="0" inputmode="numeric" placeholder="4"></div>
-        <div class="field"><label for="costCalcHours">Executive hours per week covering the gap</label><input id="costCalcHours" type="number" min="0" inputmode="numeric" placeholder="8"></div>
+        <div class="field"><label for="costCalcRevenue">Annual revenue this role owns ($)</label><input id="costCalcRevenue" type="number" min="0" inputmode="numeric" value="7500000"></div>
+        <div class="field"><label for="costCalcMonths">Months the role is (or will be) open</label><input id="costCalcMonths" type="number" min="0" inputmode="numeric" value="5"></div>
+        <div class="field"><label for="costCalcHours">Executive hours per week covering the gap</label><input id="costCalcHours" type="number" min="0" inputmode="numeric" value="15"></div>
       </div>
+      <p class="calc-example-note">The numbers are prefilled as an example only. Enter your numbers, even if approximations, to know your cost today. Or, scroll down to take the diagnostic now and come back later if you don't have your numbers ready.</p>
       <div class="vacancy-total">Estimated vacancy cost: <span id="costCalcTotal">$0</span></div>
       <p class="calc-page-link"><a href="/vacancy-cost-calculator/">Open the full Vacancy Cost Calculator and methodology</a></p>
       <p class="calc-citation">The estimate uses a conservative 20% revenue-impact factor and a conservative executive-time assumption. The methodology is informed by research from Gallup, the Sales Management Association, the U.S. Bureau of Labor Statistics, and Heidrick &amp; Struggles on leadership impact, executive compensation, and organizational performance.</p>
       <div class="scorecard-insight" id="costCalcInsight"><h4>Enter your numbers to see your estimated cost of waiting.</h4><div class="calc-method"><p class="calc-method-text" id="calcMethodText">$200/hour is grounded in <a href="https://www.bls.gov/news.release/ocwage.t01.htm" target="_blank" rel="noopener">BLS wage and benefits data</a> for chief executives (~$185/hour fully loaded) and <a href="https://www.heidrick.com/-/media/heidrickcom/publications-and-reports/2025-pebacked-ceo-compensation-survey.pdf" target="_blank" rel="noopener">Heidrick &amp; Struggles' PE-backed CEO compensation survey</a> (~$252/hour for companies under $50M revenue). The 20% revenue factor draws on <a href="https://www.gallup.com/workplace/321725/gallup-q12-meta-analysis-report.aspx" target="_blank" rel="noopener">Gallup</a> and <a href="https://salesmanagement.org/web/uploads/pdf-renamed-by-uzzal/89f5f8ff556f7a60adf7f1a78eac94c1.pdf" target="_blank" rel="noopener">Sales Management Association</a> research linking leadership engagement and coaching quality to 17&ndash;23% gains in sales productivity and profitability.</p><button class="calc-method-toggle" type="button" aria-expanded="false" aria-controls="calcMethodText">Show sources</button></div></div>
       <div class="calc-to-diagnostic">
         <p class="calc-to-diagnostic-lead">Three inputs give you the cost. The 8-question diagnostic shows you what's driving it.</p>
-        <button class="btn btn-blue" type="button" id="costCalcToDiagnostic" disabled><span>Diagnose What's Driving The Cost</span></button>
-        <p class="calc-to-diagnostic-note" id="costCalcToDiagnosticNote">Fill in all three inputs to get your number and unlock the diagnostic.</p>
+        <button class="btn btn-blue" type="button" id="costCalcToDiagnostic"><span>Diagnose What's Driving The Cost</span></button>
+        <p class="calc-to-diagnostic-note" id="costCalcToDiagnosticNote">The diagnostic is available with or without a calculated cost.</p>
       </div>
       <div class="calc-proof">
         <p class="calc-proof-label">Voices from the leaders we have served.</p>
@@ -295,7 +296,7 @@ try {
 <section class="assessment-section" id="assessment">
     <div class="shell">
       <div class="assessment-head">
-        <div class="assessment-heading-copy"><p class="eyebrow">5-minute diagnostic</p><h2 class="section-title">You know the cost.<br><em>Now uncover what's driving it.</em></h2><p class="assessment-subhead"><strong>Answer 8 focused questions.</strong><span>The moment you finish, see your Full Diagnostic Results right here on this page.</span></p></div>
+        <div class="assessment-heading-copy"><p class="eyebrow">5-minute diagnostic</p><h2 class="section-title">An empty seat has a cost.<br><em>Uncover what's driving it.</em></h2><p class="assessment-subhead"><strong>Answer 8 focused questions.</strong><span>The moment you finish, see your Full Diagnostic Results right here on this page.</span></p></div>
         <div class="assessment-description">
           <p><strong>In under five minutes,</strong> get an immediate read on where your sales leadership hiring process may be costing you top candidates, consuming leadership time, and increasing the risk of a wrong-fit hire in places you cannot see.</p>
         </div>
@@ -341,44 +342,27 @@ try {
             </div>
             <div class="result-panel result-note-panel"><p class="result-method">How scoring works: each lever is scored 0 to 10, where 0 is highest risk and 10 is strongest. Scores are the average of the questions in that lever.</p></div>
             <div class="result-closing" id="resultClosing">
-              <div><span class="result-closing-label">Your next step</span><p class="result-cta-intro">Your results are already yours. To open the full Blueprint, we only ask for your first name and work email.</p></div>
+              <div><span class="result-closing-label">Your next step</span><p class="result-cta-intro">Your results are already yours. Open the blueprint to see your next steps now on how to reduce the risk of another wrong-fit hire.</p></div>
               <div class="result-actions">
                 <button class="btn btn-blue" id="takeBlueprintBtn" type="button"><span>Open Your Hiring Clarity Blueprint</span></button>
                 <a class="btn btn-primary strategy-btn" href="https://calendly.com/michael-north_discovery/15min" target="_blank" rel="noopener"><span>Book a Confidential Conversation</span><small>15 minutes. One leadership problem. Clear next steps.</small></a>
               </div>
+              <form class="blueprint-email-form" id="contactGate">
+                <div class="blueprint-pdf-option">
+                  <label for="emailBlueprintPdf"><input id="emailBlueprintPdf" name="emailBlueprintPdf" type="checkbox" required aria-describedby="blueprintEmailPrivacy"><span>Also email me my Hiring Clarity Blueprint as a PDF.</span></label>
+                  <p id="blueprintEmailPrivacy">Your email will be protected and will not be shared with anyone.</p>
+                </div>
+                <div class="blueprint-email-row">
+                  <div class="field"><label for="email">Work email (only for an email copy)</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" aria-describedby="emailError"><p class="field-error" id="emailError" role="alert"></p></div>
+                  <button class="btn btn-blue" type="submit">Request email copy</button>
+                </div>
+                <p id="blueprintEmailStatus" role="status" aria-live="polite"></p>
+              </form>
             </div>
           </div>
-          <form class="contact-gate" id="contactGate">
-            <div class="step-meta"><span>Diagnostic complete</span><span>Unlock your Blueprint</span></div>
-            <h3 class="question">Where should you focus first to reduce your risk of another <em>wrong-fit hire?</em></h3>
-            <p class="question-hint">Enter your name and work email to view your Hiring Clarity Blueprint.</p>
-            <div class="contact-grid contact-grid--short">
-              <div class="field"><label for="fullName">Name</label><input id="fullName" name="name" required autocomplete="name"></div>
-              <div class="field"><label for="email">Work email</label><input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" aria-describedby="emailError"><p class="field-error" id="emailError" role="alert"></p></div>
-            </div>
-            <div class="assessment-nav">
-              <button class="btn" id="contactBack" type="button">Back</button>
-              <div class="contact-gate-actions">
-                <button class="btn btn-blue" type="submit">Open Your Hiring Clarity Blueprint</button>
-                <a class="btn btn-primary strategy-btn" href="https://calendly.com/michael-north_discovery/15min" target="_blank" rel="noopener"><span>Book a Confidential Conversation</span><small>15 minutes. One leadership problem. Clear next steps.</small></a>
-              </div>
-            </div>
-          </form>
+
         </div>
-        <div class="assessment-lock" id="assessmentLock">
-          <div class="assessment-lock-inner">
-            <span class="assessment-lock-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="4" y="10.5" width="16" height="10.5" rx="2.2"/>
-                <path d="M8 10.5V7.4a4 4 0 0 1 8 0v3.1"/>
-                <circle cx="12" cy="15.6" r="1.25" fill="currentColor" stroke="none"/>
-              </svg>
-            </span>
-            <h3>Get your number first.</h3>
-            <p>Before you diagnose the hiring problem, know what the empty seat may be costing you. Three inputs give you the cost. Eight questions help uncover what may be driving it.</p>
-            <button class="btn btn-blue strategy-btn" type="button" onclick="openCostCalc()"><span>Vacancy Cost Calculator</span><small>No email. No forms. Just the cost of waiting.</small></button>
-          </div>
-        </div>
+
       </div>
     </div>
   </section>
@@ -495,7 +479,7 @@ try {
     </span>
     <span class="mn-scroll-prompt__copy">
       <span class="mn-scroll-prompt__eyebrow">Do you have your number yet?</span>
-      <span class="mn-scroll-prompt__message">Get it first. Then find what's costing you.</span>
+      <span class="mn-scroll-prompt__message">Estimate your cost, or start the diagnostic anytime.</span>
       <span class="mn-scroll-prompt__action">Clarity First. The Right Talent Follows.</span>
     </span>
   </button>

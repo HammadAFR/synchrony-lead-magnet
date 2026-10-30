@@ -20,16 +20,15 @@ test.describe("vacancy cost calculator", () => {
     }
   });
 
-  test("a partial answer will not unlock anything", async ({ page }) => {
+  test("a partial answer allows the diagnostic without counting as completed", async ({ page }) => {
     await loadDiagnostic(page);
     await openCalculator(page);
     await page.fill("#costCalcRevenue", "2000000");
     await page.fill("#costCalcMonths", "6");
-    /* Two of three fields already puts a figure on screen -- the way through
-       must stay shut until it is a real one. */
-    await expect(page.locator("#costCalcToDiagnostic")).toBeDisabled();
+    /* Examples must not qualify as user inputs, but the diagnostic stays open. */
+    await expect(page.locator("#costCalcToDiagnostic")).toBeEnabled();
     await expect(page.locator("#costCalcToDiagnosticNote"))
-      .toHaveText("Fill in all three inputs to get your number and unlock the diagnostic.");
+      .toHaveText("The diagnostic is available with or without a calculated cost.");
     await expect(page.locator("body")).not.toHaveAttribute("data-calculator-used", "true");
   });
 
@@ -50,7 +49,7 @@ test.describe("vacancy cost calculator", () => {
 
     await page.fill("#costCalcHours", "");
     await expect(page.locator("body")).not.toHaveAttribute("data-calculator-used", "true");
-    await expect(page.locator("#costCalcToDiagnostic")).toBeDisabled();
+    await expect(page.locator("#costCalcToDiagnostic")).toBeEnabled();
 
     await page.fill("#costCalcHours", "10");
     await expect(page.locator("body")).toHaveAttribute("data-calculator-used", "true");
@@ -60,7 +59,7 @@ test.describe("vacancy cost calculator", () => {
     await loadDiagnostic(page);
     await openCalculator(page);
     await expect(page.locator("#costCalcInsight"))
-      .toContainText("Enter your numbers to see your estimated cost of waiting.");
+      .toContainText("Revenue at Risk:");
     await fillCalculator(page);
     await expect(page.locator("#costCalcInsight")).toContainText("Revenue at Risk:");
     await expect(page.locator("#costCalcInsight")).toContainText("Executive Coverage Cost:");
@@ -69,6 +68,9 @@ test.describe("vacancy cost calculator", () => {
   test("the assumptions cite their sources, clamped until asked for", async ({ page }) => {
     await loadDiagnostic(page);
     await openCalculator(page);
+    await page.fill("#costCalcRevenue", "");
+    await page.fill("#costCalcMonths", "");
+    await page.fill("#costCalcHours", "");
     const note = page.locator(".calc-method-text");
     const toggle = page.locator(".calc-method-toggle");
     await expect(note).toContainText("BLS wage and benefits data");

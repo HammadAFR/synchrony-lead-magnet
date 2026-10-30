@@ -1604,3 +1604,20 @@ body[data-diagnostic-taken] .mn-scroll-prompt { opacity: 0; transform: translate
   .mn-scroll-prompt__pulse,
   .mn-scroll-prompt__arrow { animation: none !important; transition-duration: .01ms !important; }
 }
+
+/* A preview only; no example estimate is used in the submitted report. */
+#resultCostValue.is-placeholder { filter: blur(7px); user-select: none; }
+.calc-example-note { font-size: 14px; line-height: 1.6; margin: 14px 0; }
+
+.blueprint-pdf-option { margin: 20px 0; }
+.blueprint-pdf-option label { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+.blueprint-pdf-option input { width: 18px; height: 18px; flex: 0 0 18px; margin: 4px 0 0; accent-color: #0066b3; }
+.blueprint-pdf-option p { margin: 8px 0 0 30px; font-size: 13px; line-height: 1.5; }
+
+.blueprint-email-form { grid-column: 1 / -1; border-top: 1px solid var(--line); padding-top: 16px; }
+.blueprint-email-form .blueprint-pdf-option { margin: 0 0 16px; }
+.blueprint-email-row { display: flex; gap: 16px; align-items: flex-start; }
+.blueprint-email-row .field { flex: 1; }
+.blueprint-email-row .btn { margin-top: 26px; }
+#blueprintEmailStatus { margin: 12px 0 0; font-size: 14px; }
+@media (max-width: 640px) { .blueprint-email-row { flex-direction: column; } .blueprint-email-row .field { width: 100%; } .blueprint-email-row .btn { margin-top: 0; width: 100%; } }
